@@ -1,6 +1,5 @@
 package br.com.emendes.twosum;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,7 +29,7 @@ public class TwoSum {
         break;
       } else if (j == arraySize - 1) {
         i++;
-        j = i+1;
+        j = i + 1;
       } else {
         j++;
       }
@@ -45,7 +44,7 @@ public class TwoSum {
 
     for (int i = 0; i < nums.length; i++) {
       Integer diff = target - nums[i];
-      if(hash.containsKey(diff)) {
+      if (hash.containsKey(diff)) {
         answer[0] = i;
         answer[1] = hash.get(diff);
         return answer;
