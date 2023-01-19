@@ -11,14 +11,14 @@ public class AddTwoNumbers {
     ListNode result = new ListNode();
     ListNode current = result;
 
-    int value1 = 0;
-    int value2 = 0;
+    int value1;
+    int value2;
     int remainder = 0;
     int sum;
 
     while (l1 != null || l2 != null) {
-      if (l1 != null) value1 = l1.value;
-      if (l2 != null) value2 = l2.value;
+      value1 = (l1 == null) ? 0 : l1.value;
+      value2 = (l2 == null) ? 0 : l2.value;
 
       sum = value1 + value2 + remainder;
       current.value = sum % 10;
@@ -27,18 +27,14 @@ public class AddTwoNumbers {
       if ((l1 != null && l1.next != null) || (l2 != null && l2.next != null)) { // Verifica se ainda há dígitos
         current.next = new ListNode();
         current = current.next;
-      } else {
-        if (remainder != 0) { // Se não houver mais dígitos, verifica se a sobras
-          current.next = new ListNode();
-          current.next.value = remainder;
-        }
       }
 
       if (l1 != null) l1 = l1.next;
       if (l2 != null) l2 = l2.next;
-
-      value1 = 0;
-      value2 = 0;
+    }
+    if (remainder != 0) { // Verifica se há "vai um" da soma dos digitos anteriores.
+      current.next = new ListNode();
+      current.next.value = remainder;
     }
 
     return result;
