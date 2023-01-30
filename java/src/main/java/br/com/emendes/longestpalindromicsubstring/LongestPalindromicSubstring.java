@@ -6,7 +6,9 @@ package br.com.emendes.longestpalindromicsubstring;
 public class LongestPalindromicSubstring {
 
   // Solução utilizando uma tabela de boolean para armazenar se substrings são palíndromos ou não.
+  // Está solução executou em 78 ms, ainda tem alguma solução melhor
   public String longestPalindrome(String s) {
+    char[] tempS = s.toCharArray();
     int sLength = s.length();
     boolean[][] results = new boolean[sLength][sLength];
 
@@ -21,7 +23,7 @@ public class LongestPalindromicSubstring {
     // preenche a matriz para substrings de tamanho = 1 e verifica para o tamanho = 2.
     for (i = 0; i < sLength - 1; i++) {
       results[i][i] = true;
-      if (s.charAt(i) == s.charAt(i + 1)) {
+      if (tempS[i] == tempS[i + 1]) {
         results[i][i + 1] = true;
         answerStart = i;
         answerLength = 2;
@@ -38,7 +40,7 @@ public class LongestPalindromicSubstring {
 
         // Verifica se a substring anterior é um palindromo e se o char init e char end são iguais
         // Se SIM, encontramos uma nova substring que é um palindromo.
-        if (results[init + 1][end - 1] && s.charAt(init) == s.charAt(end)) {
+        if (results[init + 1][end - 1] && tempS[init] == tempS[end]) {
           results[init][end] = true;
 
           if (currentLength > answerLength) {
