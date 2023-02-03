@@ -8,8 +8,35 @@ package br.com.emendes.reverseinteger;
  */
 public class ReverseInteger {
 
-  // Solução que quebra a regra de não usar inteiros 64 bits.
+  // Solução sem usar inteiros de 64 bits, executou em 1ms.
   public int reverse(int x) {
+    boolean isNegative = x < 0;
+
+    char[] xAsCharArray = new char[11];
+    int index = 0;
+    int digit;
+
+    if (isNegative) {
+      x *= -1;
+      xAsCharArray[0] = '-';
+      index++;
+    }
+
+    while (x > 0) {
+      digit = x % 10;
+      xAsCharArray[index++] = (char) (48 + digit);
+      x = x / 10;
+    }
+
+    try {
+      return Integer.parseInt(String.valueOf(xAsCharArray, 0, index));
+    } catch (NumberFormatException nfex) {
+      return 0;
+    }
+  }
+
+  // Solução que quebra a regra de não usar inteiros 64 bits, executou em 1ms.
+  public int usingInteger64Bits(int x) {
     boolean isNegative = x < 0;
 
     long reverseX = 0;
@@ -19,10 +46,10 @@ public class ReverseInteger {
     while (x > 0) {
       digit = x % 10;
       reverseX = (reverseX * 10) + digit;
-      x = x/10;
+      x = x / 10;
     }
 
-    if(isNegative) reverseX *= -1;
+    if (isNegative) reverseX *= -1;
 
     if (reverseX > 2_147_483_647 || reverseX < -2_147_483_648) return 0;
 
