@@ -2,8 +2,45 @@ package br.com.emendes.stringtointeger;
 
 public class StringToInteger {
 
-  // Solução em 2ms
+  // Solução bem mais simples, executou em 1 ms
   public int myAtoi(String s) {
+    char[] sArray = s.toCharArray();
+
+    long answer = 0;
+    int sign = 1;
+    int digit;
+
+    int sLength = sArray.length;
+    int index = 0;
+
+    // Ignorar trailing whitespaces
+    while (index < sLength && sArray[index] == ' ')
+      index++;
+
+    // verifica se há sinal
+    if (index < sLength && sArray[index] == '-') {
+      index++;
+      sign = -1;
+    } else if (index < sLength && sArray[index] == '+') {
+      index++;
+    }
+
+    // Pega todos os digitos e insere em um long, se o long sair do range de um inteiro 32 bits, então retorna.
+    while (index < sLength && (sArray[index] > 47 && sArray[index] < 58)) {
+      digit = sArray[index] - 48;
+      answer = answer * 10 + digit;
+
+      if (answer*sign > Integer.MAX_VALUE) return Integer.MAX_VALUE;
+      if (answer*sign < Integer.MIN_VALUE) return Integer.MIN_VALUE;
+
+      index++;
+    }
+
+    return (int) (answer * sign);
+  }
+
+  // Solução em 2ms
+  public int oldSolution(String s) {
     char[] sArray = s.toCharArray();
     int sLength = sArray.length;
 
