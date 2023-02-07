@@ -20,12 +20,12 @@ class ContainerWithMostWaterTest {
   }
 
   @Test
-  @DisplayName("Must return 1 when height[] is {1,1}")
+  @DisplayName("Must return 240 when height[] is {10, 20, 5, 15, 20, 20, 15, 50, 20, 40, 10, 20, 30, 25, 10, 15}")
   void test2() {
     ContainerWithMostWater solution = new ContainerWithMostWater();
 
-    int[] input = {1,1};
-    int expectedAnswer = 1;
+    int[] input = {10, 20, 5, 15, 20, 20, 15, 50, 20, 40, 10, 20, 30, 25, 10, 15};
+    int expectedAnswer = 240;
 
     int actualAnswer = solution.maxArea(input);
 
