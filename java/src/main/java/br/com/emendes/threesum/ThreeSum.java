@@ -12,8 +12,50 @@ import java.util.*;
  */
 public class ThreeSum {
 
-  // Solução muito lenta, executou em 995ms
+  // Solução em 31ms
   public List<List<Integer>> threeSum(int[] nums) {
+    Arrays.sort(nums);
+    int i;
+    int numsLength = nums.length;
+    List<List<Integer>> answer = new ArrayList<>();
+
+    for (i = 0; i < numsLength && nums[i] <= 0; i++) {
+      if (i == 0 || nums[i] != nums[i - 1]) {
+        findTripletForIndex(nums, answer, i);
+      }
+    }
+
+    return answer;
+  }
+
+  private void findTripletForIndex(int[] nums, List<List<Integer>> answer, int index) {
+    int iLeft = index + 1;
+    int iRight = nums.length - 1;
+    int sum;
+
+    while (iLeft < iRight) {
+      sum = nums[iLeft] + nums[iRight] + nums[index];
+
+      if (sum > 0) {
+        iRight--;
+      } else if (sum < 0) {
+        iLeft++;
+      } else {
+        answer.add(List.of(nums[index], nums[iLeft], nums[iRight]));
+        iLeft++;
+        iRight--;
+        while (iLeft < iRight && nums[iLeft] == nums[iLeft - 1]){
+          iLeft++;
+        }
+        while (iLeft < iRight && nums[iRight] == nums[iRight + 1]){
+          iRight--;
+        }
+      }
+    }
+  }
+
+  // Solução muito lenta, executou em 995ms
+  public List<List<Integer>> slowSolution(int[] nums) {
     Set<List<Integer>> answer = new HashSet<>();
     Arrays.sort(nums);
     int i;
@@ -24,10 +66,10 @@ public class ThreeSum {
 
     for (i = 0; i < numsLength - 1; i++) {
       for (j = i + 1; j < numsLength; j++) {
-        kValue = - (nums[i] + nums[j]);
+        kValue = -(nums[i] + nums[j]);
         k = Arrays.binarySearch(nums, kValue);
 
-        if(k >= 0 && k != i && k != j){
+        if (k >= 0 && k != i && k != j) {
           List<Integer> triplet = new ArrayList<>();
           if (nums[k] >= nums[j]) {
             triplet.add(nums[i]);
