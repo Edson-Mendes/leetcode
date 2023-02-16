@@ -18,10 +18,47 @@ import java.util.Set;
  */
 public class ThreeSumClosest {
 
+  // Solução em 10ms.
+  public int threeSumClosest(int[] nums, int target) {
+    Arrays.sort(nums);
+    int i;
+    int numsLength = nums.length;
+    int diff = 1000000;
+    int iLeft;
+    int iRight;
+    int sum;
+    int currentDiff;
+    int answer = 0;
+
+    for (i = 0; i < numsLength - 2; i++) {
+      if (i == 0 || nums[i] != nums[i - 1]) {
+        iLeft = i + 1;
+        iRight = numsLength - 1;
+        while (iLeft < iRight) {
+          sum = nums[i] + nums[iLeft] + nums[iRight];
+          currentDiff = target - sum;
+          if (currentDiff < 0)
+            currentDiff *= -1;
+          if (currentDiff < diff){
+            diff = currentDiff;
+            answer = sum;
+          }
+          if (sum < target)
+            iLeft++;
+          else if (sum > target)
+            iRight--;
+          else return sum;
+        }
+      }
+    }
+
+    return answer;
+  }
+
   private Set<Integer> cache;
 
   // Solução em 104ms.
-  public int threeSumClosest(int[] nums, int target) {
+  public int oldSolution(int[] nums, int target) {
     Arrays.sort(nums);
     int i;
     int numsLength = nums.length;
