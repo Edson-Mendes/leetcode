@@ -1,0 +1,124 @@
+package br.com.emendes.mergeksortedlists;
+
+/**
+ * Você recebe um array de k listas de listas encadeadas, cada lista encadeada é ordenada em ordem crescente.<br>
+ * Merge todas as listas vinculadas em uma lista vinculada ordenada e retorne-a.<br><br>
+ * Restrições:<br>
+ * k == lists.length<br>
+ * 0 <= k <= 10^4<br>
+ * 0 <= lists[i].length <= 500<br>
+ * -10^4 <= lists[i][j] <= 10^4<br>
+ * lists[i] é ordenado em ordem crescente.<br>
+ * A soma de lists[i].length não vai exceder 10^4.<br>
+ */
+public class MergeKSortedLists {
+
+  // Solução em 105 ms, da pra ser mais rápido.
+  // Essa solução REAPROVEITA os objetos que consiste cada ListNode.
+  // Ou seja, os ListNodes de entrada são alterados.
+  public ListNode mergeKLists(ListNode[] lists) {
+    int listsLength = lists.length;
+
+    if (listsLength == 0) return null;
+    if (listsLength == 1) return lists[0];
+
+    ListNode currListNode = mergeTwoSortedLists(lists[0], lists[1]);
+
+    for (int i = 2; i < listsLength; i++) {
+      currListNode = mergeTwoSortedLists(lists[i], currListNode);
+    }
+
+    return currListNode;
+  }
+
+  private ListNode mergeTwoSortedLists(ListNode list1, ListNode list2) {
+    if (list1 == null) return list2;
+    if (list2 == null) return list1;
+
+    ListNode mergedList;
+    ListNode aux;
+
+    if (list2.val < list1.val) {
+//      mergedList = new ListNode(list2.val);
+      mergedList = list2;
+      list2 = list2.next;
+    } else {
+//      mergedList = new ListNode(list1.val);
+      mergedList = list1;
+      list1 = list1.next;
+    }
+    aux = mergedList;
+
+    while (list1 != null && list2 != null) {
+      if (list2.val < list1.val) {
+//        aux.next = new ListNode(list2.val);
+        aux.next = list2;
+        list2 = list2.next;
+      } else {
+//        aux.next = new ListNode(list1.val);
+        aux.next = list1;
+        list1 = list1.next;
+      }
+      aux = aux.next;
+    }
+
+    if (list1 == null) {
+      aux.next = list2;
+//      while (list2 != null) {
+//        aux.next = new ListNode(list2.val);
+//        list2 = list2.next;
+//        aux = aux.next;
+//      }
+    } else {
+      aux.next = list1;
+//      while (list1 != null) {
+//        aux.next = new ListNode(list1.val);
+//        list1 = list1.next;
+//        aux = aux.next;
+//      }
+    }
+
+    return mergedList;
+  }
+
+  public static class ListNode {
+    int val;
+    ListNode next;
+
+    ListNode() {
+    }
+
+    ListNode(int val) {
+      this.val = val;
+    }
+
+    ListNode(int val, ListNode next) {
+      this.val = val;
+      this.next = next;
+    }
+
+    public static MergeKSortedLists.ListNode of(int... values) {
+      MergeKSortedLists.ListNode head = null;
+      MergeKSortedLists.ListNode aux = null;
+
+      for (int value : values) {
+        if (head == null) {
+          head = new MergeKSortedLists.ListNode(value);
+          aux = head;
+        } else {
+          aux.next = new MergeKSortedLists.ListNode(value);
+          aux = aux.next;
+        }
+      }
+
+      return head;
+    }
+
+    @Override
+    public String toString() {
+      String valAsString = String.format("%d", this.val);
+      return valAsString + (this.next != null ? String.format(" %s", this.next) : "");
+    }
+  }
+
+}
