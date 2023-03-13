@@ -13,10 +13,48 @@ package br.com.emendes.mergeksortedlists;
  */
 public class MergeKSortedLists {
 
+  // Solução em 7 ms, ainda pode ser mais rápido.
+  // Solução utilizando counting sort.
+  public ListNode mergeKLists(ListNode[] lists) {
+    ListNode answer = null;
+    long[] counting = new long[20_002];
+
+    for (ListNode node : lists) {
+      while (node != null) {
+        counting[node.val + 10_000]++;
+        node = node.next;
+      }
+    }
+
+    int currValue = -10_000;
+    long repeat;
+    ListNode aux = null;
+    boolean answerIsNotNull = false;
+
+    while (currValue < 10_001) {
+      repeat = counting[currValue + 10_000];
+      while (repeat > 0) {
+        if (answerIsNotNull) {
+          aux.next = new ListNode(currValue);
+          aux = aux.next;
+        } else {
+          answer = new ListNode(currValue);
+          aux = answer;
+          answerIsNotNull = true;
+        }
+
+        repeat--;
+      }
+      currValue++;
+    }
+
+    return answer;
+  }
+
   // Solução em 105 ms, da pra ser mais rápido.
   // Essa solução REAPROVEITA os objetos que consiste cada ListNode.
   // Ou seja, os ListNodes de entrada são alterados.
-  public ListNode mergeKLists(ListNode[] lists) {
+  public ListNode firstSolution(ListNode[] lists) {
     int listsLength = lists.length;
 
     if (listsLength == 0) return null;
