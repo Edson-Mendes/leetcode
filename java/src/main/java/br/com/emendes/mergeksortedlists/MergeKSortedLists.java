@@ -13,9 +13,36 @@ package br.com.emendes.mergeksortedlists;
  */
 public class MergeKSortedLists {
 
+  // Solução em 1ms
+  // Solução utilizando mergeTwoSortedLists mas com divisão e conquista.
+  public ListNode mergeKLists(ListNode[] lists) {
+    int listsLength = lists.length;
+
+    if (listsLength == 0) return null;
+    if (listsLength == 1) return lists[0];
+
+    int currArrayIndex;
+    int newArrayIndex;
+
+    while (listsLength > 1) {
+      newArrayIndex = 0;
+      currArrayIndex = 0;
+      while (currArrayIndex + 1 < listsLength) {
+        lists[newArrayIndex++] = mergeTwoSortedLists(lists[currArrayIndex], lists[currArrayIndex + 1]);
+        currArrayIndex += 2;
+      }
+      if (currArrayIndex < listsLength) {
+        lists[newArrayIndex++] = lists[currArrayIndex];
+      }
+      listsLength = newArrayIndex;
+    }
+
+    return lists[0];
+  }
+
   // Solução em 7 ms, ainda pode ser mais rápido.
   // Solução utilizando counting sort.
-  public ListNode mergeKLists(ListNode[] lists) {
+  public ListNode secondSolution(ListNode[] lists) {
     ListNode answer = null;
     long[] counting = new long[20_002];
 
@@ -77,11 +104,9 @@ public class MergeKSortedLists {
     ListNode aux;
 
     if (list2.val < list1.val) {
-//      mergedList = new ListNode(list2.val);
       mergedList = list2;
       list2 = list2.next;
     } else {
-//      mergedList = new ListNode(list1.val);
       mergedList = list1;
       list1 = list1.next;
     }
@@ -89,11 +114,9 @@ public class MergeKSortedLists {
 
     while (list1 != null && list2 != null) {
       if (list2.val < list1.val) {
-//        aux.next = new ListNode(list2.val);
         aux.next = list2;
         list2 = list2.next;
       } else {
-//        aux.next = new ListNode(list1.val);
         aux.next = list1;
         list1 = list1.next;
       }
@@ -102,18 +125,8 @@ public class MergeKSortedLists {
 
     if (list1 == null) {
       aux.next = list2;
-//      while (list2 != null) {
-//        aux.next = new ListNode(list2.val);
-//        list2 = list2.next;
-//        aux = aux.next;
-//      }
     } else {
       aux.next = list1;
-//      while (list1 != null) {
-//        aux.next = new ListNode(list1.val);
-//        list1 = list1.next;
-//        aux = aux.next;
-//      }
     }
 
     return mergedList;
