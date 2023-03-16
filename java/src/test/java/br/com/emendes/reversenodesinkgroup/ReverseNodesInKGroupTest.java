@@ -111,4 +111,19 @@ class ReverseNodesInKGroupTest {
     Assertions.assertThat(actualAnswer).isNotNull().hasToString("3 2 1 6 5 4 9 8 7 10");
   }
 
+  @Test
+  @DisplayName("Must return [4,3,2,1] when head = [1,2,3,4] and k = 4")
+  void test8() {
+    ReverseNodesInKGroup.ListNode inputList = ReverseNodesInKGroup.ListNode.of(1, 2, 3, 4);
+    int inputK = 4;
+
+    Assertions.assertThat(inputList).hasToString("1 2 3 4");
+
+    ReverseNodesInKGroup solution = new ReverseNodesInKGroup();
+
+    ReverseNodesInKGroup.ListNode actualAnswer = solution.reverseKGroup(inputList, inputK);
+
+    Assertions.assertThat(actualAnswer).isNotNull().hasToString("4 3 2 1");
+  }
+
 }

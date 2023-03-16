@@ -17,7 +17,7 @@ public class ReverseNodesInKGroup {
 
   // Solução em 1ms, pode ser melhor
   // Solução em O(n) em espaço de memória.
-  public ListNode reverseKGroup(ListNode head, int k) {
+  public ListNode firstSolution(ListNode head, int k) {
     if (head.next == null || k == 1) return head;
 
     ListNode currNode = head;
@@ -73,6 +73,81 @@ public class ReverseNodesInKGroup {
     }
 
     return head;
+  }
+
+  // Solução em 0 ms, os nodes são rearranjados de modo a ficar de acordo com as regras de reversão.
+  public ListNode reverseKGroup(ListNode head, int k) {
+    if (head.next == null || k == 1) return head;
+
+    ListNode endNode = findLastNodeToReverse(head, k);
+    if (endNode == null) return head;
+
+    ListNode currNode = head;
+    ListNode beforeNode = head;
+    ListNode nextNode = head.next;
+    ListNode afterRange = endNode.next;
+    ListNode beforeRange = head;
+    head = endNode;
+
+    // Começo do reverse na head.
+    currNode.next = endNode.next;
+    currNode = nextNode;
+
+    while (currNode != afterRange) {
+      nextNode = nextNode.next;
+
+      currNode.next = beforeNode;
+      beforeNode = currNode;
+      currNode = nextNode;
+    }
+    // Fim do reverse na head.
+
+    ListNode startNode = beforeRange.next;
+    endNode = findLastNodeToReverse(afterRange, k);
+    while (endNode != null) {
+      afterRange = endNode.next;
+
+
+      reverse(beforeRange, afterRange, startNode, endNode);
+
+      beforeRange = startNode;
+      startNode = afterRange;
+      endNode = findLastNodeToReverse(afterRange, k);
+    }
+
+    return head;
+  }
+
+  private ListNode findLastNodeToReverse(ListNode node, int k) {
+    if (node == null) return null;
+
+    int count = 1;
+
+    while (count < k && node.next != null) {
+      count++;
+      node = node.next;
+    }
+
+    return count == k ? node : null;
+  }
+
+  private void reverse(ListNode beforeRange, ListNode afterRange, ListNode startNode, ListNode endNode) {
+    ListNode currNode = startNode;
+    ListNode beforeNode = startNode;
+    ListNode nextNode = startNode.next;
+
+    beforeRange.next = endNode;
+    currNode.next = afterRange;
+
+    currNode = nextNode;
+
+    while (currNode != afterRange) {
+      nextNode = nextNode.next;
+
+      currNode.next = beforeNode;
+      beforeNode = currNode;
+      currNode = nextNode;
+    }
   }
 
   public static class ListNode {
