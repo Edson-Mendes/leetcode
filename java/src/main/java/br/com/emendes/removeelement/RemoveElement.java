@@ -23,7 +23,21 @@ package br.com.emendes.removeelement;
  */
 public class RemoveElement {
 
+  // Solução mais simples que a firstSolution
   public int removeElement(int[] nums, int val) {
+    int answer = 0;
+    int index = 0;
+    while (index < nums.length) {
+      if (nums[index] != val) {
+        nums[answer++] = nums[index];
+      }
+      index++;
+    }
+
+    return answer;
+  }
+
+  public int firstSolution(int[] nums, int val) {
     if (nums.length == 0) return 0;
 
     int indexStart = 0;
