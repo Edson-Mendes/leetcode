@@ -19,8 +19,44 @@ package br.com.emendes.dividetwointegers;
  */
 public class DivideTwoIntegers {
 
-  // Solução em 1 ms, porém utiliza inteiro 64 bits.
+  // Solução em 1 ms seguindo todas as restrições.
   public int divide(int dividend, int divisor) {
+    boolean isMinValue = dividend == Integer.MIN_VALUE;
+
+    if (isMinValue && divisor == -1) {
+      return Integer.MAX_VALUE;
+    }
+
+    if (divisor == Integer.MIN_VALUE) return isMinValue ? 1 : 0;
+
+    boolean isNegative = (dividend > 0) ^ (divisor > 0);
+
+    int answer = 0;
+
+    int absoluteDividend;
+    int absoluteDivisor = divisor < 0 ? ~divisor + 1 : divisor;
+
+    if (isMinValue) {
+      absoluteDividend = Integer.MAX_VALUE - absoluteDivisor + 1;
+      answer = 1;
+    } else {
+      absoluteDividend = dividend < 0 ? ~dividend + 1 : dividend;
+    }
+
+
+    while (absoluteDividend >= absoluteDivisor) {
+      int shift = 0;
+      while ((absoluteDivisor << shift) > 0 && absoluteDividend >= (absoluteDivisor << shift)) {
+        shift++;
+      }
+      answer += (1 << (shift - 1));
+      absoluteDividend -= absoluteDivisor << (shift - 1);
+    }
+    return isNegative ? ~answer + 1 : answer;
+  }
+
+  // Solução em 1 ms, porém utiliza inteiro 64 bits.
+  public int secondSolution(int dividend, int divisor) {
     if (dividend == Integer.MIN_VALUE && divisor == -1) {
       return Integer.MAX_VALUE;
     }
