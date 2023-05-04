@@ -15,9 +15,32 @@ import java.util.Arrays;
  */
 public class SearchInsertPosition {
 
+  // Solução com complexidade de tempo O(log N)
+  // Usando Arrays.sort
   public int searchInsert(int[] nums, int target) {
     int answer = Arrays.binarySearch(nums, target);
     return answer < 0 ? (answer + 1) * (-1) : answer;
+  }
+
+  // Solução com complexidade de tempo O(log N)
+  // Implementando uma busca binária.
+  public int solution2(int[] nums, int target) {
+    int start = 0;
+    int end = nums.length - 1;
+    int index;
+
+    while (start <= end) {
+      index = start + (end - start)/2;
+
+      if (nums[index] == target) return index;
+      if (nums[index] < target ) {
+        start = index + 1;
+      } else {
+        end = index - 1;
+      }
+    }
+
+    return start;
   }
 
 }
