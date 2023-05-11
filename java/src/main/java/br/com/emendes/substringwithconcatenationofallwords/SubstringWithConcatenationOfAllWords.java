@@ -1,9 +1,6 @@
 package br.com.emendes.substringwithconcatenationofallwords;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Você recebe uma string s e um array de strings words. Todas as Strings de words têm o mesmo comprimento.
@@ -23,46 +20,26 @@ import java.util.Map;
  */
 public class SubstringWithConcatenationOfAllWords {
 
+  private int wordLength;
+
   /**
-   * Pessíma solução, cheia de gambiarra, não consigo nem explicar o que eu fiz<br>
-   * Executou em 402 ms.
+   * Solução usando HashMap para armazenar as Strings de words.
+   * Executou em 139 ms.
    */
-  public List<Integer> firstSolution(String s, String[] words) {
+  public List<Integer> findSubstring(String s, String[] words) {
     List<Integer> answer = new ArrayList<>();
-
-    int wordsStringLength = words[0].length();
-    int substringLength = words.length * wordsStringLength;
     int sLength = s.length();
+    wordLength = words[0].length();
+    int wordsArrayLength = words.length;
+    int substringSize = wordLength * wordsArrayLength;
 
-    if (sLength < substringLength) return answer;
+    if (sLength < substringSize) return answer;
 
-    // Gerar HashMap com as String em words.
-    Map<String, Integer> wordsMap = generateMap(words);
+    Set<Map.Entry<String, Integer>> wordCountEntry = generateMap(words).entrySet();
 
-    int startSubstring = 0;
-    int counter = words.length;
-    int currIndex = 0;
-    int lastIndex = sLength - wordsStringLength + 1;
-
-    while (currIndex < lastIndex) {
-      String word = s.substring(currIndex, currIndex + wordsStringLength);
-
-      if (existsOnMap(word, wordsMap)) {
-        counter--;
-        if (counter == 0) {
-          answer.add(startSubstring);
-          counter = words.length;
-          startSubstring = startSubstring + 1;
-          currIndex = startSubstring;
-          wordsMap = generateMap(words);
-        } else {
-          currIndex += wordsStringLength;
-        }
-      } else {
-        startSubstring = startSubstring + 1;
-        currIndex = startSubstring;
-        counter = words.length;
-        wordsMap = generateMap(words);
+    for (int index = 0; index + substringSize <= sLength; index++) {
+      if (check(index, index + substringSize, s, cloneMapFromEntry(wordCountEntry))) {
+        answer.add(index);
       }
     }
 
@@ -70,16 +47,35 @@ public class SubstringWithConcatenationOfAllWords {
   }
 
   /**
-   * Verify if exists word on map
-   * @param word to be found on map
-   * @param map which contains all words.
-   * @return true if map contains word and value is greater than zero. False otherwise.
+   * Verifica se uma substring válida começa no índice {@code index}.
    */
-  private boolean existsOnMap(String word, Map<String, Integer> map) {
-    Integer value = map.get(word);
-    if (value == null || value == 0) return false;
-    map.put(word, value - 1);
+  private boolean check(int index, int lastIndex, String s, Map<String, Integer> wordsMap) {
+    int startIndex = index;
+
+    while (startIndex < lastIndex) {
+      String word = s.substring(startIndex, startIndex + wordLength);
+      Integer value = wordsMap.get(word);
+      if (value == null || value == 0) return false;
+      wordsMap.put(word, value - 1);
+      startIndex += wordLength;
+    }
     return true;
+  }
+
+  /**
+   * Clona um Map.Entry em um novo Map com novos valores.
+   */
+  private Map<String, Integer> cloneMapFromEntry(Set<Map.Entry<String, Integer>> entries) {
+    Map<String, Integer> mapCopy = new HashMap<>();
+
+    entries.forEach(entry -> {
+      String key = entry.getKey();
+      Integer value = entry.getValue();
+
+      mapCopy.put(key, value);
+    });
+
+    return mapCopy;
   }
 
   /**

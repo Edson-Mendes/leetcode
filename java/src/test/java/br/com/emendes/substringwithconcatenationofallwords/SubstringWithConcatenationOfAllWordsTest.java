@@ -13,7 +13,7 @@ class SubstringWithConcatenationOfAllWordsTest {
     String sInput = "barfoothefoobarman";
     String[] words = {"foo", "bar"};
 
-    List<Integer> actualAnswer = solution.firstSolution(sInput, words);
+    List<Integer> actualAnswer = solution.findSubstring(sInput, words);
 
     Assertions.assertThat(actualAnswer).isNotNull().hasSize(2).contains(0, 9);
   }
@@ -24,7 +24,7 @@ class SubstringWithConcatenationOfAllWordsTest {
     String sInput = "wordgoodgoodgoodbestword";
     String[] words = {"word", "good", "best", "word"};
 
-    List<Integer> actualAnswer = solution.firstSolution(sInput, words);
+    List<Integer> actualAnswer = solution.findSubstring(sInput, words);
 
     Assertions.assertThat(actualAnswer).isNotNull().isEmpty();
   }
@@ -35,7 +35,7 @@ class SubstringWithConcatenationOfAllWordsTest {
     String sInput = "barfoofoobarthefoobarman";
     String[] words = {"bar", "foo", "the"};
 
-    List<Integer> actualAnswer = solution.firstSolution(sInput, words);
+    List<Integer> actualAnswer = solution.findSubstring(sInput, words);
 
     Assertions.assertThat(actualAnswer).isNotNull().hasSize(3).contains(6, 9, 12);
   }
@@ -46,7 +46,7 @@ class SubstringWithConcatenationOfAllWordsTest {
     String sInput = "lingmindraboofooowingdingbarrwingmonkeypoundcake";
     String[] words = {"fooo", "barr", "wing", "ding", "wing"};
 
-    List<Integer> actualAnswer = solution.firstSolution(sInput, words);
+    List<Integer> actualAnswer = solution.findSubstring(sInput, words);
 
     Assertions.assertThat(actualAnswer).isNotNull().hasSize(1).contains(13);
   }
@@ -57,7 +57,7 @@ class SubstringWithConcatenationOfAllWordsTest {
     String sInput = "wordgoodgoodgoodbestword";
     String[] words = {"word", "good", "best", "good"};
 
-    List<Integer> actualAnswer = solution.firstSolution(sInput, words);
+    List<Integer> actualAnswer = solution.findSubstring(sInput, words);
 
     Assertions.assertThat(actualAnswer).isNotNull().hasSize(1).contains(8);
   }
@@ -68,7 +68,7 @@ class SubstringWithConcatenationOfAllWordsTest {
     String sInput = "aaaaaaaaaaaaaa";
     String[] words = {"aa", "aa"};
 
-    List<Integer> actualAnswer = solution.firstSolution(sInput, words);
+    List<Integer> actualAnswer = solution.findSubstring(sInput, words);
 
     Assertions.assertThat(actualAnswer).isNotNull().hasSize(11).contains(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
   }
