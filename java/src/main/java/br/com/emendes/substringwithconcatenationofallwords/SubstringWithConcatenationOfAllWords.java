@@ -23,10 +23,67 @@ public class SubstringWithConcatenationOfAllWords {
   private int wordLength;
 
   /**
+   * Solução armazenando todos os indices que começam uma substring.
+   */
+  public List<Integer> findSubstring(String s, String[] words) {
+    List<Integer> answer = new ArrayList<>();
+    int sLength = s.length();
+    wordLength = words[0].length();
+    int wordsArrayLength = words.length;
+    int substringSize = wordLength * wordsArrayLength;
+
+    if (sLength < substringSize) return answer;
+
+    Map<String, Integer> wordsMap = generateMap(words);
+    Map<Integer, String> indexWordMap = generateIndexMap(s, sLength, wordsMap);
+    Set<Map.Entry<String, Integer>> wordCountEntry = wordsMap.entrySet();
+
+    for (int index = 0; index + substringSize <= sLength; index++) {
+      if (check(index, wordsArrayLength, cloneMapFromEntry(wordCountEntry), indexWordMap)) {
+        answer.add(index);
+      }
+    }
+
+    return answer;
+  }
+
+  private Map<Integer, String> generateIndexMap(String s, int sLength, Map<String, Integer> wordsMap) {
+    Map<Integer, String> indexWordMap = new HashMap<>();
+
+    for (int index = 0; index + wordLength <= sLength; index++) {
+      String substring = s.substring(index, index + wordLength);
+      Integer value = wordsMap.get(substring);
+
+      if (value != null)
+        indexWordMap.put(index, substring);
+    }
+
+    return indexWordMap;
+  }
+
+  private boolean check(int index, int wordCounter, Map<String, Integer> wordsMap, Map<Integer, String> indexWordMap) {
+    while (wordCounter > 0) {
+      String word = indexWordMap.get(index);
+
+      if (word == null) return false;
+
+      Integer value = wordsMap.get(word);
+
+      if (value == null || value == 0) return false;
+
+      wordsMap.put(word, value - 1);
+      index += wordLength;
+      wordCounter--;
+    }
+
+    return true;
+  }
+
+  /**
    * Solução usando HashMap para armazenar as Strings de words.
    * Executou em 139 ms.
    */
-  public List<Integer> findSubstring(String s, String[] words) {
+  public List<Integer> firstSolution(String s, String[] words) {
     List<Integer> answer = new ArrayList<>();
     int sLength = s.length();
     wordLength = words[0].length();
