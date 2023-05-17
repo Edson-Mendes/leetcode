@@ -23,9 +23,21 @@ package br.com.emendes.problems;
  */
 public class SearchInRotatedSortedArray {
 
+  /**
+   * A solução consiste em realizar uma busca binária para buscar quantas vezes o array nums
+   * foi rotacionado (move). E depois mais uma busca binária para buscar o target.<br><br>
+   *
+   * Complexidade de tempo: O(log n) para buscar o move + O(log n) para buscar o target, logo
+   * O(2log n) que é O(log n).
+   */
   public int search(int[] nums, int target) {
     if (nums.length == 1) {
       return nums[0] == target ? 0 : -1;
+    }
+    if (nums.length == 2) {
+      if (nums[0] == target) return 0;
+      if (nums[1] == target) return 1;
+      return -1;
     }
     int move = calculateMoveAmount(nums);
 
@@ -68,15 +80,44 @@ public class SearchInRotatedSortedArray {
    * Calcula quantas vezes o array nums foi rotacionado.
    */
   private int calculateMoveAmount(int[] nums) {
-    int numsLength = nums.length;
+    int last = nums.length - 1;
     int start = 0;
-    while (start + 1 < numsLength && nums[start] < nums[start + 1]) {
-      start++;
+    int end = last;
+    int mid;
+
+    while (end >= start) {
+      mid = (end - start) / 2 + start;
+      if (nums[mid] > right(nums, mid + 1) && nums[mid] > left(nums, mid - 1)) {
+        return mid + 1;
+      }
+      if (nums[mid] > nums[last]) {
+        start = mid + 1;
+      } else {
+        end = mid - 1;
+      }
     }
 
-    if (start + 1 == numsLength) return 0;
+    return 0;
+  }
 
-    return start + 1;
+  /**
+   * Retorna o valor na posição do index, caso index = nums.lenght retorna o valor na posição 0.
+   */
+  private int right(int[] nums, int index) {
+    if (index == nums.length) {
+      return nums[0];
+    }
+    return nums[index];
+  }
+
+  /**
+   * Retorna o valor na posição do index, caso index = -1 retorna o valor na posição (nums.length - 1).
+   */
+  private int left(int[] nums, int index) {
+    if (index == -1) {
+      return nums[nums.length - 1];
+    }
+    return nums[index];
   }
 
 }
