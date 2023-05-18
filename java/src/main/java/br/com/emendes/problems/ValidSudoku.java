@@ -26,6 +26,9 @@ public class ValidSudoku {
     return hasValidLines(boardInt) && hasValidColumns(boardInt) && hasValidSubBoxes(boardInt);
   }
 
+  /**
+   * Converte um board do tipo char[][] para int[][].
+   */
   private int[][] charBoardToInt(char[][] board) {
     int[][] boardInt = new int[9][9];
 
@@ -42,6 +45,9 @@ public class ValidSudoku {
     return boardInt;
   }
 
+  /**
+   * Verifica se as linhas do board são válidas.
+   */
   private boolean hasValidLines(int[][] board) {
     for (int i = 0; i < 9; i++) {
       int[] check = new int[10];
@@ -57,6 +63,9 @@ public class ValidSudoku {
     return true;
   }
 
+  /**
+   * Verifica se as colunas do board são válidas.
+   */
   private boolean hasValidColumns(int[][] board) {
     for (int j = 0; j < 9; j++) {
       int[] check = new int[10];
@@ -72,6 +81,9 @@ public class ValidSudoku {
     return true;
   }
 
+  /**
+   * Verifica se os quadrados menores do board são válidos.
+   */
   private boolean hasValidSubBoxes(int[][] board) {
     return isValidSubBox(board, 0, 3, 0, 3) &&
         isValidSubBox(board, 0, 3, 3, 6) &&
@@ -84,6 +96,9 @@ public class ValidSudoku {
         isValidSubBox(board, 6, 9, 6, 9);
   }
 
+  /**
+   * Verifica um único quadrado do board é válido.
+   */
   private boolean isValidSubBox(int[][] board, int iStart, int iEnd, int jStart, int jEnd) {
     int[] check = new int[10];
     for (int i = iStart; i < iEnd; i++) {
