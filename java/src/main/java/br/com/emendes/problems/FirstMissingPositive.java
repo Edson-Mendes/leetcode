@@ -13,9 +13,27 @@ import java.util.Set;
  */
 public class FirstMissingPositive {
 
+  public int firstMissingPositive(int[] nums) {
+    int length = nums.length;
+    int[] answer = new int[length + 1];
+
+    for (int i = 0; i < length; i++) {
+      if (nums[i] > 0 && nums[i] <= length) {
+        answer[nums[i]] = 1;
+      }
+    }
+
+    length = length + 1;
+    for (int i = 1; i < length; i++) {
+      if (answer[i] == 0) return i;
+    }
+
+    return length;
+  }
+
   // Complexidade de tempo O(n)
   // Complexidade de espaço O(n)
-  public int firstMissingPositive(int[] nums) {
+  public int solution1(int[] nums) {
     Set<Integer> remainder = new HashSet<>();
     int smallest = 1;
     for (int num : nums) {
