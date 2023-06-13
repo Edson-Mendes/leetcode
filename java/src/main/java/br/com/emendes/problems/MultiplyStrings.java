@@ -24,6 +24,57 @@ public class MultiplyStrings {
     int numIndex = num2.length() - 1;
 
     while (numIndex > -1) {
+      int digit = num2.charAt(numIndex) - 48;
+
+      StringBuilder currMultiply = multiplyByDigit(multiplying, digit);
+
+      appendingZeros(currMultiply, zerosToAppend);
+
+      answer = sum(answer, currMultiply);
+
+      numIndex--;
+      zerosToAppend++;
+    }
+
+    return answer.toString();
+  }
+
+  private StringBuilder multiplyByDigit(StringBuilder multiplying, int digit) {
+    int index = multiplying.length() - 1;
+    int carry = 0;
+
+    StringBuilder multiply = new StringBuilder();
+
+    while (index > -1) {
+      int multiplyingDigit = multiplying.charAt(index) - 48;
+
+      int result = (multiplyingDigit * digit) + carry;
+
+      carry = result / 10;
+
+      multiply.append(result % 10);
+
+      index--;
+    }
+
+    if (carry > 0) {
+      multiply.append(carry);
+    }
+
+    return multiply.reverse();
+  }
+
+  public String solution1(String num1, String num2) {
+    if (num1.equals("0") || num2.equals("0")) return "0";
+
+    StringBuilder answer = new StringBuilder("0");
+    StringBuilder multiplying = new StringBuilder(num1);
+
+    int zerosToAppend = 0;
+
+    int numIndex = num2.length() - 1;
+
+    while (numIndex > -1) {
       StringBuilder currMultiply = new StringBuilder("0");
       int digit = num2.charAt(numIndex) - 48;
 
