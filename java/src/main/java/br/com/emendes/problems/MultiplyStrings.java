@@ -16,6 +16,42 @@ public class MultiplyStrings {
   public String multiply(String num1, String num2) {
     if (num1.equals("0") || num2.equals("0")) return "0";
 
+    int length1 = num1.length();
+    int length2 = num2.length();
+    int maxLength = length1 + length2;
+
+    int[] answer = new int[maxLength];
+    char[] num1CharArray = num1.toCharArray();
+    char[] num2CharArray = num2.toCharArray();
+
+    for (int i = length1 - 1; i >= 0; --i) {
+      int digit1 = num1CharArray[i] - '0';
+      for (int j = length2 - 1; j >= 0; --j) {
+        answer[i + j + 1] +=  digit1 * (num2CharArray[j] - '0');
+      }
+    }
+    for (int i = maxLength - 1; i > 0; --i) {
+      if (answer[i] > 9) {
+        answer[i - 1] += answer[i] / 10;
+        answer[i] %= 10;
+      }
+    }
+    StringBuilder answerStringBuilder = new StringBuilder();
+    int i = 0;
+    while (answer[i] == 0) {
+      i++;
+    }
+
+    while (i < answer.length) {
+      answerStringBuilder.append(answer[i]);
+      i++;
+    }
+    return answerStringBuilder.toString();
+  }
+
+  public String Solution2(String num1, String num2) {
+    if (num1.equals("0") || num2.equals("0")) return "0";
+
     StringBuilder answer = new StringBuilder("0");
     StringBuilder multiplying = new StringBuilder(num1);
 
