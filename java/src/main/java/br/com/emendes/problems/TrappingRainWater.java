@@ -11,115 +11,74 @@ package br.com.emendes.problems;
  */
 public class TrappingRainWater {
 
-  private int iLeft;
-  private int iRight;
-  private int heightLength;
   private int[] height;
 
   public int trap(int[] height) {
-    // Precisa ter pelo menos 3 pontos para armazenar água.
     if (height.length < 3) return 0;
-
-    iLeft = 0;
-    heightLength = height.length;
-    iRight = 1;
-    this.height = height;
 
     int answer = 0;
 
-    find2Bigger();
-    answer += waterTrapped(iLeft, iRight);
+    this.height = height;
+    int iLeft = 0;
+    int iRight = height.length - 1;
+    int iLesser;
+    int iCurr;
 
-    while (iLeft > 0) {
-      int onTheLeft = findBiggestOnTheLeft(iLeft);
-      answer += waterTrapped(onTheLeft, iLeft);
-      iLeft = onTheLeft;
+    iLesser = lesser(iLeft, iRight);
+    int trapped = maxWaterTrapped(iLeft, iRight, iLesser);
+    boolean isLeft = iLeft == iLesser;
+    if (isLeft)
+      iCurr = 1;
+    else
+      iCurr = iRight - 1;
+
+    while (iCurr > iLeft && iCurr < iRight) {
+      if (height[iCurr] > height[iLesser]) {
+        if (isLeft){
+          trapped -= maxWaterTrapped(iCurr-1, iRight, iLesser);
+          iLeft = iCurr;
+        }
+        else {
+          trapped -= maxWaterTrapped(iLeft, iCurr+1, iLesser);
+          iRight = iCurr;
+        }
+        iLesser = lesser(iLeft, iRight);
+        isLeft = iLeft == iLesser;
+        answer += trapped;
+        trapped = maxWaterTrapped(iLeft, iRight, iLesser);
+        iCurr = isLeft ? iLeft : iRight;
+      } else {
+        trapped -= height[iCurr];
+      }
+
+      if (isLeft)
+        iCurr++;
+      else
+        iCurr--;
     }
 
-    while (iRight < heightLength - 1) {
-      int onTheRight = findBiggestOnTheRight(iRight);
-      answer += waterTrapped(iRight, onTheRight);
-      iRight = onTheRight;
-    }
+    answer += trapped;
 
     return answer;
   }
 
   /**
-   * Busca os dois maiores pontos no array height.
+   * Retorna o ponto menor entre height[iLeft] e height[iRight].
    */
-  private void find2Bigger() {
-    int i = 2;
-    int iAux;
-
-    while (i < heightLength) {
-      if (height[i] > height[iRight]) {
-        iAux = iRight;
-        iRight = i;
-        if (height[iAux] > height[iLeft]) {
-          iLeft = iAux;
-        }
-      } else if (height[i] > height[iLeft]) {
-        iAux = iRight;
-        iRight = i;
-        iLeft = iAux;
-      }
-      i++;
-    }
+  private int lesser(int iLeft, int iRight) {
+    return height[iLeft] <= height[iRight] ? iLeft : iRight;
   }
 
   /**
-   * Calcula quanta água está presa entre iLeft e iRight.
+   * Calcula a quantidade max possível de água presa entre iLeft e iRight.
    *
    * @param iLeft  index de um ponto a esquerda de iRight.
    * @param iRight index de um ponto a direita de iLeft.
-   * @return Quantidade de água presa.
+   * @param iLesser index que corresponde ao menor ponto entre height[iLeft] e height[iRight].
+   * @return Max quantidade de água presa.
    */
-  private int waterTrapped(int iLeft, int iRight) {
-    int i = iLeft + 1;
-    int iLesser = height[iLeft] <= height[iRight] ? iLeft : iRight;
-
-    int max = ((Math.abs(iRight - iLeft)) - 1) * height[iLesser];
-
-    while (i < iRight) {
-      max -= height[i];
-      i++;
-    }
-    return max;
-  }
-
-  /**
-   * Busca o index do maior ponto a esquerda do index fornecido.
-   */
-  private int findBiggestOnTheLeft(int index) {
-    int i = 1;
-    int iBiggest = 0;
-
-    while (i < index) {
-      if (height[i] > height[iBiggest]) {
-        iBiggest = i;
-      }
-      i++;
-    }
-
-    return iBiggest;
-  }
-
-  /**
-   * Busca o index do maior ponto a direita do index fornecido.
-   */
-  private int findBiggestOnTheRight(int index) {
-    int i = index + 2;
-    int iBiggest = index + 1;
-
-    while (i < heightLength) {
-      if (height[i] >= height[iBiggest]) {
-        iBiggest = i;
-      }
-      i++;
-    }
-
-    return iBiggest;
+  private int maxWaterTrapped(int iLeft, int iRight, int iLesser) {
+    return (iRight - iLeft - 1) * height[iLesser];
   }
 
 }
