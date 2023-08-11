@@ -20,10 +20,42 @@ package br.com.emendes.problems;
  */
 public class JumpGameII {
 
+  public int jump(int[] nums) {
+    if (nums.length == 1) return 0;
+    if (nums[0] >= nums.length - 1) return 1;
+
+    int jumps = 0;
+    int lastIndex = nums.length - 1;
+
+    int iNextCalculation = 1;
+    int iActualPosition = 0; // index da posição atual.
+    while (iActualPosition < lastIndex) {
+      int maxLengthJump = 0;
+      int iMaxLengthJump = iNextCalculation;
+
+      if (iActualPosition + nums[iActualPosition] >= lastIndex) return jumps + 1;
+
+      while (iNextCalculation <= iActualPosition + nums[iActualPosition] && iNextCalculation < nums.length) {
+        int lengthJump = (iNextCalculation - iActualPosition) + nums[iNextCalculation];
+
+        if (lengthJump > maxLengthJump) {
+          maxLengthJump = lengthJump;
+          iMaxLengthJump = iNextCalculation;
+        }
+        iNextCalculation++;
+      }
+      iActualPosition = iMaxLengthJump;
+      jumps++;
+    }
+
+    return jumps;
+  }
+
+  // --- First Solution ---
   private Integer[] cacheMinJumps;
   private int lastIndex;
 
-  public int jump(int[] nums) {
+  public int jumpFirstSolution(int[] nums) {
     cacheMinJumps = new Integer[nums.length];
     lastIndex = nums.length - 1;
 
