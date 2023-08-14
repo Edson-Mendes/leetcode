@@ -1,9 +1,7 @@
 package br.com.emendes.problems;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Dado um array nums de números inteiros distintos, retorne todas as permutações possíveis.<br>
@@ -16,36 +14,33 @@ import java.util.Set;
  */
 public class Permutations {
 
-  private List<List<Integer>> answer;
-
   public List<List<Integer>> permute(int[] nums) {
-    answer = new ArrayList<>();
-
-    Set<Integer> values = new HashSet<>();
-
-    for (int value : nums) {
-      values.add(value);
-    }
-
-    generatePermutations(values, new ArrayList<>());
-
-    return answer;
+    List<List<Integer>> ans = new ArrayList<>();
+    generatePermutations(0, nums, ans);
+    return ans;
   }
 
-  private void generatePermutations(Set<Integer> remaining, List<Integer> currList) {
-    if (remaining.isEmpty()) {
-      answer.add(currList);
+  private void generatePermutations(int ind, int[] nums, List<List<Integer>> ans) {
+    if (ind == nums.length) {
+      List<Integer> permutation = new ArrayList<>();
+      for (int num : nums) {
+        permutation.add(num);
+      }
+      ans.add(permutation);
       return;
     }
-    remaining.forEach(value -> {
-      List<Integer> nextList = new ArrayList<>(currList);
-      nextList.add(value);
 
-      Set<Integer> nextRemaining = new HashSet<>(remaining);
-      nextRemaining.remove(value);
+    for (int i = ind; i < nums.length; i++) {
+      swap(i, ind, nums);
+      generatePermutations(ind + 1, nums, ans);
+      swap(i, ind, nums);
+    }
+  }
 
-      generatePermutations(nextRemaining, nextList);
-    });
+  private void swap(int i, int j, int[] nums) {
+    int t = nums[i];
+    nums[i] = nums[j];
+    nums[j] = t;
   }
 
 }
