@@ -4,10 +4,10 @@ import java.util.*;
 
 /**
  * Dado um array de Strings strs, agrupe os anagramas juntos. Você pode retornar a resposta em qualquer ordem.<br>
- *
+ * <p>
  * Um anagrama é uma palavra formada pelo rearranjo das letras de uma diferente palavra ou frase,
  * tipicamente usando todas a letras originais exatamente uma vez.<br><br>
- *
+ * <p>
  * Restrições:<br>
  * 1 <= strs.length <= 10⁴<br>
  * 0 <= strs[i].length <= 100<br>
@@ -23,12 +23,7 @@ public class GroupAnagrams {
       Arrays.sort(strCharArray);
       String strOrderly = String.valueOf(strCharArray);
 
-      List<String> anagrams = answer.get(strOrderly);
-
-      if (anagrams == null) {
-        anagrams = new ArrayList<>();
-        answer.put(strOrderly, anagrams);
-      }
+      List<String> anagrams = answer.computeIfAbsent(strOrderly, key -> new ArrayList<>());
 
       anagrams.add(str);
     }
