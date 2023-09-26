@@ -19,45 +19,18 @@ public class PowXN {
       else return 1;
     }
 
-    long nSignal = (n < 0) ? -1L : 1L;
-    long nUnsigned = nSignal * n;
-
-    int times = 0;
-    long exponent = nUnsigned;
-
-    while (exponent > 1) {
-      exponent = exponent / 2;
-      times++;
-    }
-
-    double answer = 1;
-
-    if (times > 0) {
-      nUnsigned -= (long) pow(2, times);
-      answer = toDouble(x, times);
-    }
-
-    answer *= pow(x, nUnsigned);
-
-    return (nSignal == -1) ? 1 / answer : answer;
+    if (n < 0) return 1 / pow(x, -n);
+    return pow(x, n);
   }
 
-  private double toDouble(double x, int times) {
-    for (int i = 0; i < times; i++) {
-      x = x * x;
+  public double pow(double x, int n) {
+    if (n == 0) return 1;
+
+    double res = pow(x, n / 2);
+    if (n % 2 != 0) {
+      return res * res * x;
     }
-
-    return x;
-  }
-
-  private double pow(double base, long exponent) {
-    if (exponent == 0) return 1;
-    double value = base;
-    for (int i = 1; i < exponent; i++) {
-      value *= base;
-    }
-
-    return value;
+    return res * res;
   }
 
 }
