@@ -22,7 +22,7 @@ public class NQueens {
   private List<List<String>> answer;
   private int boardSize;
 
-  public List<List<String>> solveNQueens(int n) {
+  public List<List<String>> solveNQueens2(int n) {
     this.answer = new ArrayList<>();
     if (n == 1) {
       List<String> board = new ArrayList<>();
@@ -110,6 +110,41 @@ public class NQueens {
         line[position] += invalidationType;
       }
     }
+  }
+
+  // --- Solução 2 ---
+
+  public List<List<String>> solveNQueens(int n) {
+    List<List<String>> answer = new ArrayList<>();
+    char[][] board = new char[n][n];
+
+    for (int i = 0; i < n; i++)
+      Arrays.fill(board[i], '.');
+
+    putQueens(n, 0, new boolean[n], new boolean[2 * n - 1], new boolean[2 * n - 1], board, answer);
+    return answer;
+  }
+
+  private void putQueens(int n, int i, boolean[] cols, boolean[] diag1, boolean[] diag2, char[][] board, List<List<String>> answer) {
+    if (i == n) {
+      answer.add(construct(board));
+      return;
+    }
+    for (int j = 0; j < n; j++) {
+      if (cols[j] || diag1[i + j] || diag2[j - i + n - 1])
+        continue;
+      board[i][j] = 'Q';
+      cols[j] = diag1[i + j] = diag2[j - i + n - 1] = true;
+      putQueens(n, i + 1, cols, diag1, diag2, board, answer);
+      cols[j] = diag1[i + j] = diag2[j - i + n - 1] = false;
+      board[i][j] = '.';
+    }
+  }
+
+  private List<String> construct(char[][] boardArray) {
+    List<String> board = new ArrayList<>();
+    for (char[] chars : boardArray) board.add(String.valueOf(chars));
+    return board;
   }
 
 }
