@@ -10,17 +10,22 @@ package br.com.emendes.problems;
  */
 public class MaximumSubarray {
 
+  /**
+   * Complexidade de tempo: O(n).
+   * Complexidade de espaço: O(n).
+   */
   public int maxSubArray(int[] nums) {
     int numsLength = nums.length;
-    int answer = -100_000_000;
+    if (numsLength == 1) return nums[0];
 
-    for (int i = 0; i < numsLength; i++) {
-      int accumulator = 0;
-      for (int j = i; j < numsLength; j++) {
-        accumulator += nums[j];
-        if (accumulator > answer) {
-          answer = accumulator;
-        }
+    int[] sums = new int[numsLength];
+    int answer = sums[0] = nums[0];
+
+    for (int i = 1; i < numsLength; i++) {
+      int currSum = sums[i-1] + nums[i];
+      sums[i] = currSum > nums[i] ? currSum : nums[i];
+      if (sums[i] > answer) {
+        answer = sums[i];
       }
     }
 
