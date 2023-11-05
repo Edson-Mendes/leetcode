@@ -11,7 +11,27 @@ package br.com.emendes.problems;
  */
 public class JumpGame {
 
+  /**
+   * Solução com complexidade de tempo O(n) e complexidade de espaço de O(1).
+   */
   public boolean canJump(int[] nums) {
+    if (nums.length == 1) return true;
+
+    int lastIndex = nums.length - 1;
+    int maxJump = 0;
+
+    for (int index = 0; index < lastIndex; index++) {
+      if (nums[index] > maxJump) maxJump = nums[index];
+      if (maxJump == 0) return false;
+      maxJump--;
+    }
+
+    return true;
+  }
+
+  // Primeira solução.
+
+  public boolean firstSolution(int[] nums) {
     if (nums.length == 1) return true;
 
     boolean[] cannotJump = new boolean[nums.length];
@@ -19,6 +39,9 @@ public class JumpGame {
     return jump(0, nums, cannotJump);
   }
 
+  /**
+   * Usado em firstSolution.
+   */
   private boolean jump(int index, int[] nums, boolean[] cannotJump) {
     if (index >= nums.length - 1) return true;
     if (cannotJump[index]) return false;
