@@ -14,61 +14,36 @@ import java.util.List;
  */
 public class SpiralMatrix {
 
-  private int elementsCount = 0;
-  private List<Integer> answer;
-
   public List<Integer> spiralOrder(int[][] matrix) {
-    answer = new ArrayList<>();
+    List<Integer> answer = new ArrayList<>();
 
-    int mEnd = matrix.length - 1;
-    int nEnd = matrix[0].length - 1;
+    int me = matrix.length - 1;
+    int ne = matrix[0].length - 1;
     int totalElements = matrix.length * matrix[0].length;
-    elementsCount = 0;
-    int m = 0;
-    int n = 0;
+    int elementsCount = 0;
+    int ms = 0;
+    int ns = 0;
     while (elementsCount < totalElements) {
-      addLine(m, n, nEnd, matrix);
-      if (elementsCount >= totalElements) break;
-      addColumn(nEnd, m + 1, mEnd, matrix);
-      if (elementsCount >= totalElements) break;
-      addLine(mEnd, nEnd - 1, n, matrix);
-      if (elementsCount >= totalElements) break;
-      addColumn(n, mEnd-1, m + 1, matrix);
-      m++;
-      n++;
-      mEnd--;
-      nEnd--;
+      for (int j = ns; j <= ne; j++) {
+        answer.add(matrix[ms][j]);
+        elementsCount++;
+      }
+      for (int i = ms + 1; i <= me && elementsCount < totalElements; i++, elementsCount++) {
+        answer.add(matrix[i][ne]);
+      }
+      for (int j = ne - 1; j >= ns && elementsCount < totalElements; j--, elementsCount++) {
+        answer.add(matrix[me][j]);
+      }
+      for (int i = me - 1; i >= ms + 1 && elementsCount < totalElements; i--, elementsCount++) {
+        answer.add(matrix[i][ns]);
+      }
+      ms++;
+      ns++;
+      me--;
+      ne--;
     }
 
     return answer;
-  }
-
-  private void addLine(int i, int jStart, int jEnd, int[][] matrix) {
-    if (jStart < jEnd) {
-      for (int j = jStart; j <= jEnd; j++) {
-        answer.add(matrix[i][j]);
-        elementsCount++;
-      }
-    } else {
-      for (int j = jStart; j >= jEnd; j--) {
-        answer.add(matrix[i][j]);
-        elementsCount++;
-      }
-    }
-  }
-
-  private void addColumn(int j, int iStart, int iEnd, int[][] matrix) {
-    if (iStart < iEnd) {
-      for (int i = iStart; i <= iEnd; i++) {
-        answer.add(matrix[i][j]);
-        elementsCount++;
-      }
-    } else {
-      for (int i = iStart; i >= iEnd; i--) {
-        answer.add(matrix[i][j]);
-        elementsCount++;
-      }
-    }
   }
 
 }
