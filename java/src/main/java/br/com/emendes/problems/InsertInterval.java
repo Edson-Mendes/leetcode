@@ -35,7 +35,10 @@ public class InsertInterval {
       index = (index + 1) * -1;
     }
 
-    List<int[]> intervalList = new LinkedList<>(Arrays.asList(intervals));
+    List<int[]> intervalList = new LinkedList<>();
+    for (int[] interval : intervals) {
+      intervalList.add(interval);
+    }
     intervalList.add(index, newInterval);
 
     return merge(intervalList.toArray(int[][]::new));
