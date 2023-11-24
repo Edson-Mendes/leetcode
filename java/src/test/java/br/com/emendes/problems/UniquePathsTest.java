@@ -93,4 +93,15 @@ class UniquePathsTest {
     Assertions.assertThat(actualAnswer).isEqualTo(6);
   }
 
+  @Test
+  void test09() {
+    UniquePaths solution = new UniquePaths();
+
+    int m = 4;
+    int n = 4;
+    int actualAnswer = solution.uniquePaths(m, n);
+
+    Assertions.assertThat(actualAnswer).isEqualTo(20);
+  }
+
 }
