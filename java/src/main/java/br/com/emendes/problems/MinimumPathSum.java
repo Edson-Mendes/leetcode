@@ -63,4 +63,27 @@ public class MinimumPathSum {
     return grid[m - 1][n - 1];
   }
 
+  /**
+   * Solução usando recursividade e armazenamento dos pontos do grid já calculados.
+   */
+  public int thirdSolution(int[][] grid) {
+    int m = grid.length;
+    int n = grid[0].length;
+    int[][] memo = new int[m][n];
+    return find(grid, m - 1, n - 1, memo);
+  }
+
+  private int find(int[][] grid, int m, int n, int[][] memo) {
+    if (m == 0 && n == 0)
+      return grid[0][0];
+    else if (m < 0 || n < 0)
+      return Integer.MAX_VALUE;
+    else if (memo[m][n] != 0)
+      return memo[m][n];
+    memo[m][n] = grid[m][n] +
+        Math.min(find(grid, m - 1, n, memo), find(grid, m, n - 1, memo));
+
+    return memo[m][n];
+  }
+
 }
