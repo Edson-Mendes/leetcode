@@ -30,75 +30,37 @@ package br.com.emendes.problems;
 public class ValidNumber {
 
   public boolean isNumber(String s) {
-    char[] sArray = s.toCharArray();
-    int sLength = s.length();
+    boolean seenNum = false;
+    boolean seenDot = false;
+    boolean seenE = false;
 
-    int charValue = s.charAt(0);
-    boolean mustBeNumber = false;
-    boolean previousIsNumber = false;
-    boolean previousIsSignal = false;
-    boolean hasDot = false;
-
-    if (charValue >= 48 && charValue <= 57) previousIsNumber = true;// first character is a number.
-    else if (charValue == 43 || charValue == 45) {
-      previousIsSignal = true;
-    } else if (charValue == 46) {
-      mustBeNumber = true;
-      hasDot = true;
-    } else return false;
-
-    for (int i = 1; i < sLength; i++) {
-      switch (sArray[i]) {
-        case 48, 49, 50, 51, 52, 53, 54, 55, 56, 57:
-          mustBeNumber = false;
-          previousIsNumber = true;
-          previousIsSignal = false;
+    for (int i = 0; i < s.length(); ++i) {
+      switch (s.charAt(i)) {
+        case '.':
+          if (seenDot || seenE)
+            return false;
+          seenDot = true;
           break;
-        case 46:
-          if (hasDot) return false;
-          if (previousIsSignal) {
-            mustBeNumber = true;
-            previousIsSignal = false;
-          }
-          hasDot = true;
-          previousIsNumber = false;
+        case 'e', 'E':
+          if (seenE || !seenNum)
+            return false;
+          seenE = true;
+          seenNum = false;
           break;
-        case 69, 101:
-          if (mustBeNumber || previousIsSignal) return false;
-          if (!previousIsNumber && isSecondPreviousNotANumber(i - 2, sArray)) return false;
-          return isInteger(i + 1, sArray);
+        case '+', '-':
+          if (i > 0 && s.charAt(i - 1) != 'e' && s.charAt(i - 1) != 'E')
+            return false;
+          seenNum = false;
+          break;
+        case '0', '1', '2', '3', '4', '5', '6', '7', '8', '9':
+          seenNum = true;
+          break;
         default:
           return false;
       }
     }
 
-    return !mustBeNumber && !previousIsSignal;
-  }
-
-  private boolean isInteger(int index, char[] s) {
-    int length = s.length;
-    if (index >= length) return false;
-    int value = s[index];
-
-    if (value == 43 || value == 45) {
-      index++;
-      if (index == length || (s[index] < 48 || s[index] > 57)) return false;
-      index++;
-    }
-
-    while (index < length) {
-      value = s[index];
-      if (value < 48 || value > 57) return false;
-      index++;
-    }
-
-    return true;
-  }
-
-  private boolean isSecondPreviousNotANumber(int index, char[] s) {
-    if (index < 0) return false;
-    int value = s[index];
-    return value < 48 || value > 57;
+    return seenNum;
   }
 
 }

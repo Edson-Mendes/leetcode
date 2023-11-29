@@ -137,4 +137,26 @@ class ValidNumberTest {
     Assertions.assertThat(actualAnswer).isFalse();
   }
 
+  @Test
+  void test13() {
+    ValidNumber solution = new ValidNumber();
+
+    String s = "-005047e+6";
+
+    boolean actualAnswer = solution.isNumber(s);
+
+    Assertions.assertThat(actualAnswer).isTrue();
+  }
+
+  @Test
+  void test14() {
+    ValidNumber solution = new ValidNumber();
+
+    String s = "-005047.5e+6";
+
+    boolean actualAnswer = solution.isNumber(s);
+
+    Assertions.assertThat(actualAnswer).isTrue();
+  }
+
 }
