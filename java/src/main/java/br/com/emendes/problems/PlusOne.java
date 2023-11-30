@@ -17,7 +17,7 @@ public class PlusOne {
   public int[] plusOne(int[] digits) {
     int digitsLength = digits.length;
     int remaining = 1;
-    for (int i = digitsLength - 1; i >= 0; i--) {
+    for (int i = digitsLength - 1; i >= 0 && remaining == 1; i--) {
       int sum = digits[i] + remaining;
       digits[i] = sum % 10;
       remaining = sum / 10;
@@ -26,7 +26,6 @@ public class PlusOne {
 
     int[] answer = new int[digitsLength + 1];
     answer[0] = 1;
-    System.arraycopy(digits, 0, answer, 1, digitsLength);
 
     return answer;
   }
