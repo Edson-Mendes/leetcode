@@ -11,41 +11,31 @@ package br.com.emendes.problems;
 public class AddBinary {
 
   public String addBinary(String a, String b) {
-    int aLength = a.length();
-    int bLength = b.length();
-    int iA = aLength - 1;
-    int iB = bLength - 1;
+    int iA = a.length() - 1;
+    int iB = b.length() - 1;
     StringBuilder answer = new StringBuilder();
     int carrier = 0;
-    if (aLength > bLength) {
-      for (; iB >= 0; iB--, iA--) {
-        int sum = (a.charAt(iA) - 48) + (b.charAt(iB) - 48) + carrier;
-        answer.append(sum % 2);
-        carrier = sum / 2;
-      }
-      for (; iA >= 0; iA--) {
-        int sum = (a.charAt(iA) - 48) + carrier;
-        answer.append(sum % 2);
-        carrier = sum / 2;
-      }
-    } else {
-      for (; iA >= 0; iA--, iB--) {
-        int sum = (a.charAt(iA) - 48) + (b.charAt(iB) - 48) + carrier;
-        answer.append(sum % 2);
-        carrier = sum / 2;
-      }
-      for (; iB >= 0; iB--) {
-        int sum = (b.charAt(iB) - 48) + carrier;
-        answer.append(sum % 2);
-        carrier = sum / 2;
-      }
+
+    for (; iA >= 0 && iB >= 0; iA--, iB--) {
+      int sum = (a.charAt(iA) - 48) + (b.charAt(iB) - 48) + carrier;
+      answer.append(sum % 2);
+      carrier = sum / 2;
+    }
+    for (; iA >= 0; iA--) {
+      int sum = (a.charAt(iA) - 48) + carrier;
+      answer.append(sum % 2);
+      carrier = sum / 2;
+    }
+    for (; iB >= 0; iB--) {
+      int sum = (b.charAt(iB) - 48) + carrier;
+      answer.append(sum % 2);
+      carrier = sum / 2;
     }
     if (carrier == 1) {
       answer.append(1);
     }
-    answer.reverse();
 
-    return answer.toString();
+    return answer.reverse().toString();
   }
 
 }
