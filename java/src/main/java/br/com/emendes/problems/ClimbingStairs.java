@@ -10,22 +10,17 @@ package br.com.emendes.problems;
  */
 public class ClimbingStairs {
 
-  private int ways;
-
   public int climbStairs(int n) {
-    ways = 0;
+    int previous = 0;
+    int secondPrevious = 1;
 
-    climb(0, n);
-    return ways;
-  }
-
-  private void climb(int steps, int total) {
-    if (steps == total) {
-      ways++;
-      return;
+    for (int i = 1; i <= n; i++) {
+      int current = previous + secondPrevious;
+      previous = secondPrevious;
+      secondPrevious = current;
     }
-    if (steps + 1 <= total) climb(steps + 1, total);
-    if (steps + 2 <= total) climb(steps + 2, total);
+
+    return secondPrevious;
   }
 
 }

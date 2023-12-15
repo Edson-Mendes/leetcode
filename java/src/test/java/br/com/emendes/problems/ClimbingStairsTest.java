@@ -36,13 +36,22 @@ class ClimbingStairsTest {
   void test04() {
     ClimbingStairs solution = new ClimbingStairs();
 
+    int actualAnswer = solution.climbStairs(6);
+
+    Assertions.assertThat(actualAnswer).isEqualTo(13);
+  }
+
+  @Test
+  void test05() {
+    ClimbingStairs solution = new ClimbingStairs();
+
     int actualAnswer = solution.climbStairs(10);
 
     Assertions.assertThat(actualAnswer).isEqualTo(89);
   }
 
   @Test
-  void test05() {
+  void test06() {
     ClimbingStairs solution = new ClimbingStairs();
 
     int actualAnswer = solution.climbStairs(45);
