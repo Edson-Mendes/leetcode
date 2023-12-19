@@ -49,4 +49,40 @@ public class SimplifyPath {
     return simplifyPath.isEmpty() ? "/" : String.join("", simplifyPath);
   }
 
+  public String secondSolution(String path) {
+    int i = 0;
+    int pathLength = path.length();
+    int stackIndex = 0;
+    String[] stack = new String[pathLength / 2];
+
+    while (true) {
+      while (i < pathLength && path.charAt(i) == '/') {
+        i++;
+      }
+      if (i == pathLength) break;
+      int j = i;
+      while (i < pathLength && path.charAt(i) != '/') {
+        i++;
+      }
+      if (i == j + 1 && path.charAt(j) == '.') {
+        continue;
+      } else if (i == j + 2 && path.charAt(j) == '.' && path.charAt(j + 1) == '.') {
+        stackIndex = stackIndex == 0 ? 0 : stackIndex-1;
+      } else {
+        stack[stackIndex] = path.substring(j, i);
+        stackIndex++;
+      }
+    }
+
+    if(stackIndex == 0) return "/";
+
+    StringBuilder answer = new StringBuilder();
+    for (i = 0; i < stackIndex; i++) {
+      answer.append('/');
+      answer.append(stack[i]);
+    }
+
+    return answer.toString();
+  }
+
 }
