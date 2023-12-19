@@ -37,16 +37,14 @@ public class SimplifyPath {
         case "..":
           if (!simplifyPath.isEmpty()) {
             simplifyPath.removeLast();
-            simplifyPath.removeLast();
           }
           break;
         default:
-          simplifyPath.add("/");
           simplifyPath.add(curr);
       }
     }
 
-    return simplifyPath.isEmpty() ? "/" : String.join("", simplifyPath);
+    return "/" + String.join("/", simplifyPath);
   }
 
   public String secondSolution(String path) {
