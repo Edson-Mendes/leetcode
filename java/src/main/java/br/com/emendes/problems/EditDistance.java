@@ -1,7 +1,5 @@
 package br.com.emendes.problems;
 
-import java.util.Arrays;
-
 /**
  * Dado duas strings word1 e word2, retorne o número mínimo de operações necessárias
  * para converter word1 em word2.<br><br>
@@ -17,7 +15,7 @@ import java.util.Arrays;
  */
 public class EditDistance {
 
-  public int minDistance(String word1, String word2) {
+  public int firstSolution(String word1, String word2) {
     final int i1 = word1.length();
     final int i2 = word2.length();
 
@@ -37,6 +35,36 @@ public class EditDistance {
           dp[i][j] = Math.min(dp[i - 1][j - 1], Math.min(dp[i - 1][j], dp[i][j - 1])) + 1;
 
     return dp[i1][i2];
+  }
+
+  int minDistance(int i, int j, String word1, String word2, int[][] dp) {
+    if (i < 0) return j + 1;
+    if (j < 0) return i + 1;
+
+    if (dp[i][j] != -1) {
+      return dp[i][j];
+    }
+    if (word1.charAt(i) == word2.charAt(j)) {
+      dp[i][j] = minDistance(i - 1, j - 1, word1, word2, dp);
+      return dp[i][j];
+    }
+
+    dp[i][j] = 1 + Math.min(Math.min(minDistance(i - 1, j, word1, word2, dp), minDistance(i, j - 1, word1, word2, dp)), minDistance(i - 1, j - 1, word1, word2, dp));
+    return dp[i][j];
+  }
+
+  public int minDistance(String word1, String word2) {
+    int i = word1.length();
+    int j = word2.length();
+    int[][] dp = new int[i][j];
+
+    for (int k = 0; k < i; k++) {
+      for (int v = 0; v < j; v++) {
+        dp[k][v] = -1;
+      }
+    }
+
+    return minDistance(i - 1, j - 1, word1, word2, dp);
   }
 
 }
