@@ -65,7 +65,16 @@ class EditDistanceTest {
 
     int actualAnswer = solution.minDistance("dinitrophenylhydrazine", "acetylphenylhydrazine");
 
-    Assertions.assertThat(actualAnswer).isEqualTo(2);
+    Assertions.assertThat(actualAnswer).isEqualTo(6);
+  }
+
+  @Test
+  void test08() {
+    EditDistance solution = new EditDistance();
+
+    int actualAnswer = solution.minDistance("sunday", "saturday");
+
+    Assertions.assertThat(actualAnswer).isEqualTo(3);
   }
 
 }
