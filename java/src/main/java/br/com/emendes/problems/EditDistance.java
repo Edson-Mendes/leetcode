@@ -37,7 +37,21 @@ public class EditDistance {
     return dp[i1][i2];
   }
 
-  int minDistance(int i, int j, String word1, String word2, int[][] dp) {
+  public int minDistance(String word1, String word2) {
+    int i = word1.length();
+    int j = word2.length();
+    int[][] dp = new int[i][j];
+
+    for (int k = 0; k < i; k++) {
+      for (int v = 0; v < j; v++) {
+        dp[k][v] = -1;
+      }
+    }
+
+    return minDistance(i - 1, j - 1, word1, word2, dp);
+  }
+
+  private int minDistance(int i, int j, String word1, String word2, int[][] dp) {
     if (i < 0) return j + 1;
     if (j < 0) return i + 1;
 
@@ -51,20 +65,6 @@ public class EditDistance {
 
     dp[i][j] = 1 + Math.min(Math.min(minDistance(i - 1, j, word1, word2, dp), minDistance(i, j - 1, word1, word2, dp)), minDistance(i - 1, j - 1, word1, word2, dp));
     return dp[i][j];
-  }
-
-  public int minDistance(String word1, String word2) {
-    int i = word1.length();
-    int j = word2.length();
-    int[][] dp = new int[i][j];
-
-    for (int k = 0; k < i; k++) {
-      for (int v = 0; v < j; v++) {
-        dp[k][v] = -1;
-      }
-    }
-
-    return minDistance(i - 1, j - 1, word1, word2, dp);
   }
 
 }
