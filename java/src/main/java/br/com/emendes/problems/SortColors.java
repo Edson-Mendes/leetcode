@@ -15,7 +15,7 @@ package br.com.emendes.problems;
  */
 public class SortColors {
 
-  public void sortColors(int[] nums) {
+  public void firstSolution(int[] nums) {
     int n = nums.length;
 
     for (int i = 0; i < n; i++) {
@@ -29,6 +29,40 @@ public class SortColors {
       nums[i] = nums[aux];
       nums[aux] = value;
     }
+  }
+
+  public void sortColors(int[] nums) {
+    quickSort(nums, 0, nums.length - 1);
+  }
+
+  private void quickSort(int[] nums, int iIni, int iEnd) {
+    if (iIni < iEnd) {
+      int pivot = nums[iEnd];
+      int i = iIni;
+      int j = iEnd - 1;
+      while (i <= j) {
+        while (nums[i] < pivot) {
+          i += 1;
+        }
+        while (j > -1 && nums[j] > pivot) {
+          j -= 1;
+        }
+        if (i <= j) {
+          swap(nums, i, j);
+          i += 1;
+          j -= 1;
+        }
+      }
+      swap(nums, i, iEnd);
+      quickSort(nums, iIni, i - 1);
+      quickSort(nums, i + 1, iEnd);
+    }
+  }
+
+  private void swap(int[] nums, int i, int j) {
+    int value = nums[i];
+    nums[i] = nums[j];
+    nums[j] = value;
   }
 
 }
