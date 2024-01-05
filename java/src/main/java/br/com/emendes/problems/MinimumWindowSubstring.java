@@ -16,31 +16,48 @@ package br.com.emendes.problems;
 public class MinimumWindowSubstring {
 
   public String minWindow(String s, String t) {
-    int startAns = -1;
-    int endAns = -1;
-
     int m = s.length();
     int n = t.length();
 
-    for (int i = 0; m - i >= n; i++) {
-      boolean[] check = new boolean[n];
-      int counter = 0;
-      int j;
-      for (j = i; j < m && counter < n; j++) {
-        char c = s.charAt(j);
-        int position = t.indexOf(c);
-        while (position != -1 && check[position]) {
-          position = t.indexOf(c, position + 1);
-        }
-        if (position != -1) {
-          check[position] = true;
+    if (n > m) return "";
+
+    int startAns = -1;
+    int endAns = -1;
+
+    int[] charCounterS = new int[123];
+    int[] charCounterT = new int[123];
+    int counter = 0;
+
+
+    for (int i = 0; i < n; i++) {
+      charCounterT[t.charAt(i)]++;
+    }
+
+    int left = 0;
+    int right = 0;
+    while (right < m) {
+      char character = s.charAt(right);
+      if (charCounterT[character] > 0) {
+        if (charCounterS[character] < charCounterT[character]) {
           counter++;
         }
+        charCounterS[character]++;
       }
+      right++;
+      while (counter == n) {
+        if (startAns == -1 || endAns - startAns > right - left) {
+          startAns = left;
+          endAns = right;
+        }
 
-      if (counter == n && (startAns == -1 || endAns - startAns > j - i)) {
-        startAns = i;
-        endAns = j;
+        character = s.charAt(left);
+        if (charCounterT[character] > 0) {
+          charCounterS[character]--;
+          if (charCounterS[character] < charCounterT[character]) {
+            counter--;
+          }
+        }
+        left++;
       }
     }
 
