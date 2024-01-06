@@ -26,7 +26,7 @@ public class Combinations {
       return;
     }
 
-    for (int i = value; i <= n; i++) {
+    for (int i = value; n - i + 1 >= k - list.size(); i++) {
       list.add(i);
       combine(n, k, i + 1, list, answer);
       list.remove(list.size() - 1);
