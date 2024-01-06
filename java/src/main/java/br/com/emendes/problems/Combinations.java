@@ -34,7 +34,7 @@ public class Combinations {
       answer.add(list);
       return;
     }
-    for (int newValue = value + 1; newValue <= n; newValue++) {
+    for (int newValue = value + 1; n - newValue + 1 >= k - list.size(); newValue++) {
       combine(newValue, n, k, new ArrayList<>(list));
     }
   }
