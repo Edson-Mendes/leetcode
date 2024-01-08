@@ -33,7 +33,6 @@ public class Subsets {
 
   // Second solution
   public void subsets(List<Integer> subset, List<List<Integer>> answer, int[] nums, int start) {
-    if (start > nums.length) return;
     answer.add(new ArrayList<>(subset));
 
     for (int i = start; i < nums.length; i++) {
