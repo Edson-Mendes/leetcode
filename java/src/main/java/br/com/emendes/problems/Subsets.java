@@ -16,21 +16,30 @@ public class Subsets {
 
   public List<List<Integer>> subsets(int[] nums) {
     List<List<Integer>> answer = new ArrayList<>();
-    answer.add(new ArrayList<>());
-
-    for (int i = 0; i < nums.length; i++) {
-      subsets(i, nums, new ArrayList<>(), answer);
-    }
+    subsets(new ArrayList<>(), answer, nums, 0);
 
     return answer;
   }
 
+  // First solution
   public void subsets(int currIndex, int[] nums, List<Integer> subset, List<List<Integer>> answer) {
     subset.add(nums[currIndex]);
     answer.add(subset);
 
     for (int i = currIndex + 1; i < nums.length; i++) {
       subsets(i, nums, new ArrayList<>(subset), answer);
+    }
+  }
+
+  // Second solution
+  public void subsets(List<Integer> subset, List<List<Integer>> answer, int[] nums, int start) {
+    if (start > nums.length) return;
+    answer.add(new ArrayList<>(subset));
+
+    for (int i = start; i < nums.length; i++) {
+      subset.add(nums[i]);
+      subsets(subset, answer, nums, i + 1);
+      subset.remove(subset.size() - 1);
     }
   }
 
