@@ -16,51 +16,50 @@ package br.com.emendes.problems;
  */
 public class WordSearch {
 
-  private int m;
-  private int n;
-  private int totalChar;
-  private char[] wordChar;
-  private char[][] board;
-
   public boolean exist(char[][] board, String word) {
-    m = board.length;
-    n = board[0].length;
-    totalChar = word.length();
-    this.board = board;
-    if (m * n < totalChar) return false;
+    if (board.length * board[0].length < word.length()) return false;
 
-    wordChar = word.toCharArray();
+    char[] wordArray = word.toCharArray();
+    if (!hasCharacters(board, wordArray)) return false;
 
-    for (int i = 0; i < m; i++) {
-      for (int j = 0; j < n; j++) {
-        if (checkPath(i, j, 0, new boolean[m][n])) return true;
+    for (int i = 0; i < board.length; i++) {
+      for (int j = 0; j < board[0].length; j++) {
+        if (checkPath(i, j, board, 0, wordArray)) return true;
       }
     }
 
     return false;
   }
 
-  private boolean checkPath(int i, int j, int indexCharacter, boolean[][] used) {
-    if (indexCharacter == totalChar) return true;
-    if (i < 0 || i >= m || j < 0 || j >= n) return false;
-    if (board[i][j] != wordChar[indexCharacter] || used[i][j]) return false;
+  private boolean hasCharacters(char[][] board, char[] wordArray) {
+    int[] counterCharacter = new int[128];
 
-    used[i][j] = true;
-    boolean isGoodPath = checkPath(i, j + 1, indexCharacter + 1, used);
-    if (!isGoodPath) {
-      isGoodPath = checkPath(i + 1, j, indexCharacter + 1, used);
-      if (!isGoodPath) {
-        isGoodPath = checkPath(i, j - 1, indexCharacter + 1, used);
-        if (!isGoodPath) {
-          isGoodPath = checkPath(i - 1, j, indexCharacter + 1, used);
-          if (!isGoodPath) {
-            used[i][j] = false;
-          }
-          return isGoodPath;
-        }
+    for (char[] chars : board) {
+      for (char character : chars) {
+        counterCharacter[character]++;
       }
     }
+    for (char character : wordArray) {
+      counterCharacter[character]--;
+      if (counterCharacter[character] < 0) return false;
+    }
     return true;
+  }
+
+  private boolean checkPath(int i, int j, char[][] board, int indexCharacter, char[] word) {
+    if (indexCharacter == word.length) return true;
+    if (i < 0 || i >= board.length || j < 0 || j >= board[0].length) return false;
+    if (board[i][j] != word[indexCharacter] || board[i][j] == '.') return false;
+
+    char cache = board[i][j];
+    board[i][j] = '.';
+    boolean isGoodPath = checkPath(i, j + 1, board, indexCharacter + 1, word) ||
+        checkPath(i + 1, j, board, indexCharacter + 1, word) ||
+        checkPath(i, j - 1, board, indexCharacter + 1, word) ||
+        checkPath(i - 1, j, board, indexCharacter + 1, word);
+
+    board[i][j] = cache;
+    return isGoodPath;
   }
 
 }

@@ -49,4 +49,15 @@ class WordSearchTest {
     Assertions.assertThat(actualAnswer).isFalse();
   }
 
+  @Test
+  void test05() {
+    WordSearch solution = new WordSearch();
+
+    char[][] board = {{'A', 'B', 'C', 'E'}, {'S', 'F', 'C', 'S'}, {'A', 'D', 'E', 'E'}};
+    String word = "ABCBB";
+    boolean actualAnswer = solution.exist(board, word);
+
+    Assertions.assertThat(actualAnswer).isFalse();
+  }
+
 }
