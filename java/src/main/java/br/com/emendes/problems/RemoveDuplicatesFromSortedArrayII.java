@@ -24,27 +24,17 @@ package br.com.emendes.problems;
 public class RemoveDuplicatesFromSortedArrayII {
 
   public int removeDuplicates(int[] nums) {
-    if (nums.length == 1) return 1;
-
-    int iPrevious = 0;
     int counter = 1;
     int k = 1;
     for (int i = 1; i < nums.length; i++) {
-      if (nums[i] == nums[iPrevious]) {
+      if (nums[i] == nums[i - 1]) {
         counter++;
-        if (counter == 2) {
-          if (k < i) {
-            nums[k] = nums[i];
-          }
-          k++;
-        }
       } else {
-        if (k < i) {
-          nums[k] = nums[i];
-        }
-        k++;
         counter = 1;
-        iPrevious = i;
+      }
+      if (counter <= 2) {
+        nums[k] = nums[i];
+        k++;
       }
     }
 
