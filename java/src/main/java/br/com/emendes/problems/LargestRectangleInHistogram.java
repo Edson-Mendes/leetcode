@@ -1,7 +1,7 @@
 package br.com.emendes.problems;
 
+import java.util.ArrayDeque;
 import java.util.Deque;
-import java.util.LinkedList;
 
 /**
  * Dado um array de inteiros heights representando uma barra de histogramas onde a largura de cada barra é 1,
@@ -14,35 +14,19 @@ import java.util.LinkedList;
 public class LargestRectangleInHistogram {
 
   public int largestRectangleArea(int[] heights) {
-    int length = heights.length;
-    Deque<Integer> stack = new LinkedList<>();
-
-    int maxArea = 0;
+    int answer = 0;
+    Deque<Integer> stack = new ArrayDeque<>();
     int i = 0;
-    while (i < length) {
-      if (stack.isEmpty() || heights[stack.peek()] <= heights[i]) {
-        stack.push(i);
-        i++;
-      } else {
-        Integer top = stack.pop();
-        int currArea = heights[top] * (stack.isEmpty() ? i : i - stack.peek() - 1);
-
-        if (currArea > maxArea) {
-          maxArea = currArea;
-        }
+    while (i <= heights.length) {
+      while (!stack.isEmpty() && (i == heights.length || heights[stack.peek()] > heights[i])) {
+        final int height = heights[stack.pop()];
+        final int width = stack.isEmpty() ? i : i - stack.peek() - 1;
+        answer = Math.max(answer, height * width);
       }
+      stack.push(i++);
     }
 
-    while (!stack.isEmpty()) {
-      Integer top = stack.pop();
-      int currArea = heights[top] * (stack.isEmpty() ? i : i - stack.peek() - 1);
-
-      if (currArea > maxArea) {
-        maxArea = currArea;
-      }
-    }
-
-    return maxArea;
+    return answer;
   }
 
 }
