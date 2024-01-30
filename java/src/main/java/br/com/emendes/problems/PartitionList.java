@@ -18,32 +18,25 @@ public class PartitionList {
   public ListNode partition(ListNode head, int x) {
     if (x <= -100 || x > 100) return head;
 
-    ListNode dummy = new ListNode(0, head);
-    ListNode current = head;
-    ListNode previous = dummy;
+    ListNode beforeDummy = new ListNode(0);
+    ListNode afterDummy = new ListNode(0);
+    ListNode before = beforeDummy;
+    ListNode after = afterDummy;
 
-    while (current != null && current.val < x) {
-      previous = current;
-      current = current.next;
-    }
-
-    ListNode lastLesser = previous;
-    ListNode firstEqualsGreater = current;
-
-    while (current != null) {
-      if (current.val < x) {
-        previous.next = current.next;
-        current.next = firstEqualsGreater;
-        lastLesser.next = current;
-        lastLesser = current;
-        current = previous.next;
+    while (head != null) {
+      if (head.val < x) {
+        before.next = head;
+        before = head;
       } else {
-        previous = current;
-        current = current.next;
+        after.next = head;
+        after = head;
       }
+      head = head.next;
     }
+    before.next = afterDummy.next;
+    after.next = null;
 
-    return dummy.next;
+    return beforeDummy.next;
   }
 
 }
