@@ -23,36 +23,10 @@ public class GrayCode {
 
   public List<Integer> grayCode(int n) {
     List<Integer> answer = new ArrayList<>();
-    answer.add(0);
-    answer.add(1);
-    int counter = 2;
     int total = 1 << n;
-    int[] array = new int[total];
-    array[0] = 1;
 
-    int i = -1;
-    int j = 1;
-    int curr = 1;
-    int exp = 1;
-
-    while (counter < total) {
-      while (i > -1) {
-        int next = array[i] * -1;
-        curr += next;
-        answer.add(curr);
-        array[j] = next;
-        j++;
-        i--;
-        counter++;
-      }
-      if (counter < total) {
-        array[j] = 1 << exp++;
-        curr += array[j];
-        answer.add(curr);
-        i = j - 1;
-        j++;
-        counter++;
-      }
+    for (int i = 0; i < total; i++) {
+      answer.add(i ^ (i/2));
     }
 
     return answer;
