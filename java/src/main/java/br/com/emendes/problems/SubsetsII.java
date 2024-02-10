@@ -1,6 +1,8 @@
 package br.com.emendes.problems;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Dado um array de inteiros nums que pode conter duplicatas, retorne todos os subsets possíveis do array.<br>
@@ -16,16 +18,17 @@ public class SubsetsII {
   public List<List<Integer>> subsetsWithDup(int[] nums) {
     Arrays.sort(nums);
 
-    Set<List<Integer>> subsets = new HashSet<>();
-    generateSubsets(nums, 0, new ArrayList<>(), subsets);
+    List<List<Integer>> answer = new ArrayList<>();
+    generateSubsets(nums, 0, new ArrayList<>(), answer);
 
-    return subsets.stream().toList();
+    return answer;
   }
 
-  private void generateSubsets(int[] nums, int i, List<Integer> currList, Set<List<Integer>> subsets) {
+  private void generateSubsets(int[] nums, int index, List<Integer> currList, List<List<Integer>> subsets) {
     subsets.add(new ArrayList<>(currList));
 
-    for (; i < nums.length; i++) {
+    for (int i = index; i < nums.length; i++) {
+      if (i != index && nums[i] == nums[i - 1]) continue;
       currList.add(nums[i]);
       generateSubsets(nums, i + 1, currList, subsets);
       currList.remove(currList.size() - 1);
