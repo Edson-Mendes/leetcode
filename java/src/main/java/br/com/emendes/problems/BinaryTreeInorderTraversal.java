@@ -3,6 +3,8 @@ package br.com.emendes.problems;
 import br.com.emendes.problems.util.TreeNode;
 
 import java.util.ArrayList;
+import java.util.Deque;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -17,6 +19,25 @@ import java.util.List;
 public class BinaryTreeInorderTraversal {
 
   public List<Integer> inorderTraversal(TreeNode root) {
+    Deque<TreeNode> stack = new LinkedList<>();
+    List<Integer> answer = new ArrayList<>();
+    TreeNode node = root;
+
+    while (node != null || !stack.isEmpty()) {
+      if (node == null) {
+        node = stack.pop();
+        answer.add(node.val);
+        node = node.right;
+      } else {
+        stack.push(node);
+        node = node.left;
+      }
+    }
+
+    return answer;
+  }
+
+  public List<Integer> firstSolution(TreeNode root) {
     ArrayList<Integer> answer = new ArrayList<>();
     inorderTraversal(root, answer);
 
