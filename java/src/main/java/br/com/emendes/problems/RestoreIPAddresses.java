@@ -2,7 +2,6 @@ package br.com.emendes.problems;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Um endereço de IP válido consiste em exatos 4 inteiros separados por pontos.<br>
@@ -23,46 +22,31 @@ public class RestoreIPAddresses {
 
   public List<String> restoreIpAddresses(String s) {
     List<String> answer = new ArrayList<>();
-
     if (s.length() >= 4 && s.length() <= 12) {
-      restoreIpAddresses(s.toCharArray(), 0, new ArrayList<>(), answer);
+      restoreIpAddresses(s, 0, new ArrayList<>(), answer);
     }
 
     return answer;
   }
 
-  private void restoreIpAddresses(char[] digits, int index, List<Integer> ip, List<String> answer) {
+  private void restoreIpAddresses(String digits, int index, List<String> ip, List<String> answer) {
     if (ip.size() == 4) {
-      if (index >= digits.length) {
-        answer.add(ip.stream().map(Object::toString).collect(Collectors.joining(".")));
+      if (index >= digits.length()) {
+        answer.add(String.join(".", ip));
       }
       return;
     }
 
-    List<Integer> integers = generateIntegers(digits, index);
-    for (int i = 0; i < integers.size(); i++) {
-      ip.add(integers.get(i));
-      restoreIpAddresses(digits, index + i + 1, ip, answer);
+    int value = 0;
+    for (int i = index; i < digits.length() && i < index + 3; i++) {
+      value = value * 10 + digits.charAt(i) - '0';
+      if (value > 255 || (digits.charAt(index) == '0' && i != index)) {
+        break;
+      }
+      ip.add(digits.substring(index, i + 1));
+      restoreIpAddresses(digits, i + 1, ip, answer);
       ip.remove(ip.size() - 1);
     }
-  }
-
-  private List<Integer> generateIntegers(char[] digits, int index) {
-    List<Integer> integers = new ArrayList<>();
-    if (index >= digits.length) return integers;
-    if (digits[index] == '0') {
-      integers.add(0);
-      return integers;
-    } else {
-      int value = (digits[index] - 48);
-      integers.add(value);
-      for (int i = index + 1; i < digits.length && i < index + 3; i++) {
-        value = (value * 10) + (digits[i] - 48);
-        integers.add(value);
-      }
-    }
-
-    return integers.stream().filter(value -> value >= 0 && value <= 255).collect(Collectors.toList());
   }
 
 }
