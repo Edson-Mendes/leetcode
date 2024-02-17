@@ -26,17 +26,18 @@ public class UniqueBinarySearchTreesII {
     if (min > max)
       return Arrays.asList((TreeNode) null);
 
-    List<TreeNode> ans = new ArrayList<>();
+    List<TreeNode> answer = new ArrayList<>();
 
-    for (int i = min; i <= max; ++i)
+    for (int i = min; i <= max; i++) {
       for (TreeNode left : generateTrees(min, i - 1))
         for (TreeNode right : generateTrees(i + 1, max)) {
-          ans.add(new TreeNode(i));
-          ans.get(ans.size() - 1).left = left;
-          ans.get(ans.size() - 1).right = right;
+          answer.add(new TreeNode(i));
+          answer.get(answer.size() - 1).left = left;
+          answer.get(answer.size() - 1).right = right;
         }
+    }
 
-    return ans;
+    return answer;
   }
 
 }
