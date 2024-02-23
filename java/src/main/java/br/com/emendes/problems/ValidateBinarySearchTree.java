@@ -21,17 +21,29 @@ import java.util.Set;
 public class ValidateBinarySearchTree {
 
   public boolean isValidBST(TreeNode root) {
-    Set<Integer> values = new HashSet<>();
-
-    return isValidBST(root, root, values);
+    return isValidBST(root, null, null);
   }
 
-  public boolean isValidBST(TreeNode node, TreeNode root, Set<Integer> values) {
+  private boolean isValidBST(TreeNode root, TreeNode minNode, TreeNode maxNode) {
+    if (root == null) return true;
+    if (minNode != null && root.val <= minNode.val) return false;
+    if (maxNode != null && root.val >= maxNode.val) return false;
+
+    return isValidBST(root.left, minNode, root) && isValidBST(root.right, root, maxNode);
+  }
+
+  public boolean firstSolutionHelper(TreeNode root) {
+    Set<Integer> values = new HashSet<>();
+
+    return firstSolutionHelper(root, root, values);
+  }
+
+  public boolean firstSolutionHelper(TreeNode node, TreeNode root, Set<Integer> values) {
     if (node == null) return true;
     if (values.contains(node.val) || !treeNodeContains(node.val, root)) return false;
 
     values.add(node.val);
-    return isValidBST(node.left, root, values) && isValidBST(node.right, root, values);
+    return firstSolutionHelper(node.left, root, values) && firstSolutionHelper(node.right, root, values);
   }
 
   private boolean treeNodeContains(int value, TreeNode node) {
