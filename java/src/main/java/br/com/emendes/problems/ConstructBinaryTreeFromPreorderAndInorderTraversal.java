@@ -2,9 +2,8 @@ package br.com.emendes.problems;
 
 import br.com.emendes.problems.util.TreeNode;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Dado dois arrays de inteiros preorder e inorder, onde preorder é a travessia de pré-ordem de uma binary tree
@@ -22,29 +21,25 @@ import java.util.Set;
 public class ConstructBinaryTreeFromPreorderAndInorderTraversal {
 
   public TreeNode buildTree(int[] preorder, int[] inorder) {
-    TreeNode root = buildTreeHelper(preorder, inorder, 0, 0, preorder.length - 1);
+    Map<Integer, Integer> searchMap = new HashMap<>();
 
-    return root;
+    for (int i = 0; i < inorder.length; i++) {
+      searchMap.put(inorder[i], i);
+    }
+
+    return buildTreeHelper(preorder, 0, 0, preorder.length - 1, searchMap);
   }
 
-  private TreeNode buildTreeHelper(int[] preorder, int[] inorder, int p, int ini, int end) {
+  private TreeNode buildTreeHelper(int[] preorder, int p, int ini, int end, Map<Integer, Integer> searchMap) {
     if (end < ini) return null;
 
-    int curr = search(inorder, ini, end, preorder[p]);
+    int curr = searchMap.get(preorder[p]);
 
     return new TreeNode(
         preorder[p],
-        buildTreeHelper(preorder, inorder, p + 1, ini, curr - 1),
-        buildTreeHelper(preorder, inorder, p + (curr + 1 - ini), curr + 1, end)
+        buildTreeHelper(preorder, p + 1, ini, curr - 1, searchMap),
+        buildTreeHelper(preorder, p + (curr + 1 - ini), curr + 1, end, searchMap)
     );
-  }
-
-  private int search(int[] array, int ini, int end, int value) {
-    for (int i = ini; i <= end; i++) {
-      if (array[i] == value) return i;
-    }
-
-    return -1;
   }
 
 }
