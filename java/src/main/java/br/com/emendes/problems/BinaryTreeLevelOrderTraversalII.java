@@ -3,7 +3,6 @@ package br.com.emendes.problems;
 import br.com.emendes.problems.util.TreeNode;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -21,8 +20,6 @@ public class BinaryTreeLevelOrderTraversalII {
     List<List<Integer>> answer = new LinkedList<>();
 
     levelOrderBottomHelper(root, 0, answer);
-
-    Collections.reverse(answer);
     return answer;
   }
 
@@ -30,11 +27,11 @@ public class BinaryTreeLevelOrderTraversalII {
     if (node == null) return;
 
     List<Integer> levelList;
-    if (level >= answer.size()) {
+    if (level == answer.size()) {
       levelList = new ArrayList<>();
-      answer.add(levelList);
+      answer.add(0, levelList);
     } else {
-      levelList = answer.get(level);
+      levelList = answer.get(answer.size() - 1 - level);
     }
 
     level++;
