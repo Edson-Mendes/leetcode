@@ -3,6 +3,9 @@ package br.com.emendes.problems;
 import br.com.emendes.problems.util.ListNode;
 import br.com.emendes.problems.util.TreeNode;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Dado o head de uma singly linked list onde os elementos estão ordenados em ordem crescente,
  * converta para uma binary search tree.<br>
@@ -14,43 +17,31 @@ import br.com.emendes.problems.util.TreeNode;
 public class ConvertSortedListToBinarySearchTree {
 
   public TreeNode sortedListToBST(ListNode head) {
-    int[] values = sortedListToArray(head);
+    List<TreeNode> values = toTreeNodeList(head);
 
-    return sortedListToBSTHelper(values, 0, values.length - 1);
+    return sortedListToBSTHelper(values, 0, values.size() - 1);
   }
 
-  private TreeNode sortedListToBSTHelper(int[] values, int start, int end) {
+  private TreeNode sortedListToBSTHelper(List<TreeNode> nodes, int start, int end) {
     if (end < start) return null;
 
     int half = (start + end) / 2;
-    return new TreeNode(
-        values[half],
-        sortedListToBSTHelper(values, start, half - 1),
-        sortedListToBSTHelper(values, half + 1, end)
-    );
+    TreeNode node = nodes.get(half);
+
+    node.left = sortedListToBSTHelper(nodes, start, half - 1);
+    node.right = sortedListToBSTHelper(nodes, half + 1, end);
+    return node;
   }
 
-  private int[] sortedListToArray(ListNode head) {
-    int length = listNodeLength(head);
-    int[] array = new int[length];
-    int i = 0;
-    while (i < length) {
-      array[i++] = head.val;
+  private List<TreeNode> toTreeNodeList(ListNode head) {
+    List<TreeNode> treeNodeList = new ArrayList<>();
+
+    while (head != null) {
+      treeNodeList.add(new TreeNode(head.val));
       head = head.next;
     }
-    return array;
+
+    return treeNodeList;
   }
-
-  private int listNodeLength(ListNode node) {
-    int length = 0;
-
-    while (node != null) {
-      length++;
-      node = node.next;
-    }
-
-    return length;
-  }
-
 
 }
