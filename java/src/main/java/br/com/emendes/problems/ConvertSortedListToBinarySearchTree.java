@@ -17,6 +17,31 @@ import java.util.List;
 public class ConvertSortedListToBinarySearchTree {
 
   public TreeNode sortedListToBST(ListNode head) {
+    if (head == null) return null;
+    if (head.next == null) {
+      return new TreeNode(head.val);
+    }
+
+    ListNode fast = head;
+    ListNode slow = head;
+    ListNode mid = head;
+
+    while (fast != null && fast.next != null) {
+      mid = slow;
+      slow = slow.next;
+      fast = fast.next.next;
+    }
+
+    mid.next = null;
+    return new TreeNode(
+        slow.val,
+        sortedListToBST(head),
+        sortedListToBST(slow.next)
+    );
+  }
+
+  // ------------ First Solution ------------
+  public TreeNode firstSolution(ListNode head) {
     List<TreeNode> values = toTreeNodeList(head);
 
     return sortedListToBSTHelper(values, 0, values.size() - 1);

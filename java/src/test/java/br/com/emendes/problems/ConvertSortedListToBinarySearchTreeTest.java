@@ -38,10 +38,10 @@ class ConvertSortedListToBinarySearchTreeTest {
     TreeNode actualAnswer = solution.sortedListToBST(head);
 
     Assertions.assertThat(actualAnswer).isNotNull();
-    Assertions.assertThat(actualAnswer.val).isEqualTo(1);
-    Assertions.assertThat(actualAnswer.left).isNull();
-    Assertions.assertThat(actualAnswer.right).isNotNull();
-    Assertions.assertThat(actualAnswer.right.val).isEqualTo(2);
+    Assertions.assertThat(actualAnswer.val).isEqualTo(2);
+    Assertions.assertThat(actualAnswer.right).isNull();
+    Assertions.assertThat(actualAnswer.left).isNotNull();
+    Assertions.assertThat(actualAnswer.left.val).isEqualTo(1);
   }
 
   @Test
@@ -70,16 +70,16 @@ class ConvertSortedListToBinarySearchTreeTest {
     Assertions.assertThat(actualAnswer.val).isZero();
 
     Assertions.assertThat(actualAnswer.left).isNotNull();
-    Assertions.assertThat(actualAnswer.left.val).isEqualTo(-10);
-    Assertions.assertThat(actualAnswer.left.left).isNull();
-    Assertions.assertThat(actualAnswer.left.right).isNotNull();
-    Assertions.assertThat(actualAnswer.left.right.val).isEqualTo(-3);
+    Assertions.assertThat(actualAnswer.left.val).isEqualTo(-3);
+    Assertions.assertThat(actualAnswer.left.right).isNull();
+    Assertions.assertThat(actualAnswer.left.left).isNotNull();
+    Assertions.assertThat(actualAnswer.left.left.val).isEqualTo(-10);
 
     Assertions.assertThat(actualAnswer.right).isNotNull();
-    Assertions.assertThat(actualAnswer.right.val).isEqualTo(5);
-    Assertions.assertThat(actualAnswer.right.left).isNull();
-    Assertions.assertThat(actualAnswer.right.right).isNotNull();
-    Assertions.assertThat(actualAnswer.right.right.val).isEqualTo(9);
+    Assertions.assertThat(actualAnswer.right.val).isEqualTo(9);
+    Assertions.assertThat(actualAnswer.right.right).isNull();
+    Assertions.assertThat(actualAnswer.right.left).isNotNull();
+    Assertions.assertThat(actualAnswer.right.left.val).isEqualTo(5);
   }
 
 }
