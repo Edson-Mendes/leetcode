@@ -16,18 +16,25 @@ public class BalancedBinaryTree {
 
   public boolean isBalanced(TreeNode root) {
     if (root == null) return true;
-    int diff = treeNodeHeight(root.left, 0) - treeNodeHeight(root.right, 0);
-
-    return (diff == -1 || diff == 1 || diff == 0) && isBalanced(root.left) && isBalanced(root.right);
+    return getHeight(root, 0) != -1;
   }
 
-  private int treeNodeHeight(TreeNode node, int height) {
-    if (node == null) return height;
+  private int getHeight(TreeNode root, int height) {
+    if (root == null) return height;
+    if (height == -1) return height;
     height++;
-    return Math.max(
-        treeNodeHeight(node.left, height),
-        treeNodeHeight(node.right, height)
-    );
+
+    int left = getHeight(root.left, height);
+    if (left == -1) return -1;
+
+    int right = getHeight(root.right, height);
+    if (right == -1) return -1;
+
+    int diff = Math.abs(right - left);
+    if (diff > 1) return -1;
+
+    height = Math.max(left, right);
+    return height;
   }
 
 }
