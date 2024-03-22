@@ -15,13 +15,23 @@ import br.com.emendes.problems.util.TreeNode;
  */
 public class MinimumDepthOfBinaryTree {
 
+  private int minDepth;
+
   public int minDepth(TreeNode root) {
-    return minDepth(root, 0);
+    minDepth = Integer.MAX_VALUE;
+
+    minDepth(root, 0);
+    return minDepth;
   }
 
   private int minDepth(TreeNode node, int depth) {
-    if (node == null) return depth;
+    if (node == null) {
+      if (depth < minDepth) minDepth = depth;
+      return minDepth;
+    }
     depth++;
+
+    if (minDepth < depth) return minDepth;
 
     if (node.left != null && node.right != null)
       return Math.min(minDepth(node.left, depth), minDepth(node.right, depth));
