@@ -9,10 +9,39 @@ import java.util.Map;
  */
 public class LongestSubstringWithoutRepeatingCharacters {
 
+  public int lengthOfLongestSubstring(String s) {
+    int answer = 0;
+    int[] buffer = new int[127];
+
+    int counter = 0;
+    int right = 0;
+    int left = 0;
+    while (right < s.length()) {
+      char character = s.charAt(right);
+      if (buffer[character] == 0) {
+        buffer[character] = 1;
+        counter++;
+        if (counter > answer) {
+          answer = counter;
+        }
+      } else {
+        while (s.charAt(left) != character) {
+          buffer[s.charAt(left)] = 0;
+          left++;
+          counter--;
+        }
+        left++;
+      }
+      right++;
+    }
+
+    return answer;
+  }
+
   /**
    * Melhor solução que cheguei até o momento, executou em 5 ms.
    */
-  public int lengthOfLongestSubstring(String s) {
+  public int secondSolution(String s) {
     char[] stringAsCharArray = s.toCharArray();
     int arrayLength = stringAsCharArray.length;
     int longest = 0;
