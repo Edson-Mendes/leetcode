@@ -15,7 +15,7 @@ public class DistinctSubsequences {
   private String s;
   private String t;
 
-  public int first(String s, String t) {
+  public int numDistinct(String s, String t) {
     if (t.length() > s.length()) return 0;
     if (t.length() == s.length()) return t.equals(s) ? 1 : 0;
 
