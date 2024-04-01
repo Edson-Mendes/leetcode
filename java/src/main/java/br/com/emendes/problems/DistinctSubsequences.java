@@ -15,7 +15,7 @@ public class DistinctSubsequences {
   private String s;
   private String t;
 
-  public int numDistinct(String s, String t) {
+  public int first(String s, String t) {
     if (t.length() > s.length()) return 0;
     if (t.length() == s.length()) return t.equals(s) ? 1 : 0;
 
@@ -79,6 +79,23 @@ public class DistinctSubsequences {
           dp[i][j] = dp[i - 1][j];
 
     return dp[m][n];
+  }
+
+  /**
+   * Third Solution.
+   */
+  public int thirdSolution(String s, String t) {
+    int m = s.length();
+    int n = t.length();
+    int[] dp = new int[n + 1];
+    dp[0] = 1;
+
+    for (int i = 1; i <= m; i++)
+      for (int j = n; j >= 1; j--)
+        if (s.charAt(i - 1) == t.charAt(j - 1))
+          dp[j] += dp[j - 1];
+
+    return dp[n];
   }
 
 }
