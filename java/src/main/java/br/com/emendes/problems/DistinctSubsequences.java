@@ -32,17 +32,17 @@ public class DistinctSubsequences {
 
     int tLength = t.length() - ti;
     int sLength = s.length() - sj;
-    if (tLength > sLength) return 0;
-    boolean areEquals = t.charAt(ti) == s.charAt(sj);
 
-    if (tLength == sLength) {
-      return areEquals ? numDistinctHelper(ti + 1, sj + 1) : 0;
+    if (tLength > sLength) {
+      buffer[ti][sj] = 0;
+    } else if (tLength == sLength) {
+      buffer[ti][sj] = t.charAt(ti) == s.charAt(sj) ? numDistinctHelper(ti + 1, sj + 1) : 0;
+    } else if (t.charAt(ti) == s.charAt(sj)) {
+      buffer[ti][sj] = numDistinctHelper(ti, sj + 1) + numDistinctHelper(ti + 1, sj + 1);
+    } else {
+      buffer[ti][sj] = numDistinctHelper(ti, sj + 1);
     }
-
-    if (areEquals) {
-      return numDistinctHelper(ti, sj + 1) + numDistinctHelper(ti + 1, sj + 1);
-    }
-    return numDistinctHelper(ti, sj + 1);
+    return buffer[ti][sj];
   }
 
   private void preFillBuffer() {
