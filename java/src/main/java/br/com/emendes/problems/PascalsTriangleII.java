@@ -15,6 +15,18 @@ import java.util.List;
 public class PascalsTriangleII {
 
   public List<Integer> getRow(int rowIndex) {
+    List<Integer> temp = new ArrayList<>();
+    temp.add(1);
+    for (int i = 1; i <= rowIndex; i++) {
+      temp.add((int) ((long) temp.get(i - 1) * (rowIndex - i + 1) / i));
+    }
+    return temp;
+  }
+
+  /**
+   * Second Solution.
+   */
+  public List<Integer> secondSolution(int rowIndex) {
     if (rowIndex == 0) return List.of(1);
     if (rowIndex == 1) return List.of(1, 1);
 
