@@ -18,6 +18,29 @@ public class PascalsTriangleII {
     if (rowIndex == 0) return List.of(1);
     if (rowIndex == 1) return List.of(1, 1);
 
+    List<Integer> current = List.of(1, 1);
+    List<Integer> previous;
+    for (int curr = 2; curr <= rowIndex; curr++) {
+      previous = current;
+      current = new ArrayList<>();
+      current.add(1);
+      for (int i = 1; i < curr; i++) {
+        int value = previous.get(i - 1) + previous.get(i);
+        current.add(value);
+      }
+      current.add(1);
+    }
+
+    return current;
+  }
+
+  /**
+   * First Solution.
+   */
+  public List<Integer> firstSolution(int rowIndex) {
+    if (rowIndex == 0) return List.of(1);
+    if (rowIndex == 1) return List.of(1, 1);
+
     return getRow(2, rowIndex, List.of(1, 1));
   }
 
