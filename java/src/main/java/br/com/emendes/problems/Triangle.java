@@ -17,6 +17,22 @@ import java.util.List;
 public class Triangle {
 
   public int minimumTotal(List<List<Integer>> triangle) {
+    int penultimate = triangle.size() - 2;
+    for (int i = penultimate; i > -1; i--) {
+      List<Integer> current = triangle.get(i);
+      List<Integer> below = triangle.get(i + 1);
+      for (int j = 0; j < current.size(); j++) {
+        current.set(j, current.get(j) + Math.min(below.get(j), below.get(j + 1)));
+      }
+    }
+
+    return triangle.get(0).get(0);
+  }
+
+  /**
+   * Second Solution.
+   */
+  public int secondSolution(List<List<Integer>> triangle) {
     int rows = triangle.size();
     if (rows == 1) return triangle.get(0).get(0);
 
