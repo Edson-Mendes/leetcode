@@ -16,6 +16,23 @@ public class BestTimeToBuyAndSellStockII {
 
   public int maxProfit(int[] prices) {
     int maxProfit = 0;
+    int buy = 10_000;
+
+    for (int sell : prices) {
+      if (buy <= sell) {
+        maxProfit += sell - buy;
+      }
+      buy = sell;
+    }
+
+    return maxProfit;
+  }
+
+  /**
+   * First Solution.
+   */
+  public int firstSolution(int[] prices) {
+    int maxProfit = 0;
     int hold = prices[0];
     int profit = 0;
 
