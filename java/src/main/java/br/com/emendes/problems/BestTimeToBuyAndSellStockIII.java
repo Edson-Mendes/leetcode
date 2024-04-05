@@ -15,6 +15,36 @@ package br.com.emendes.problems;
 public class BestTimeToBuyAndSellStockIII {
 
   public int maxProfit(int[] prices) {
+    if (prices.length == 1) return 0;
+
+    int[] left = new int[prices.length];
+    int[] right = new int[prices.length];
+
+    int min = prices[0];
+    for (int i = 1; i < prices.length; i++) {
+      if (prices[i] < min) min = prices[i];
+      int profit = prices[i] - min;
+      left[i] = Math.max(left[i - 1], profit);
+    }
+    int max = prices[prices.length - 1];
+    for (int i = prices.length - 2; i > -1; i--) {
+      if (prices[i] > max) max = prices[i];
+      int profit = max - prices[i];
+      right[i] = Math.max(right[i + 1], profit);
+    }
+
+    int maxProfit = 0;
+    for (int i = 0; i < prices.length; i++) {
+      maxProfit = Math.max(maxProfit, left[i] + right[i]);
+    }
+
+    return maxProfit;
+  }
+
+  /**
+   * First Solution.
+   */
+  public int firstSolution(int[] prices) {
     int sellOne = 0;
     int holdOne = Integer.MIN_VALUE;
     int sellTwo = 0;
