@@ -45,8 +45,9 @@ public class WordLadder {
 
       if (word.equals(endWord)) return level;
 
+      char[] wordArray = word.toCharArray();
       for (int i = 0; i < wordLength; i++) {
-        char[] wordArray = word.toCharArray();
+        char originalCh = wordArray[i];
         for (char ch = 'a'; ch <= 'z'; ch++) {
           wordArray[i] = ch;
           String nextWord = String.valueOf(wordArray);
@@ -55,6 +56,7 @@ public class WordLadder {
             levelQueue.add(new Pair(nextWord, level + 1));
           }
         }
+        wordArray[i] = originalCh;
       }
     }
     return 0;
