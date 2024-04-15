@@ -17,52 +17,31 @@ public class SurroundedRegions {
 
   private int n;
   private int m;
-  private int nBound;
-  private int mBound;
   private char[][] board;
 
   public void solve(char[][] board) {
     this.n = board.length;
     this.m = board[0].length;
-    this.nBound = n - 1;
-    this.mBound = m - 1;
     this.board = board;
-    solveHelper();
+    for (int j = 0; j < m; j++) {
+      mark(0, j);
+      mark(n - 1, j);
+
+    }
+    for (int i = 0; i < n; i++) {
+      mark(i, 0);
+      mark(i, m - 1);
+    }
     flip();
   }
 
   private void mark(int i, int j) {
-    if (i > 0 && i < nBound && j > 0 && j < mBound && board[i][j] == 'O') {
+    if (i > -1 && i < n && j > -1 && j < m && board[i][j] == 'O') {
       board[i][j] = '-';
       mark(i + 1, j);
       mark(i - 1, j);
       mark(i, j + 1);
       mark(i, j - 1);
-    }
-  }
-
-  private void solveHelper() {
-    int lastN = n - 1;
-    int lastM = m - 1;
-    for (int j = 0; j < m; j++) {
-      if (board[0][j] == 'O') {
-        board[0][j] = '-';
-        mark(1, j);
-      }
-      if (board[lastN][j] == 'O') {
-        board[lastN][j] = '-';
-        mark(lastN - 1, j);
-      }
-    }
-    for (int i = 0; i < n; i++) {
-      if (board[i][0] == 'O') {
-        board[i][0] = '-';
-        mark(i, 1);
-      }
-      if (board[i][lastM] == 'O') {
-        board[i][lastM] = '-';
-        mark(i, lastM - 1);
-      }
     }
   }
 
