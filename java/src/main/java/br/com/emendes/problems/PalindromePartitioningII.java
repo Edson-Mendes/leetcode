@@ -16,6 +16,27 @@ import java.util.Arrays;
 public class PalindromePartitioningII {
 
   public int minCut(String s) {
+    int[] cutDp = new int[s.length()];
+    boolean[][] dp = new boolean[s.length()][s.length()];
+    for (int i = 0; i < s.length(); i++) {
+      int minimumCuts = i;
+      for (int j = 0; j <= i; j++) {
+        if (s.charAt(i) == s.charAt(j) && (i < (j + 2) || dp[j + 1][i - 1])) {
+          dp[j][i] = true;
+          if (j == 0) {
+            minimumCuts = 0;
+          } else {
+            minimumCuts = Math.min(minimumCuts, cutDp[j - 1] + 1);
+          }
+
+        }
+      }
+      cutDp[i] = minimumCuts;
+    }
+    return cutDp[s.length() - 1];
+  }
+
+  public int firstSolution(String s) {
     final int n = s.length();
     boolean[][] isPalindrome = new boolean[n][n];
     for (boolean[] row : isPalindrome)

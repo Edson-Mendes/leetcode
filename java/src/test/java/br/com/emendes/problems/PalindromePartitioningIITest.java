@@ -55,4 +55,14 @@ class PalindromePartitioningIITest {
     Assertions.assertThat(actualCuts).isEqualTo(452);
   }
 
+  @Test
+  void test06() {
+    PalindromePartitioningII solution = new PalindromePartitioningII();
+
+    String s = "abbaee";
+    int actualCuts = solution.minCut(s);
+
+    Assertions.assertThat(actualCuts).isOne();
+  }
+
 }
