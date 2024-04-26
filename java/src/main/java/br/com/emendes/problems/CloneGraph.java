@@ -35,14 +35,37 @@ import java.util.Map;
  */
 public class CloneGraph {
 
-  private Map<Integer, Node> visited;
-  private Map<Integer, Node> created;
+  private Map<Node, Node> created;
 
   public Node cloneGraph(Node node) {
+    created = new HashMap<>();
+
+    return cloneHelper(node);
+  }
+
+  private Node cloneHelper(Node node) {
+    if (node == null) return null;
+    if (created.containsKey(node)) return created.get(node);
+
+    Node nodeCopy = new Node(node.val);
+    created.put(node, nodeCopy);
+    for (Node neighbor : node.neighbors) {
+      nodeCopy.neighbors.add(cloneHelper(neighbor));
+    }
+
+    return nodeCopy;
+  }
+
+  // ------------ First Solution ------------
+
+  private Map<Integer, Node> visited;
+  private Map<Integer, Node> generated;
+
+  public Node firstSolution(Node node) {
     if (node == null) return null;
 
     visited = new HashMap<>();
-    created = new HashMap<>();
+    generated = new HashMap<>();
     return clone(node);
   }
 
@@ -62,10 +85,10 @@ public class CloneGraph {
   }
 
   private Node getCopy(int value) {
-    if (created.containsKey(value)) return created.get(value);
+    if (generated.containsKey(value)) return generated.get(value);
 
     Node node = new Node(value);
-    created.put(value, node);
+    generated.put(value, node);
     return node;
   }
 
