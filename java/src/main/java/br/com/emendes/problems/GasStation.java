@@ -19,51 +19,25 @@ package br.com.emendes.problems;
  */
 public class GasStation {
 
-  private int length;
-  private int[] diff;
-
   public int canCompleteCircuit(int[] gas, int[] cost) {
-    if (gas.length == 1) {
-      return gas[0] - cost[0] >= 0 ? 0 : -1;
-    }
-    length = gas.length;
-    diff = new int[length];
-    if (!isPossibleCompleteCircuit(gas, cost)) return -1;
-
-    if (diff[0] >= 0 && diff[length - 1] <= 0 && isGoodStart(0)) {
-      return 0;
-    }
-    int i = 1;
-    while (i < length) {
-      if (diff[i] >= 0 && diff[i - 1] < 0 && isGoodStart(i)) {
-        return i;
-      }
-      i++;
-    }
-    return -1;
-  }
-
-  private boolean isGoodStart(int index) {
-    int visited = 1;
-    int tank = diff[index];
-    index = index + 1 == length ? 0 : index + 1;
-
-    while (tank >= 0 && visited < length) {
-      tank += diff[index];
-      index = index + 1 == length ? 0 : index + 1;
-      visited++;
-    }
-    return visited == length;
-  }
-
-  private boolean isPossibleCompleteCircuit(int[] gas, int[] cost) {
+    int length = gas.length;
     int remainderGas = 0;
     for (int i = 0; i < length; i++) {
-      diff[i] = gas[i] - cost[i];
-      remainderGas += diff[i];
+      remainderGas += gas[i] - cost[i];
+    }
+    if (remainderGas < 0) return -1;
+
+    int index = 0;
+    int sum = 0;
+    for (int i = 0; i < length; i++) {
+      sum += gas[i] - cost[i];
+      if (sum < 0) {
+        sum = 0;
+        index = i + 1;
+      }
     }
 
-    return remainderGas >= 0;
+    return index;
   }
 
 }
