@@ -18,6 +18,24 @@ import java.util.Arrays;
 public class SingleNumberII {
 
   public int singleNumber(int[] nums) {
+    int answer = 0;
+
+    for (int i = 0; i < 32; i++) {
+      int sum = 0;
+      for (int value : nums) {
+        sum += value >> i & 1;
+      }
+      sum %= 3;
+      answer |= sum << i;
+    }
+
+    return answer;
+  }
+
+  /**
+   * First solution.
+   */
+  public int firstSolution(int[] nums) {
     if (nums.length == 1) return nums[0];
 
     Arrays.sort(nums);
