@@ -18,6 +18,21 @@ import java.util.Arrays;
 public class SingleNumberII {
 
   public int singleNumber(int[] nums) {
+    int ones = 0;
+    int twos = 0;
+
+    for (int value : nums) {
+      ones ^= (value & ~twos);
+      twos ^= (value & ~ones);
+    }
+
+    return ones;
+  }
+
+  /**
+   * Second solution.
+   */
+  public int secondSolution(int[] nums) {
     int answer = 0;
 
     for (int i = 0; i < 32; i++) {
