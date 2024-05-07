@@ -42,6 +42,40 @@ public class CopyListWithRandomPointer {
 
   public Node copyRandomList(Node head) {
     if (head == null) return null;
+    originalToCopy = new HashMap<>();
+
+    Node node = new Node(-1);
+    node.next = head;
+    Node dummyCopy = new Node(-1);
+    Node nodeCopy = dummyCopy;
+
+    while (node != null) {
+      nodeCopy.next = generateNode(node.next);
+      nodeCopy.random = generateNode(node.random);
+
+      node = node.next;
+      nodeCopy = nodeCopy.next;
+    }
+
+    return dummyCopy.next;
+  }
+
+  private Node generateNode(Node node) {
+    if (node == null) return null;
+
+    if (originalToCopy.containsKey(node)) {
+      return originalToCopy.get(node);
+    }
+    Node newNode = new Node(node.val);
+    originalToCopy.put(node, newNode);
+    return newNode;
+  }
+
+  /**
+   * First Solution.
+   */
+  public Node firstSolution(Node head) {
+    if (head == null) return null;
 
     originalToCopy = new HashMap<>();
 
@@ -56,17 +90,6 @@ public class CopyListWithRandomPointer {
     copy.next = copy(node.next);
 
     return copy;
-  }
-
-  private Node generateNode(Node node) {
-    if (node == null) return null;
-
-    if (originalToCopy.containsKey(node)) {
-      return originalToCopy.get(node);
-    }
-    Node newNode = new Node(node.val);
-    originalToCopy.put(node, newNode);
-    return newNode;
   }
 
 }
