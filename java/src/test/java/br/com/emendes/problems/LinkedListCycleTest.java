@@ -69,6 +69,44 @@ class LinkedListCycleTest {
     assertThat(actualAnswer).isFalse();
   }
 
+  @Test
+  void test07() {
+    LinkedListCycle solution = new LinkedListCycle();
+
+    ListNode head = ListNodeGenerator.generate(generateArray(10_000));
+    cycleAt(300, head);
+    boolean actualAnswer = solution.hasCycle(head);
+
+    assertThat(actualAnswer).isTrue();
+  }
+
+  @Test
+  void test08() {
+    LinkedListCycle solution = new LinkedListCycle();
+
+    ListNode head = ListNodeGenerator.generate(generateArray(10_000));
+    boolean actualAnswer = solution.hasCycle(head);
+
+    assertThat(actualAnswer).isFalse();
+  }
+
+  /**
+   * Gera um array com tamanho igual a size, e valores de 0 até size.
+   */
+  private static int[] generateArray(int size) {
+    if (size < 0) throw new IllegalArgumentException("size must not be negative");
+    int[] array = new int[size];
+
+    for (int i = 0; i < size; i++) {
+      array[i] = i;
+    }
+
+    return array;
+  }
+
+  /**
+   * Pega a cauda da linked list.
+   */
   private static ListNode getTail(ListNode head) {
     if (head == null) return null;
     while (head.next != null) {
@@ -78,6 +116,9 @@ class LinkedListCycleTest {
     return head;
   }
 
+  /**
+   * Faz com que o último elemento da linked list aponte para o elemento da posição pos
+   */
   private static void cycleAt(int pos, ListNode head) {
     if (pos < 0) throw new IllegalArgumentException("invalid position: %s".formatted(pos));
     int count = 0;

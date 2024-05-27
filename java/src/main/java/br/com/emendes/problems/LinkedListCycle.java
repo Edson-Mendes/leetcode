@@ -26,6 +26,17 @@ import java.util.Set;
 public class LinkedListCycle {
 
   public boolean hasCycle(ListNode head) {
+    int counter = 0;
+
+    while (head != null && counter <= 10_001) {
+      head = head.next;
+      counter++;
+    }
+
+    return counter > 10_001;
+  }
+
+  public boolean firstSolution(ListNode head) {
     Set<ListNode> visited = new HashSet<>();
 
     while (head != null) {
