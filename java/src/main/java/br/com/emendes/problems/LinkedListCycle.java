@@ -26,6 +26,20 @@ import java.util.Set;
 public class LinkedListCycle {
 
   public boolean hasCycle(ListNode head) {
+    ListNode fast = head;
+    ListNode slow = head;
+
+    while (fast != null && fast.next != null) {
+      fast = fast.next.next;
+      slow = slow.next;
+
+      if (fast == slow) return true;
+    }
+
+    return false;
+  }
+
+  public boolean secondSolution(ListNode head) {
     int counter = 0;
 
     while (head != null && counter <= 10_001) {
