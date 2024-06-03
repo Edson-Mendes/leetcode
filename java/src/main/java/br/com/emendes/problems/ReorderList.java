@@ -25,6 +25,54 @@ import java.util.LinkedList;
 public class ReorderList {
 
   public void reorderList(ListNode head) {
+    if (head.next == null) return;
+    ListNode mid = findMid(head);
+    ListNode reversed = reverseList(mid);
+    merge(head, reversed);
+  }
+
+  private void merge(ListNode l1, ListNode l2) {
+    while (l2 != null) {
+      ListNode next = l1.next;
+      l1.next = l2;
+      l1 = l1.next;
+      l2 = next;
+    }
+  }
+
+  private ListNode reverseList(ListNode head) {
+    ListNode curr = head.next;
+    ListNode prev = head;
+    ListNode next = null;
+    prev.next = null;
+    while (curr != null) {
+      next = curr.next;
+      curr.next = prev;
+      prev = curr;
+      curr = next;
+    }
+
+    return prev;
+  }
+
+  private ListNode findMid(ListNode head) {
+    ListNode prev = null;
+    ListNode fast = head;
+    ListNode slow = head;
+    while (fast != null && fast.next != null) {
+      prev = slow;
+      fast = fast.next.next;
+      slow = slow.next;
+    }
+    prev.next = null;
+
+    return slow;
+  }
+
+  /**
+   * First solution.
+   */
+  public void firstSolution(ListNode head) {
     Deque<ListNode> nodes = new LinkedList<>();
 
     ListNode node = head.next;
