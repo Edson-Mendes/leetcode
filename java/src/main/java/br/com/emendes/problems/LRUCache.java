@@ -1,8 +1,9 @@
 package br.com.emendes.problems;
 
 import java.util.HashMap;
-import java.util.LinkedList;
+import java.util.LinkedHashSet;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Projete uma estrutura de dados que siga as restrições de um Least Recently Used (LRU) cache.<br>
@@ -27,42 +28,50 @@ import java.util.Map;
  */
 public class LRUCache {
 
-  private final Map<Integer, Integer> cache;
   private final int capacity;
-  private int size;
-  private final LinkedList<Integer> used;
+  private final Set<Node> cache;
+  private final Map<Integer, Node> keyToNode;
 
   public LRUCache(int capacity) {
     this.capacity = capacity;
-    this.size = 0;
-    this.cache = new HashMap<>();
-    this.used = new LinkedList<>();
+    this.cache = new LinkedHashSet<>();
+    this.keyToNode = new HashMap<>();
   }
 
-  public int get(int keyInt) {
-    Integer key = keyInt;
-    Integer value = cache.get(key);
+  public int get(int key) {
+    if (!keyToNode.containsKey(key))
+      return -1;
 
-    if (value != null) {
-      used.remove(key);
-      used.addLast(key);
-      return value;
-    }
-    return -1;
+    Node node = keyToNode.get(key);
+    cache.remove(node);
+    cache.add(node);
+    return node.value;
   }
 
-  public void put(int keyInt, int value) {
-    Integer key = keyInt;
-    if (cache.containsKey(key)) {
-      used.remove(key);
-    } else if (size == capacity) {
-      Integer removedKey = used.removeFirst();
-      cache.remove(removedKey);
-    } else {
-      size++;
+  public void put(int key, int value) {
+    if (keyToNode.containsKey(key)) {
+      keyToNode.get(key).value = value;
+      get(key);
+      return;
     }
-    cache.put(key, value);
-    used.addLast(key);
+    if (cache.size() == capacity) {
+      Node lastNode = cache.iterator().next();
+      cache.remove(lastNode);
+      keyToNode.remove(lastNode.key);
+    }
+    Node node = new Node(key, value);
+    cache.add(node);
+    keyToNode.put(key, node);
+  }
+
+  private static class Node {
+    public int key;
+    public int value;
+
+    public Node(int key, int value) {
+      this.key = key;
+      this.value = value;
+    }
   }
 
 }
