@@ -29,44 +29,72 @@ import java.util.Set;
 public class LRUCache {
 
   private final int capacity;
-  private final Set<Node> cache;
-  private final Map<Integer, Node> keyToNode;
+  private final Map<Integer, Node> cache;
+  private final Node head;
+  private final Node tail;
 
   public LRUCache(int capacity) {
     this.capacity = capacity;
-    this.cache = new LinkedHashSet<>();
-    this.keyToNode = new HashMap<>();
+    this.cache = new HashMap<>();
+    this.head = new Node(-1, -1);
+    this.tail = new Node(-2, -2);
+    head.next = tail;
+    tail.prev = head;
   }
 
   public int get(int key) {
-    if (!keyToNode.containsKey(key))
+    if (!cache.containsKey(key))
       return -1;
 
-    Node node = keyToNode.get(key);
-    cache.remove(node);
-    cache.add(node);
+    Node node = cache.get(key);
+    removeNode(node);
+    addLast(node);
     return node.value;
   }
 
   public void put(int key, int value) {
-    if (keyToNode.containsKey(key)) {
-      keyToNode.get(key).value = value;
-      get(key);
+    if (cache.containsKey(key)) {
+      Node node = cache.get(key);
+      node.value = value;
+      removeNode(node);
+      addLast(node);
       return;
     }
     if (cache.size() == capacity) {
-      Node lastNode = cache.iterator().next();
-      cache.remove(lastNode);
-      keyToNode.remove(lastNode.key);
+      Node first = removeFirst();
+      cache.remove(first.key);
     }
     Node node = new Node(key, value);
-    cache.add(node);
-    keyToNode.put(key, node);
+    cache.put(key, node);
+    addLast(node);
+  }
+
+  private void removeNode(Node node) {
+    Node prev = node.prev;
+    Node next = node.next;
+    prev.next = next;
+    next.prev = prev;
+  }
+
+  private void addLast(Node node) {
+    Node oldLast = tail.prev;
+    oldLast.next = node;
+    tail.prev = node;
+    node.prev = oldLast;
+    node.next = tail;
+  }
+
+  private Node removeFirst() {
+    Node node = head.next;
+    removeNode(node);
+    return node;
   }
 
   private static class Node {
-    public int key;
-    public int value;
+    final int key;
+    int value;
+    Node next;
+    Node prev;
 
     public Node(int key, int value) {
       this.key = key;
