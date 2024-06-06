@@ -2,6 +2,9 @@ package br.com.emendes.problems;
 
 import br.com.emendes.problems.util.ListNode;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
+
 /**
  * Dado o head de uma linked list, ordene a lista usando insertion sort, e retorne o head da linked list ordenada.<br>
  * <br>
@@ -21,6 +24,34 @@ import br.com.emendes.problems.util.ListNode;
 public class InsertionSortList {
 
   public ListNode insertionSortList(ListNode head) {
+    Deque<ListNode> nodes = new ArrayDeque<>();
+    Deque<ListNode> prevs = new ArrayDeque<>();
+    ListNode dummy = new ListNode(-1);
+    dummy.next = head;
+
+    ListNode curr = head;
+    ListNode prev = dummy;
+    while (curr != null) {
+      nodes.push(curr);
+      prevs.push(prev);
+      prev = prev.next;
+      curr = curr.next;
+    }
+    while (!nodes.isEmpty()) {
+      curr = nodes.pop();
+      prev = prevs.pop();
+      ListNode next = curr.next;
+      while (next != null && curr.val > next.val) {
+        swap(prev, curr, next);
+        prev = next;
+        next = curr.next;
+      }
+    }
+
+    return dummy.next;
+  }
+
+  public ListNode firstSolution(ListNode head) {
     ListNode dummy = new ListNode(-1);
     dummy.next = head;
 
