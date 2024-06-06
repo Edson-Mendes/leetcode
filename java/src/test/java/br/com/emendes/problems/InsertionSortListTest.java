@@ -4,6 +4,7 @@ import br.com.emendes.problems.util.ListNode;
 import br.com.emendes.problems.util.ListNodeGenerator;
 import org.junit.jupiter.api.Test;
 
+import static br.com.emendes.problems.util.ListNodeHelper.listNodeToArray;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class InsertionSortListTest {
@@ -72,29 +73,6 @@ class InsertionSortListTest {
     int[] actualListNodeArray = listNodeToArray(actualHead);
 
     assertThat(actualListNodeArray).isNotNull().hasSize(8).containsExactly(1, 2, 3, 4, 5, 6, 7, 8);
-  }
-
-  private int[] listNodeToArray(ListNode head) {
-    int size = listNodeSize(head);
-    int[] listNodeArray = new int[size];
-    int i = 0;
-    while (head != null) {
-      listNodeArray[i++] = head.val;
-      head = head.next;
-    }
-
-    return listNodeArray;
-  }
-
-  private int listNodeSize(ListNode head) {
-    int size = 0;
-
-    while (head != null) {
-      size++;
-      head = head.next;
-    }
-
-    return size;
   }
 
 }
