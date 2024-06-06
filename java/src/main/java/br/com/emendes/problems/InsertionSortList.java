@@ -24,6 +24,24 @@ import java.util.Deque;
 public class InsertionSortList {
 
   public ListNode insertionSortList(ListNode head) {
+    ListNode dummy = new ListNode(-10_000);
+    ListNode curr = head;
+
+    while (curr != null) {
+      ListNode next = curr.next;
+      ListNode prev = dummy;
+      while (prev.next != null && prev.next.val < curr.val) {
+        prev = prev.next;
+      }
+      curr.next = prev.next;
+      prev.next = curr;
+      curr = next;
+    }
+
+    return dummy.next;
+  }
+
+  public ListNode secondSolution(ListNode head) {
     Deque<ListNode> nodes = new ArrayDeque<>();
     Deque<ListNode> prevs = new ArrayDeque<>();
     ListNode dummy = new ListNode(-1);
