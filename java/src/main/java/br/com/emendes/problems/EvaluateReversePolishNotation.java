@@ -2,6 +2,8 @@ package br.com.emendes.problems;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.Map;
+import java.util.function.BinaryOperator;
 
 /**
  * Você recebe um array de strings tokens que representa uma expressão aritmética no modo Reverse Polish Notation.<br>
@@ -27,6 +29,30 @@ import java.util.Deque;
 public class EvaluateReversePolishNotation {
 
   public int evalRPN(String[] tokens) {
+    Map<String, BinaryOperator<Long>> operations = Map.of(
+        "+", (a, b) -> a + b,
+        "-", (a, b) -> a - b,
+        "*", (a, b) -> a * b,
+        "/", (a, b) -> a / b);
+    Deque<Long> values = new ArrayDeque<>();
+
+    for (String token : tokens) {
+      if (operations.containsKey(token)) {
+        Long b = values.pop();
+        Long a = values.pop();
+        values.push(operations.get(token).apply(a, b));
+      } else {
+        values.push(Long.valueOf(token));
+      }
+    }
+
+    return values.pop().intValue();
+  }
+
+  /**
+   * First solution.
+   */
+  public int firstSolution(String[] tokens) {
     Deque<Integer> values = new ArrayDeque<>();
 
     for (String token : tokens) {
