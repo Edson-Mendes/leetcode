@@ -1,5 +1,8 @@
 package br.com.emendes.problems;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Dado uma array de points onde points[i] = [xi, yi] representa um ponto no plano X-Y, retorne o máximo número de pontos
  * que estão em um mesma linha reta.<br>
@@ -15,6 +18,31 @@ package br.com.emendes.problems;
 public class MaxPointsOnALine {
 
   public int maxPoints(int[][] points) {
+    int max = 1;
+    Map<Double, Integer> map = new HashMap<>();
+    for (int i = 0; i < points.length; i++) {
+      map.clear();
+      int x1 = points[i][0];
+      int y1 = points[i][1];
+      for (int j = 0; j < points.length; j++) {
+        if (i == j) {
+          continue;
+        }
+        int x2 = points[j][0];
+        int y2 = points[j][1];
+        double m = Integer.MAX_VALUE;
+        if (x2 != x1) {
+          m = (y2 - y1) * 1.0d / (x2 - x1);
+        }
+        int count = map.getOrDefault(m, 1) + 1;
+        map.put(m, count);
+        max = Math.max(count, max);
+      }
+    }
+    return max;
+  }
+
+  public int firstSolution(int[][] points) {
     if (points.length == 1) return 1;
     if (points.length == 2) return 2;
     int maxPoints = 2;
