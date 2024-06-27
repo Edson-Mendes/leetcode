@@ -23,6 +23,31 @@ import java.util.LinkedList;
 public class ReverseWordsInAString {
 
   public String reverseWords(String s) {
+    char[] words = s.toCharArray();
+    char[] answer = new char[s.length() + 1];
+    int i = s.length() - 1;
+    int y = 0;
+
+    while (i >= 0) {
+      while (i >= 0 && words[i] == ' ') i--;
+
+      int j = i - 1;
+      while (j >= 0 && words[j] != ' ') j--;
+
+      if (i >= 0) {
+        int k = j + 1;
+        while (k <= i) {
+          answer[y++] = words[k++];
+        }
+        answer[y++] = ' ';
+        i = j - 1;
+      }
+    }
+
+    return String.valueOf(answer, 0, y - 1);
+  }
+
+  public String firstSolution(String s) {
     LinkedList<String> words = new LinkedList<>();
     int start = -1;
     for (int i = 0; i < s.length(); i++) {
