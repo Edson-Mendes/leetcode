@@ -26,7 +26,6 @@ class FindMinimumInRotatedSortedArrayTest {
     assertThat(actualAnswer).isEqualTo(2);
   }
 
-
   @Test
   void test03() {
     FindMinimumInRotatedSortedArray solution = new FindMinimumInRotatedSortedArray();

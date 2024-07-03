@@ -27,6 +27,28 @@ package br.com.emendes.problems;
 public class FindMinimumInRotatedSortedArray {
 
   public int findMin(int[] nums) {
+    int left = 0;
+    int right = nums.length - 1;
+    int answer = Integer.MAX_VALUE;
+    while (left <= right) {
+      if (nums[left] <= nums[right]) {
+        answer = Math.min(nums[left], answer);
+        break;
+      }
+      int mid = (left + right) / 2;
+      if (nums[left] <= nums[mid]) {
+        answer = Math.min(nums[left], answer);
+        left = mid + 1;
+      } else {
+        answer = Math.min(nums[mid], answer);
+        right = mid - 1;
+      }
+    }
+
+    return answer;
+  }
+
+  public int firstSolution(int[] nums) {
     int i = 0;
     while (i < nums.length && nums[i] > previous(i, nums)) {
       i++;
