@@ -27,9 +27,27 @@ public class FindMinimumInRotatedSortedArrayII {
 
   public int findMin(int[] nums) {
     int answer = Integer.MAX_VALUE;
-
-    for (int num : nums) {
-      answer = Math.min(answer, num);
+    int left = 0;
+    int right = nums.length - 1;
+    while (left <= right) {
+      if (nums[left] < nums[right]) {
+        answer = Math.min(answer, nums[left]);
+        break;
+      }
+      if (nums[left] > nums[right]) {
+        int mid = (left + right) / 2;
+        if (nums[left] <= nums[mid]) {
+          answer = Math.min(answer, nums[left]);
+          left = mid + 1;
+        } else {
+          answer = Math.min(answer, nums[mid]);
+          right = mid - 1;
+        }
+      } else {
+        answer = Math.min(answer, nums[left]);
+        left++;
+        right--;
+      }
     }
 
     return answer;
