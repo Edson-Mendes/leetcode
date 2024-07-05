@@ -23,16 +23,23 @@ package br.com.emendes.problems;
 public class MinStack {
 
   private final int[] stack;
+  private final int[] minimum;
   private int index;
 
   public MinStack() {
     this.stack = new int[40_000];
+    this.minimum = new int[40_000];
     index = -1;
   }
 
   public void push(int val) {
     index++;
     stack[index] = val;
+    if (index == 0) {
+      minimum[index] = val;
+    } else {
+      minimum[index] = Math.min(minimum[index - 1], val);
+    }
   }
 
   public void pop() {
@@ -44,12 +51,7 @@ public class MinStack {
   }
 
   public int getMin() {
-    int min = Integer.MAX_VALUE;
-    for (int i = 0; i <= index; i++) {
-      min = Math.min(min, stack[i]);
-    }
-
-    return min;
+    return minimum[index];
   }
 
 }
