@@ -22,78 +22,34 @@ package br.com.emendes.problems;
  */
 public class MinStack {
 
-  private Node top;
-  private Node min;
+  private final int[] stack;
+  private int index;
 
   public MinStack() {
-    this.top = null;
-    this.min = null;
+    this.stack = new int[40_000];
+    index = -1;
   }
 
   public void push(int val) {
-    top = new Node(val, top);
-    insert(top);
+    index++;
+    stack[index] = val;
   }
 
   public void pop() {
-    Node node = top;
-    top = top.next;
-    node.next = null;
-    remove(node);
+    index--;
   }
 
   public int top() {
-    return top.val;
+    return stack[index];
   }
 
   public int getMin() {
-    return min.val;
-  }
-
-  private void insert(Node node) {
-    if (min == null) {
-      min = node;
-      return;
-    }
-    if (node.val < min.val) {
-      node.right = min;
-      min = node;
-      return;
-    }
-    Node actual = min;
-    while (actual.right != null && actual.right.val < node.val) {
-      actual = actual.right;
-    }
-    node.right = actual.right;
-    actual.right = node;
-
-  }
-
-  private void remove(Node node) {
-    if (node == min) {
-      min = min.right;
-    } else {
-      Node actual = min;
-      while (actual.right != node) {
-        actual = actual.right;
-      }
-      actual.right = actual.right.right;
-    }
-    node.right = null;
-  }
-
-  private static class Node {
-
-    int val;
-    Node next;
-    Node right;
-
-    public Node(int val, Node next) {
-      this.val = val;
-      this.next = next;
-      this.right = null;
+    int min = Integer.MAX_VALUE;
+    for (int i = 0; i <= index; i++) {
+      min = Math.min(min, stack[i]);
     }
 
+    return min;
   }
 
 }
