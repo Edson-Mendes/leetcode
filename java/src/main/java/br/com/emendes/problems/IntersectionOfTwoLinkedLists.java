@@ -19,6 +19,44 @@ import br.com.emendes.problems.util.ListNode;
 public class IntersectionOfTwoLinkedLists {
 
   public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+    int lengthA = length(headA);
+    int lengthB = length(headB);
+    if (lengthA > lengthB) {
+      headA = skip(headA, lengthA - lengthB);
+    } else if (lengthA < lengthB) {
+      headB = skip(headB, lengthB - lengthA);
+    }
+    while (headA != null && headB != null) {
+      if (headA == headB) return headA;
+      headA = headA.next;
+      headB = headB.next;
+    }
+
+    return null;
+  }
+
+  private ListNode skip(ListNode node, int toSkip) {
+    while (toSkip > 0 && node != null) {
+      node = node.next;
+      toSkip--;
+    }
+
+    return node;
+  }
+
+  private int length(ListNode head) {
+    int length = 0;
+    while (head != null) {
+      length++;
+      head = head.next;
+    }
+    return length;
+  }
+
+  /**
+   * First solution.
+   */
+  public ListNode firstSolution(ListNode headA, ListNode headB) {
     while (headA != null) {
       ListNode nodeB = headB;
       while (nodeB != null) {
