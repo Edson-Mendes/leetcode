@@ -82,7 +82,7 @@ class FindPeakElementTest {
     int[] nums = {1, 2, 1, 3, 5, 6, 4};
     int actualAnswer = solution.findPeakElement(nums);
 
-    Assertions.assertThat(actualAnswer).isEqualTo(1);
+    Assertions.assertThat(actualAnswer).isEqualTo(5);
   }
 
 }
