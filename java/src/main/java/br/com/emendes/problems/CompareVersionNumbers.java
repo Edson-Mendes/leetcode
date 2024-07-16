@@ -23,7 +23,47 @@ package br.com.emendes.problems;
  */
 public class CompareVersionNumbers {
 
+  int i;
+  int j;
+  String version1;
+  String version2;
+
+  private int nextRevision1() {
+    if (i >= version1.length()) return 0;
+    int start = i;
+    while (i < version1.length() && version1.charAt(i) != '.') i++;
+
+    return Integer.parseInt(version1.substring(start, i++));
+  }
+
+  private int nextRevision2() {
+    if (j >= version2.length()) return 0;
+    int start = j;
+    while (j < version2.length() && version2.charAt(j) != '.') j++;
+
+    return Integer.parseInt(version2.substring(start, j++));
+  }
+
   public int compareVersion(String version1, String version2) {
+    i = 0;
+    j = 0;
+    this.version1 = version1;
+    this.version2 = version2;
+
+    while (i < version1.length() || j < version2.length()) {
+      int rev1 = nextRevision1();
+      int rev2 = nextRevision2();
+      if (rev1 == rev2) continue;
+      return Integer.compare(rev1, rev2);
+    }
+
+    return 0;
+  }
+
+  /**
+   * First solution.
+   */
+  public int firstSolution(String version1, String version2) {
     String[] revisions1 = version1.split("\\.");
     String[] revisions2 = version2.split("\\.");
 
