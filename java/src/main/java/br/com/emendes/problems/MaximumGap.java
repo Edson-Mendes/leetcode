@@ -29,8 +29,14 @@ public class MaximumGap {
 
   public int maximumGap(int[] nums) {
     if (nums.length < 2) return 0;
-    int min = Arrays.stream(nums).min().getAsInt();
-    int max = Arrays.stream(nums).max().getAsInt();
+//    int min = Arrays.stream(nums).min().getAsInt();
+//    int max = Arrays.stream(nums).max().getAsInt();
+    int min = Integer.MAX_VALUE;
+    int max = Integer.MIN_VALUE;
+    for (int num : nums) {
+      if (num < min) min = num;
+      if (num > max) max = num;
+    }
 
     if (min == max) return 0;
 
