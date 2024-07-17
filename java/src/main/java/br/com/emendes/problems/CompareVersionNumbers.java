@@ -44,7 +44,7 @@ public class CompareVersionNumbers {
     return Integer.parseInt(version2.substring(start, j++));
   }
 
-  public int compareVersion(String version1, String version2) {
+  public int secondSolution(String version1, String version2) {
     i = 0;
     j = 0;
     this.version1 = version1;
@@ -63,31 +63,15 @@ public class CompareVersionNumbers {
   /**
    * First solution.
    */
-  public int firstSolution(String version1, String version2) {
+  public int compareVersion(String version1, String version2) {
     String[] revisions1 = version1.split("\\.");
     String[] revisions2 = version2.split("\\.");
-
-    int i = 0;
-    while (i < revisions1.length && i < revisions2.length) {
-      int rev1 = Integer.parseInt(revisions1[i]);
-      int rev2 = Integer.parseInt(revisions2[i]);
-      if (rev1 > rev2) return 1;
-      if (rev1 < rev2) return -1;
-      i++;
-    }
-
-    if (revisions1.length != revisions2.length) {
-      if (revisions1.length > revisions2.length) {
-        while (i < revisions1.length) {
-          if (Integer.parseInt(revisions1[i]) != 0) return 1;
-          i++;
-        }
-      } else {
-        while (i < revisions2.length) {
-          if (Integer.parseInt(revisions2[i]) != 0) return -1;
-          i++;
-        }
-      }
+    int length = Math.max(version1.length(), version2.length());
+    for (int i = 0; i < length; i++) {
+      int revision1 = i < revisions1.length ? Integer.parseInt(revisions1[i]) : 0;
+      int revision2 = i < revisions2.length ? Integer.parseInt(revisions2[i]) : 0;
+      int compare = Integer.compare(revision1, revision2);
+      if (compare != 0) return compare;
     }
 
     return 0;
