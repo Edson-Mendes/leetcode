@@ -20,38 +20,30 @@ import java.util.Map;
 public class FractionToRecurringDecimal {
 
   public String fractionToDecimal(int numerator, int denominator) {
-    long num = numerator;
-    long den = denominator;
+    if (numerator == 0) return "0";
+
     StringBuilder answer = new StringBuilder();
-    if ((num < 0 && den > 0) || (num > 0 && den < 0)) {
-      answer.append('-');
-    }
-    num = Math.abs(num);
-    den = Math.abs(den);
+    if (numerator < 0 ^ denominator < 0) answer.append('-');
+
+    long num = Math.abs((long) numerator);
+    long den = Math.abs((long) denominator);
     answer.append(num / den);
 
     num %= den;
     if (num != 0) {
       answer.append('.');
-      StringBuilder decimal = new StringBuilder();
-      int index = 0;
       Map<Long, Integer> cache = new HashMap<>();
       while (num != 0) {
         num *= 10;
-
         if (cache.containsKey(num)) {
-          int position = cache.get(num);
-          decimal.insert(position, '(');
-          decimal.append(')');
+          answer.insert(cache.get(num), "(");
+          answer.append(")");
           break;
         }
-        cache.put(num, index);
-        long result = num / den;
-        decimal.append(result);
+        cache.put(num, answer.length());
+        answer.append(num / den);
         num %= den;
-        index++;
       }
-      answer.append(decimal);
     }
 
     return answer.toString();
