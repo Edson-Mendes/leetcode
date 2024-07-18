@@ -23,6 +23,20 @@ import java.util.Arrays;
 public class TwoSumIIInputArrayIsSorted {
 
   public int[] twoSum(int[] numbers, int target) {
+    int left = 0;
+    int right = numbers.length - 1;
+
+    while (numbers[left] + numbers[right] != target) {
+      if (numbers[left] + numbers[right] > target) {
+        right--;
+      } else {
+        left++;
+      }
+    }
+    return new int[]{left + 1, right + 1};
+  }
+
+  public int[] firstSolution(int[] numbers, int target) {
     int[] answer = new int[2];
     for (int i = 0; i < numbers.length; i++) {
       int secondNumber = target - numbers[i];
