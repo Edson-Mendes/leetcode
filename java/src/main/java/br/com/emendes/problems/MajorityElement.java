@@ -1,5 +1,6 @@
 package br.com.emendes.problems;
 
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,6 +21,12 @@ import java.util.Map;
 public class MajorityElement {
 
   public int majorityElement(int[] nums) {
+    Arrays.sort(nums);
+
+    return nums[nums.length / 2];
+  }
+
+  public int firstSolution(int[] nums) {
     Map<Integer, Integer> cache = new HashMap<>();
     int half = nums.length / 2;
 
