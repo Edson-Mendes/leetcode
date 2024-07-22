@@ -25,6 +25,10 @@ package br.com.emendes.problems;
 public class ExcelSheetColumnNumber {
 
   public int titleToNumber(String columnTitle) {
+    return columnTitle.chars().reduce(0, (result, value) -> result * 26 + value - 64);
+  }
+
+  public int firstSolution(String columnTitle) {
     int index = columnTitle.length() - 1;
     int exp = 0;
     int answer = 0;
