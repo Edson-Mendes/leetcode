@@ -29,15 +29,12 @@ public class ExcelSheetColumnNumber {
   }
 
   public int firstSolution(String columnTitle) {
-    int index = columnTitle.length() - 1;
-    int exp = 0;
     int answer = 0;
-    while (index >= 0) {
-      double value = columnTitle.charAt(index) - 64;
-      answer += Math.pow(26, exp) * value;
-      index--;
-      exp++;
+    int length = columnTitle.length();
+    for (int i = 0; i < length; i++) {
+      answer = answer * 26 + columnTitle.charAt(i) - 64;
     }
+
     return answer;
   }
 
