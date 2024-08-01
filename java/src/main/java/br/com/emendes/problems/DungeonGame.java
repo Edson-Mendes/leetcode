@@ -30,12 +30,38 @@ package br.com.emendes.problems;
  */
 public class DungeonGame {
 
+  public int calculateMinimumHP(int[][] dungeon) {
+    int m = dungeon.length;
+    int n = dungeon[0].length;
+    int[][] minimumHP = new int[m][n];
+
+    minimumHP[m - 1][n - 1] = dungeon[m - 1][n - 1] > 0 ? 1 : (dungeon[m - 1][n - 1] * -1) + 1;
+    for (int i = m - 2; i >= 0; i--) {
+      minimumHP[i][n - 1] = minimumHP[i + 1][n - 1] - dungeon[i][n - 1];
+      minimumHP[i][n - 1] = Math.max(minimumHP[i][n - 1], 1);
+    }
+    for (int j = n - 2; j >= 0; j--) {
+      minimumHP[m - 1][j] = minimumHP[m - 1][j + 1] - dungeon[m - 1][j];
+      minimumHP[m - 1][j] = Math.max(minimumHP[m - 1][j], 1);
+    }
+
+    for (int i = m - 2; i >= 0; i--) {
+      for (int j = n - 2; j >= 0; j--) {
+        minimumHP[i][j] = Math.min(minimumHP[i + 1][j], minimumHP[i][j + 1]) - dungeon[i][j];
+        minimumHP[i][j] = Math.max(minimumHP[i][j], 1);
+      }
+    }
+
+    return minimumHP[0][0];
+  }
+
+  // First solution.
   private int m;
   private int n;
   private int[][] dungeon;
   private int[][] minimumHP;
 
-  public int calculateMinimumHP(int[][] dungeon) {
+  public int firstSolution(int[][] dungeon) {
     m = dungeon.length;
     n = dungeon[0].length;
     this.dungeon = dungeon;
