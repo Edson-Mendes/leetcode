@@ -12,8 +12,11 @@ CREATE TABLE Employee(
 INSERT INTO Employee(salary) VALUES (100), (200), (300);
 
 ---------------------------------------------
--- Solution
+-- First Solution
 SELECT MAX(salary) AS SecondHighestSalary 
 	FROM (
 		SELECT sd.salary FROM (SELECT DISTINCT salary FROM Employee e) AS sd ORDER BY sd.salary DESC LIMIT 1 OFFSET 1
 	) AS shs;
+
+-- Second Solution
+SELECT(SELECT DISTINCT salary FROM Employee ORDER BY salary DESC LIMIT 1 OFFSET 1) as SecondHighestSalary;
