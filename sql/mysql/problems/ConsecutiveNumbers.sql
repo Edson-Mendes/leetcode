@@ -25,3 +25,11 @@ SELECT DISTINCT
 FROM Logs lc 
 JOIN Logs lp ON lc.num = lp.num AND lc.id = (lp.id + 1)
 JOIN Logs ln ON lc.num = ln.num AND lc.id = (ln.id - 1);
+
+-- Third Solution
+SELECT DISTINCT
+	lc.num as ConsecutiveNums 
+FROM Logs lc, Logs lp, Logs ln
+WHERE 
+	lc.num = lp.num AND lc.id = lp.id + 1 AND 
+	lc.num = ln.num AND lc.id = ln.id - 1;
