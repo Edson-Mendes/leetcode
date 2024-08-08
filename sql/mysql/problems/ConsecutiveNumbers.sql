@@ -4,7 +4,7 @@
 -- Create tables
 CREATE TABLE Logs (id int, num int);
 
--- Solution
+-- First Solution
 WITH LogsNeighbors AS (
 	SELECT 
 		*, 
@@ -18,3 +18,10 @@ SELECT DISTINCT
   num AS ConsecutiveNums 
 FROM LogsNeighbors 
 WHERE num = prev_num AND num = next_num AND id = (prev_id + 1) AND id = (next_id - 1);
+
+-- Second Solution
+SELECT DISTINCT 
+	lc.num AS ConsecutiveNums 
+FROM Logs lc 
+JOIN Logs lp ON lc.num = lp.num AND lc.id = (lp.id + 1)
+JOIN Logs ln ON lc.num = ln.num AND lc.id = (ln.id - 1);
