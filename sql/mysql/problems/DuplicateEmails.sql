@@ -7,7 +7,10 @@ CREATE TABLE Person (
   email varchar(255) NOT NULL
 );
 
--- Solution
+-- First Solution
 SELECT DISTINCT p.email AS 'Email' FROM Person p, Person d 
   WHERE p.id != d.id 
   AND p.email = d.email;
+
+-- Second Solution
+SELECT p.email FROM Person p GROUP BY email HAVING count(email) > 1;
