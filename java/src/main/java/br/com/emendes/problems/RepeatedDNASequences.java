@@ -1,9 +1,6 @@
 package br.com.emendes.problems;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * A sequência de DNA é composta por uma série de nucleotídeos abreviados como 'A', 'C', 'G' e 'T'.<br>
@@ -22,6 +19,22 @@ import java.util.Map;
 public class RepeatedDNASequences {
 
   public List<String> findRepeatedDnaSequences(String s) {
+    Set<String> repeatedDnaSequences = new HashSet<>();
+    Set<String> sequences = new HashSet<>();
+    int length = s.length();
+
+    for (int i = 0; i + 10 <= length; i++) {
+      String sequence = s.substring(i, i + 10);
+
+      if (!sequences.add(sequence)) {
+        repeatedDnaSequences.add(sequence);
+      }
+    }
+
+    return new ArrayList<>(repeatedDnaSequences);
+  }
+
+  public List<String> firstSolution(String s) {
     List<String> repeatedDNASequences = new ArrayList<>();
     Map<String, Boolean> sequences = new HashMap<>();
     int length = s.length();
