@@ -13,7 +13,38 @@ package br.com.emendes.problems;
  */
 public class RotateArray {
 
+  /**
+   * Second solution.<br><br>
+   * O(n) Time complexity.
+   * O(1) Space complexity.
+   */
   public void rotate(int[] nums, int k) {
+    k %= nums.length;
+    reverse(nums, 0, nums.length - 1);
+    reverse(nums, 0, k - 1);
+    reverse(nums, k, nums.length - 1);
+  }
+
+  private void reverse(int[] nums, int left, int right) {
+    while (left < right) {
+      swap(nums, left, right);
+      left++;
+      right--;
+    }
+  }
+
+  private void swap(int[] nums, int i, int j) {
+    int buffer = nums[i];
+    nums[i] = nums[j];
+    nums[j] = buffer;
+  }
+
+  /**
+   * First solution.<br><br>
+   * O (n) Time complexity.<br>
+   * O (n) Space complexity.
+   */
+  public void firstSolution(int[] nums, int k) {
     int steps = k % nums.length;
     int[] rotateNums = new int[nums.length];
     for (int i = 0; i < nums.length; i++) {
