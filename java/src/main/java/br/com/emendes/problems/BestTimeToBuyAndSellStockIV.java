@@ -23,22 +23,14 @@ public class BestTimeToBuyAndSellStockIV {
 
     int[][] dp = new int[k + 1][length];
     for (int i = 1; i <= k; i++) {
+      int effectiveBuyPrice = prices[0];
       for (int j = 1; j < length; j++) {
-        dp[i][j] = Math.max(dp[i][j - 1], helper(i, j, prices, dp));
+        dp[i][j] = Math.max(dp[i][j - 1], prices[j] - effectiveBuyPrice);
+        effectiveBuyPrice = Math.min(effectiveBuyPrice, prices[j] - dp[i - 1][j]);
       }
     }
 
     return dp[k][length - 1];
-  }
-
-  private int helper(int k, int j, int[] prices, int[][] dp) {
-    int max = 0;
-
-    for (int i = 0; i < j; i++) {
-      max = Math.max(max, prices[j] - prices[i] + dp[k - 1][i]);
-    }
-
-    return max;
   }
 
 }
