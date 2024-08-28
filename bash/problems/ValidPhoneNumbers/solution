@@ -1,0 +1,11 @@
+-- Dado um arquivo de texto file.txt que contém uma lista de números de telefone (um por linha),
+escreva um script bash de uma linha para imprimir todos os números de telefone válidos.
+--
+-- Você pode presumir que um número de telefone válido deve aparecer em um dos dois formatos a seguir: 
+(xxx) xxx-xxxx ou xxx-xxx-xxxx. (x significa um dígito)
+--
+-- Você também pode presumir que cada linha no arquivo de texto não deve conter 
+espaços em branco à esquerda ou à direita.
+
+-- solution
+grep -E "^\([0-9]{3}\) [0-9]{3}-[0-9]{4}$|^[0-9]{3}-[0-9]{3}-[0-9]{4}$" file.txt
