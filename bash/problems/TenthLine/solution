@@ -2,9 +2,12 @@
 -- Nota:
 -- 1. Se o arquivo contém menos de 10 linhas, o que deveria ser imprimido?
 
--- solution
+-- First solution
 awk '{
   if (NR == 10) {
     print $0
   }
 }' file.txt
+
+-- Second solution
+awk 'NR == 10' file.txt
