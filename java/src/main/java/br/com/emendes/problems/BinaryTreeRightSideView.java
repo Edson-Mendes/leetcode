@@ -2,8 +2,10 @@ package br.com.emendes.problems;
 
 import br.com.emendes.problems.util.TreeNode;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Queue;
 
 /**
  * Dado o root de uma binary tree, imagine você do lado direito dela,
@@ -16,6 +18,30 @@ import java.util.List;
 public class BinaryTreeRightSideView {
 
   public List<Integer> rightSideView(TreeNode root) {
+    if (root == null) return new ArrayList<>();
+    List<Integer> rightSideList = new ArrayList<>();
+    Queue<TreeNode> nodes = new ArrayDeque<>(List.of(root));
+
+    while (!nodes.isEmpty()) {
+      int size = nodes.size();
+      for (int i = 0; i < size; i++) {
+        TreeNode node = nodes.poll();
+        if (i == size - 1) {
+          rightSideList.add(node.val);
+        }
+        if (node.left != null) {
+          nodes.offer(node.left);
+        }
+        if (node.right != null) {
+          nodes.offer(node.right);
+        }
+      }
+    }
+
+    return rightSideList;
+  }
+
+  public List<Integer> firstSolution(TreeNode root) {
     List<List<Integer>> levelList = new ArrayList<>();
     fillLevelList(0, root, levelList);
 
