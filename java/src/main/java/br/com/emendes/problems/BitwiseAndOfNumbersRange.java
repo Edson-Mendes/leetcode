@@ -10,20 +10,14 @@ package br.com.emendes.problems;
 public class BitwiseAndOfNumbersRange {
 
   public int rangeBitwiseAnd(int left, int right) {
-    int answer = 0;
-
-    for (int i = 0; i < 32; i++) {
-      int bit = (left >> i) & 1;
-      if (bit == 1) {
-        int remainder = left % (1 << (i + 1));
-        int diff = (1 << (i + 1)) - remainder;
-        if (right - left < diff) {
-          answer |= (1 << i);
-        }
-      }
+    int i = 0;
+    while (left != right) {
+      left >>= 1;
+      right >>= 1;
+      i++;
     }
 
-    return answer;
+    return left << i;
   }
 
 }
