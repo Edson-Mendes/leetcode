@@ -21,6 +21,18 @@ import java.util.Set;
 public class HappyNumber {
 
   public boolean isHappy(int n) {
+    int slow = nextNumber(n);
+    int fast = nextNumber(slow);
+
+    while (slow != fast) {
+      slow = nextNumber(slow);
+      fast = nextNumber(nextNumber(fast));
+    }
+
+    return slow == 1;
+  }
+
+  public boolean firstSolution(int n) {
     Set<Integer> usedNumbers = new HashSet<>();
     while (n != 1 && !usedNumbers.contains(n)) {
       usedNumbers.add(n);
