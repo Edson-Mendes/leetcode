@@ -20,6 +20,22 @@ import java.util.Map;
 public class IsomorphicStrings {
 
   public boolean isIsomorphic(String s, String t) {
+    int[] sIndex = new int[200];
+    int[] tIndex = new int[200];
+
+    for (int i = 0; i < s.length(); i++) {
+      char sChar = s.charAt(i);
+      char tChar = t.charAt(i);
+      if (sIndex[sChar] != tIndex[tChar])
+        return false;
+      sIndex[sChar] = i + 1;
+      tIndex[tChar] = i + 1;
+    }
+
+    return true;
+  }
+
+  public boolean firstSolution(String s, String t) {
     Map<Character, Character> mappedCharacters = new HashMap<>();
 
     for (int i = 0; i < s.length(); i++) {
