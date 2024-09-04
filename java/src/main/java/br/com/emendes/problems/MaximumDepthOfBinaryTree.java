@@ -2,6 +2,9 @@ package br.com.emendes.problems;
 
 import br.com.emendes.problems.util.TreeNode;
 
+import java.util.ArrayDeque;
+import java.util.Queue;
+
 /**
  * Dado o root de uma binary tree, retorne a profundidade máxima.<br>
  * <br>
@@ -15,6 +18,27 @@ import br.com.emendes.problems.util.TreeNode;
 public class MaximumDepthOfBinaryTree {
 
   public int maxDepth(TreeNode root) {
+    if (root == null) return 0;
+    Queue<TreeNode> queue = new ArrayDeque<>();
+    queue.offer(root);
+    int depth = 0;
+
+    while (!queue.isEmpty()) {
+      int size = queue.size();
+      for (int i = 0; i < size; i++) {
+        TreeNode node = queue.poll();
+        if (node.left != null)
+          queue.offer(node.left);
+        if (node.right != null)
+          queue.offer(node.right);
+      }
+      depth++;
+    }
+
+    return depth;
+  }
+
+  public int firstSolution(TreeNode root) {
     return maxDepth(root, 0);
   }
 
