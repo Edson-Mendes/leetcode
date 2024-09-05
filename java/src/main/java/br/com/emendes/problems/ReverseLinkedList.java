@@ -2,9 +2,6 @@ package br.com.emendes.problems;
 
 import br.com.emendes.problems.util.ListNode;
 
-import java.util.ArrayDeque;
-import java.util.Deque;
-
 /**
  * Dado o head de uma singly linked list, reverta a lista, e retorne a lista revertida.<br>
  * <br>
@@ -17,23 +14,19 @@ import java.util.Deque;
  */
 public class ReverseLinkedList {
 
+  /**
+   * Iterative solution.
+   */
   public ListNode reverseList(ListNode head) {
-    if (head == null) return null;
+    ListNode prev = null;
 
-    Deque<ListNode> stack = new ArrayDeque<>();
     while (head != null) {
-      stack.push(head);
-      head = head.next;
+      ListNode next = head.next;
+      head.next = prev;
+      prev = head;
+      head = next;
     }
-
-    head = stack.pop();
-    ListNode prev = head;
-    while (!stack.isEmpty()) {
-      prev.next = stack.pop();
-      prev = prev.next;
-    }
-    prev.next = null;
-    return head;
+    return prev;
   }
 
 }
