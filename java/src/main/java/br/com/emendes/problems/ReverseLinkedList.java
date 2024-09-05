@@ -14,10 +14,22 @@ import br.com.emendes.problems.util.ListNode;
  */
 public class ReverseLinkedList {
 
+  public ListNode reverseList(ListNode head) {
+    return reverse(null, head);
+  }
+
+  private ListNode reverse(ListNode prev, ListNode curr) {
+    if (curr == null) return prev;
+
+    ListNode node = reverse(curr, curr.next);
+    curr.next = prev;
+    return node;
+  }
+
   /**
    * Iterative solution.
    */
-  public ListNode reverseList(ListNode head) {
+  public ListNode iterativeSolution(ListNode head) {
     ListNode prev = null;
 
     while (head != null) {
