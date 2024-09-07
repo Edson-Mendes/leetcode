@@ -1,5 +1,10 @@
 package br.com.emendes.problems;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
 /**
  * Existem um total de numCourses cursos que você tem que terminar, marcado de 0 até numCourses - 1.
  * Você recebe um array de prerequisites onde prerequisites[ai, bi] indica que você deve fazer o curso
@@ -19,25 +24,37 @@ package br.com.emendes.problems;
 public class CourseSchedule {
 
   public boolean canFinish(int numCourses, int[][] prerequisites) {
-    int[][] cache = new int[numCourses][numCourses];
-    for (int[] prerequisite : prerequisites) {
-      cache[prerequisite[0]][prerequisite[1]] = 2;
-    }
-    for (int[] prerequisite : prerequisites) {
-      if (!canFinish(prerequisite[0], prerequisite[1], numCourses, cache)) return false;
+    Map<Integer, Set<Integer>> prerequisiteMap = mapPrerequisites(prerequisites, numCourses);
+    for (int i = 0; i < numCourses; i++) {
+      if (!dfs(i, prerequisiteMap, new HashSet<>())) return false;
     }
     return true;
   }
 
-  private boolean canFinish(int course, int prerequisite, int numCourses, int[][] cache) {
-    if (cache[course][prerequisite] < 2) return cache[course][prerequisite] == 0;
+  private boolean dfs(int course, Map<Integer, Set<Integer>> prerequisiteMap, Set<Integer> toFinish) {
+    if (toFinish.contains(course)) return false;
+    Set<Integer> prerequisites = prerequisiteMap.get(course);
+    if (prerequisites.isEmpty()) return true;
 
-    cache[course][prerequisite] = 1;
-    for (int p = 0; p < numCourses; p++) {
-      if (!canFinish(prerequisite, p, numCourses, cache)) return false;
+    toFinish.add(course);
+    for (int pr : prerequisites) {
+      if (!dfs(pr, prerequisiteMap, toFinish)) return false;
     }
-    cache[course][prerequisite] = 0;
+    toFinish.remove(course);
+    prerequisiteMap.put(course, new HashSet<>());
     return true;
+  }
+
+  private Map<Integer, Set<Integer>> mapPrerequisites(int[][] prerequisites, int numCourses) {
+    Map<Integer, Set<Integer>> map = new HashMap<>();
+    for (int i = 0; i < numCourses; i++) {
+      map.put(i, new HashSet<>());
+    }
+    for (int[] prerequisite : prerequisites) {
+      Set<Integer> prerequisiteSet = map.get(prerequisite[0]);
+      prerequisiteSet.add(prerequisite[1]);
+    }
+    return map;
   }
 
 }
