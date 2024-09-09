@@ -1,8 +1,5 @@
 package br.com.emendes.problems;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * A trie (pronunciado como "try") ou prefix tree é uma estrutura de dados tree usado eficientemente para
  * armazenar e recuperar keys em um conjunto de dados de strings. Existem várias aplicações
@@ -24,44 +21,85 @@ import java.util.Map;
  */
 public class Trie {
 
-  private final Map<Character, Trie> next = new HashMap<>();
-  private boolean isEnd = false;
+  private TrieNode trieNode = new TrieNode();
 
   public void insert(String word) {
-    insert(word, 0);
+    TrieNode node = trieNode;
+    for (char c : word.toCharArray()) {
+      int i = c - 'a';
+      if (node.next[i] == null)
+        node.next[i] = new TrieNode();
+      node = node.next[i];
+    }
+    node.isEnd = true;
   }
 
   public boolean search(String word) {
-    return search(word, 0);
+    TrieNode node = find(word);
+    return node != null && node.isEnd;
   }
 
   public boolean startsWith(String prefix) {
-    return startsWith(prefix, 0);
+    TrieNode node = find(prefix);
+    return node != null;
   }
 
-  private void insert(String word, int index) {
-    Trie trie = next.computeIfAbsent(word.charAt(index), c -> new Trie());
-    if (index == word.length() - 1) {
-      trie.isEnd = true;
-      return;
+  private TrieNode find(String word) {
+    TrieNode node = trieNode;
+    for (char c : word.toCharArray()) {
+      int i = c - 'a';
+      if (node.next[i] == null)
+        return null;
+      node = node.next[i];
     }
-    trie.insert(word, index + 1);
+    return node;
   }
 
-  private boolean search(String word, int index) {
-    Trie trie = next.get(word.charAt(index));
-    if (trie == null) return false;
-    if (index == word.length() - 1) return trie.isEnd;
-
-    return trie.search(word, index + 1);
+  private class TrieNode {
+    public TrieNode[] next = new TrieNode[26];
+    public boolean isEnd = false;
   }
 
-  private boolean startsWith(String prefix, int index) {
-    Trie trie = next.get(prefix.charAt(index));
-    if (trie == null) return false;
-    if (index == prefix.length() - 1) return true;
-
-    return trie.startsWith(prefix, index + 1);
-  }
+// **********************************************************
+//   ******************* First solution *******************
+//  private final Map<Character, Trie> next = new HashMap<>();
+//  private boolean isEnd = false;
+//
+//  public void insert(String word) {
+//    insert(word, 0);
+//  }
+//
+//  public boolean search(String word) {
+//    return search(word, 0);
+//  }
+//
+//  public boolean startsWith(String prefix) {
+//    return startsWith(prefix, 0);
+//  }
+//
+//  private void insert(String word, int index) {
+//    Trie trie = next.computeIfAbsent(word.charAt(index), c -> new Trie());
+//    if (index == word.length() - 1) {
+//      trie.isEnd = true;
+//      return;
+//    }
+//    trie.insert(word, index + 1);
+//  }
+//
+//  private boolean search(String word, int index) {
+//    Trie trie = next.get(word.charAt(index));
+//    if (trie == null) return false;
+//    if (index == word.length() - 1) return trie.isEnd;
+//
+//    return trie.search(word, index + 1);
+//  }
+//
+//  private boolean startsWith(String prefix, int index) {
+//    Trie trie = next.get(prefix.charAt(index));
+//    if (trie == null) return false;
+//    if (index == prefix.length() - 1) return true;
+//
+//    return trie.startsWith(prefix, index + 1);
+//  }
 
 }
