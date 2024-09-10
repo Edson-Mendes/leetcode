@@ -16,26 +16,14 @@ package br.com.emendes.problems;
 public class MinimumSizeSubarraySum {
 
   public int minSubArrayLen(int target, int[] nums) {
-    int left = 0;
-    int right = 0;
     int length = Integer.MAX_VALUE;
     int curr = 0;
 
-    while (left <= right && right < nums.length) {
-      if (curr < target) {
-        curr += nums[right];
-        right++;
-      } else {
-        length = Math.min(length, right - left);
-        curr -= nums[left];
-        left++;
-      }
-    }
-    if (right == nums.length) {
+    for (int right = 0, left = 0; right < nums.length; right++) {
+      curr += nums[right];
       while (curr >= target) {
-        length = Math.min(length, right - left);
-        curr -= nums[left];
-        left++;
+        length = Math.min(length, right - left + 1);
+        curr -= nums[left++];
       }
     }
 
