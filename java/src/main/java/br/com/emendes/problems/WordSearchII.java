@@ -1,9 +1,7 @@
 package br.com.emendes.problems;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Dado um board de caracteres de tamanho m x n e uma lista de words, retorte todas as palavras no board.<br>
@@ -26,44 +24,45 @@ public class WordSearchII {
 
   public List<String> findWords(char[][] board, String[] words) {
     Trie trie = new Trie();
-
     for (String word : words) {
-      trie.add(word, 0);
+      trie.add(word);
     }
 
-    Set<String> answer = new HashSet<>();
+    List<String> answer = new ArrayList<>();
     for (int i = 0; i < board.length; i++) {
       for (int j = 0; j < board[i].length; j++) {
         trie.search(board, i, j, answer);
       }
     }
-
-    return new ArrayList<>(answer);
+    return answer;
   }
 
-  private class Trie {
+  private static class Trie {
 
-    private Trie[] children;
+    private final Trie[] children;
     private String word;
 
     public Trie() {
       children = new Trie[26];
     }
 
-    public void add(String word, int index) {
-      if (index == word.length()) {
-        this.word = word;
-        return;
+    public void add(String word) {
+      char[] wordArray = word.toCharArray();
+      Trie node = this;
+      for (char c : wordArray) {
+        int index = c - 'a';
+        if (node.children[index] == null)
+          node.children[index] = new Trie();
+        node = node.children[index];
       }
-      char c = word.charAt(index);
-      if (children[c - 'a'] == null) {
-        children[c - 'a'] = new Trie();
-      }
-      children[c - 'a'].add(word, index + 1);
+      node.word = word;
     }
 
-    public void search(char[][] board, int i, int j, Set<String> foundWords) {
-      if (word != null) foundWords.add(word);
+    public void search(char[][] board, int i, int j, List<String> foundWords) {
+      if (word != null) {
+        foundWords.add(word);
+        word = null;
+      }
       if (i < 0 || i >= board.length || j < 0 || j >= board[0].length) return;
       if (board[i][j] == '.') return;
       int index = board[i][j] - 'a';

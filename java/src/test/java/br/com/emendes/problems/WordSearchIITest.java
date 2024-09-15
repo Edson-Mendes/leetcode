@@ -211,4 +211,20 @@ class WordSearchIITest {
         "azaaaaaaaa", "xwaaaaaaaa", "xyaaaaaaaa", "yaaaaaaaaa", "yzaaaaaaaa", "zaaaaaaaaa", "zyaaaaaaaa");
   }
 
+  @Test
+  void test07() {
+    WordSearchII solution = new WordSearchII();
+
+    char[][] board = {
+        {'o', 'a', 'a', 'n'},
+        {'e', 't', 'a', 'e'},
+        {'i', 'h', 'k', 'a'},
+        {'i', 'a', 'l', 'v'}
+    };
+    String[] words = {"a"};
+    List<String> actualAnswer = solution.findWords(board, words);
+
+    assertThat(actualAnswer).isNotNull().hasSize(1).contains("a");
+  }
+
 }
