@@ -1,7 +1,9 @@
 package br.com.emendes.problems;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Dado um board de caracteres de tamanho m x n e uma lista de words, retorte todas as palavras no board.<br>
@@ -22,67 +24,60 @@ import java.util.List;
  */
 public class WordSearchII {
 
-  private int[] boardCharacters;
-
   public List<String> findWords(char[][] board, String[] words) {
-    List<String> foundWords = new ArrayList<>();
-    boardCharacters = generateBoardCharacters(board);
+    Trie trie = new Trie();
+
     for (String word : words) {
-      if (hasCharacters(word) && check(word, board)) {
-        foundWords.add(word);
-      }
+      trie.add(word, 0);
     }
 
-    return foundWords;
-  }
-
-  private boolean check(String word, char[][] board) {
+    Set<String> answer = new HashSet<>();
     for (int i = 0; i < board.length; i++) {
       for (int j = 0; j < board[i].length; j++) {
-        if (checkPath(word, 0, board, i, j)) return true;
+        trie.search(board, i, j, answer);
       }
     }
-    return false;
+
+    return new ArrayList<>(answer);
   }
 
-  private boolean checkPath(String word, int index, char[][] board, int i, int j) {
-    if (index == word.length()) return true;
-    if (i < 0 || i >= board.length || j < 0 || j >= board[0].length) return false;
-    if (board[i][j] == '.') return false;
-    if (word.charAt(index++) != board[i][j]) return false;
+  private class Trie {
 
-    char cache = board[i][j];
-    board[i][j] = '.';
-    boolean isGoodPath = checkPath(word, index, board, i + 1, j) ||
-                         checkPath(word, index, board, i - 1, j) ||
-                         checkPath(word, index, board, i, j + 1) ||
-                         checkPath(word, index, board, i, j - 1);
+    private Trie[] children;
+    private String word;
 
-    board[i][j] = cache;
-    return isGoodPath;
-  }
-
-  private boolean hasCharacters(String word) {
-    int[] boardCharactersCopy = new int[123];
-    for (int i = 'a'; i <= 'z'; i++) {
-      boardCharactersCopy[i] = this.boardCharacters[i];
+    public Trie() {
+      children = new Trie[26];
     }
-    for (int i = 0; i < word.length(); i++) {
-      char c = word.charAt(i);
-      boardCharactersCopy[c]--;
-      if (boardCharactersCopy[c] < 0) return false;
-    }
-    return true;
-  }
 
-  private int[] generateBoardCharacters(char[][] board) {
-    boardCharacters = new int[123];
-    for (char[] line : board) {
-      for (char c : line) {
-        boardCharacters[c]++;
+    public void add(String word, int index) {
+      if (index == word.length()) {
+        this.word = word;
+        return;
       }
+      char c = word.charAt(index);
+      if (children[c - 'a'] == null) {
+        children[c - 'a'] = new Trie();
+      }
+      children[c - 'a'].add(word, index + 1);
     }
-    return boardCharacters;
+
+    public void search(char[][] board, int i, int j, Set<String> foundWords) {
+      if (word != null) foundWords.add(word);
+      if (i < 0 || i >= board.length || j < 0 || j >= board[0].length) return;
+      if (board[i][j] == '.') return;
+      int index = board[i][j] - 'a';
+      if (children[index] == null) return;
+
+      char cache = board[i][j];
+      board[i][j] = '.';
+      children[index].search(board, i + 1, j, foundWords);
+      children[index].search(board, i - 1, j, foundWords);
+      children[index].search(board, i, j + 1, foundWords);
+      children[index].search(board, i, j - 1, foundWords);
+      board[i][j] = cache;
+    }
+
   }
 
 }
