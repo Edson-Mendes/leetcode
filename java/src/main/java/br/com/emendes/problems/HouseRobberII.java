@@ -29,14 +29,15 @@ public class HouseRobberII {
   }
 
   private int robI(int[] nums, int start, int end) {
-    int[] cache = new int[nums.length];
-    cache[start] = nums[start];
-    cache[start + 1] = Math.max(nums[start], nums[start + 1]);
+    int prev2 = nums[start];
+    int prev1 = Math.max(nums[start], nums[start + 1]);
     for (int i = start + 2; i < end; i++) {
-      cache[i] = Math.max(cache[i - 2] + nums[i], cache[i - 1]);
+      int curr = Math.max(prev2 + nums[i], prev1);
+      prev2 = prev1;
+      prev1 = curr;
     }
 
-    return cache[end - 1];
+    return prev1;
   }
 
 }
