@@ -1,7 +1,8 @@
 package br.com.emendes.problems;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 class HouseRobberIITest {
 
@@ -12,7 +13,7 @@ class HouseRobberIITest {
     int[] nums = {10};
     int actualAnswer = solution.rob(nums);
 
-    Assertions.assertThat(actualAnswer).isEqualTo(10);
+    assertThat(actualAnswer).isEqualTo(10);
   }
 
   @Test
@@ -22,7 +23,7 @@ class HouseRobberIITest {
     int[] nums = {10, 8};
     int actualAnswer = solution.rob(nums);
 
-    Assertions.assertThat(actualAnswer).isEqualTo(10);
+    assertThat(actualAnswer).isEqualTo(10);
   }
 
   @Test
@@ -32,7 +33,7 @@ class HouseRobberIITest {
     int[] nums = {8, 10};
     int actualAnswer = solution.rob(nums);
 
-    Assertions.assertThat(actualAnswer).isEqualTo(10);
+    assertThat(actualAnswer).isEqualTo(10);
   }
 
   @Test
@@ -42,7 +43,7 @@ class HouseRobberIITest {
     int[] nums = {2, 3, 2};
     int actualAnswer = solution.rob(nums);
 
-    Assertions.assertThat(actualAnswer).isEqualTo(3);
+    assertThat(actualAnswer).isEqualTo(3);
   }
 
   @Test
@@ -52,7 +53,7 @@ class HouseRobberIITest {
     int[] nums = {1, 2, 3, 1};
     int actualAnswer = solution.rob(nums);
 
-    Assertions.assertThat(actualAnswer).isEqualTo(4);
+    assertThat(actualAnswer).isEqualTo(4);
   }
 
   @Test
@@ -62,7 +63,7 @@ class HouseRobberIITest {
     int[] nums = {1, 2, 3};
     int actualAnswer = solution.rob(nums);
 
-    Assertions.assertThat(actualAnswer).isEqualTo(3);
+    assertThat(actualAnswer).isEqualTo(3);
   }
 
   @Test
@@ -72,7 +73,7 @@ class HouseRobberIITest {
     int[] nums = {2, 5, 1, 0, 3, 4, 2, 0, 3};
     int actualAnswer = solution.rob(nums);
 
-    Assertions.assertThat(actualAnswer).isEqualTo(13);
+    assertThat(actualAnswer).isEqualTo(13);
   }
 
   @Test
@@ -82,7 +83,7 @@ class HouseRobberIITest {
     int[] nums = {5, 5, 1, 0, 3, 4, 2, 0, 3};
     int actualAnswer = solution.rob(nums);
 
-    Assertions.assertThat(actualAnswer).isEqualTo(13);
+    assertThat(actualAnswer).isEqualTo(13);
   }
 
 }

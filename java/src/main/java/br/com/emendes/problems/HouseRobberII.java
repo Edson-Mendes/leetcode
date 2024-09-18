@@ -17,21 +17,13 @@ package br.com.emendes.problems;
 public class HouseRobberII {
 
   public int rob(int[] nums) {
-    if (nums.length < 4) {
-      int robbed = 0;
-      for (int amount : nums) {
-        robbed = Math.max(robbed, amount);
-      }
-      return robbed;
-    }
-
-    return Math.max(robI(nums, 0, nums.length - 1), robI(nums, 1, nums.length));
+    return Math.max(nums[0], Math.max(robI(nums, 0, nums.length - 1), robI(nums, 1, nums.length)));
   }
 
   private int robI(int[] nums, int start, int end) {
-    int prev2 = nums[start];
-    int prev1 = Math.max(nums[start], nums[start + 1]);
-    for (int i = start + 2; i < end; i++) {
+    int prev2 = 0;
+    int prev1 = 0;
+    for (int i = start; i < end; i++) {
       int curr = Math.max(prev2 + nums[i], prev1);
       prev2 = prev1;
       prev1 = curr;
