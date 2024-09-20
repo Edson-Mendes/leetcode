@@ -11,7 +11,35 @@ package br.com.emendes.problems;
  */
 public class ShortestPalindrome {
 
+  private Boolean[][] cache;
+
   public String shortestPalindrome(String s) {
+    if (s.isEmpty()) return s;
+    cache = new Boolean[s.length()][s.length()];
+    int right = s.length() - 1;
+    while (!isPalindrome(s, 0, right)) {
+      right--;
+    }
+    StringBuilder prefix = new StringBuilder();
+    for (int i = s.length() - 1; i > right; i--) {
+      prefix.append(s.charAt(i));
+    }
+
+    return prefix + s;
+  }
+
+  private boolean isPalindrome(String s, int left, int right) {
+    if (left >= right) return true;
+    if (cache[left][right] != null) return cache[left][right];
+
+    cache[left][right] = s.charAt(left) == s.charAt(right) && isPalindrome(s, left + 1, right - 1);
+    return cache[left][right];
+  }
+
+  /**
+   * First solution.
+   */
+  public String firstSolution(String s) {
     int right = s.length() - 1;
     while (!isPalindrome(s, right)) {
       right--;
