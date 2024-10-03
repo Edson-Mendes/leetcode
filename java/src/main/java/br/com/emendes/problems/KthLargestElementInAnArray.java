@@ -1,6 +1,8 @@
 package br.com.emendes.problems;
 
 import java.util.Arrays;
+import java.util.PriorityQueue;
+import java.util.Queue;
 
 /**
  * Dado um array de inteiros nums e um inteiro k, retorne o Kth maior elemento no array.<br>
@@ -16,29 +18,15 @@ import java.util.Arrays;
 public class KthLargestElementInAnArray {
 
   public int findKthLargest(int[] nums, int k) {
-    return quickSelect(nums, 0, nums.length - 1, nums.length - k);
-  }
-
-  private int quickSelect(int[] nums, int start, int pivot, int pos) {
-    int i = start;
-    int p = start;
-    while (i < pivot) {
-      if (nums[i] <= nums[pivot]) {
-        swap(nums, p, i);
-        p++;
+    Queue<Integer> minHeap = new PriorityQueue<>();
+    for (int num : nums) {
+      minHeap.offer(num);
+      while (minHeap.size() > k) {
+        minHeap.poll();
       }
-      i++;
     }
-    swap(nums, p, pivot);
-    if (pos == p) return nums[p];
-    if (pos < p) return quickSelect(nums, start, p - 1, pos);
-    return quickSelect(nums, p + 1, pivot, pos);
-  }
 
-  private void swap(int[] nums, int p, int i) {
-    int cache = nums[p];
-    nums[p] = nums[i];
-    nums[i] = cache;
+    return minHeap.peek();
   }
 
   public int firstSolution(int[] nums, int k) {
