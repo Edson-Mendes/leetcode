@@ -27,17 +27,13 @@ public class CombinationSumIII {
   }
 
   private void helper(int k, int n, int start, List<Integer> list, List<List<Integer>> answer) {
-    if (n < start) return;
-    if (k == 1) {
-      if (n <= 9) {
-        list.add(n);
-        answer.add(new ArrayList<>(list));
-        list.remove(list.size() - 1);
-      }
+    if (k == 0 && n == 0) {
+      answer.add(new ArrayList<>(list));
       return;
     }
+    if (k == 0 || n < 0) return;
 
-    for (int i = start; i < 9; i++) {
+    for (int i = start; i <= 9; i++) {
       list.add(i);
       helper(k - 1, n - i, i + 1, list, answer);
       list.remove(list.size() - 1);
