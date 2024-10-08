@@ -42,4 +42,16 @@ class ContainsDuplicateIIITest {
     assertThat(actualAnswer).isFalse();
   }
 
+  @Test
+  void test04() {
+    ContainsDuplicateIII solution = new ContainsDuplicateIII();
+
+    int[] nums = {2, 5, -6, 8, 2, 5, 11, 6};
+    int indexDiff = 3;
+    int valueDiff = 2;
+    boolean actualAnswer = solution.containsNearbyAlmostDuplicate(nums, indexDiff, valueDiff);
+
+    assertThat(actualAnswer).isTrue();
+  }
+
 }

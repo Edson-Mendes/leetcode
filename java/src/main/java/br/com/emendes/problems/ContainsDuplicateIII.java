@@ -1,7 +1,8 @@
 package br.com.emendes.problems;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.TreeSet;
 
 /**
@@ -23,6 +24,34 @@ import java.util.TreeSet;
 public class ContainsDuplicateIII {
 
   public boolean containsNearbyAlmostDuplicate(int[] nums, int indexDiff, int valueDiff) {
+    long min = Arrays.stream(nums).min().getAsInt();
+    long diff = (long) valueDiff + 1;
+    Map<Long, Long> bucket = new HashMap<>();
+
+    for (int i = 0; i < nums.length; i++) {
+      long num = nums[i];
+      long key = getKey(nums[i], min, diff);
+      if (bucket.containsKey(key))
+        return true;
+      if (bucket.containsKey(key - 1) &&
+          num - bucket.get(key - 1) < diff)
+        return true;
+      if (bucket.containsKey(key + 1) &&
+          bucket.get(key + 1) - num < diff)
+        return true;
+      bucket.put(key, num);
+      if (i >= indexDiff)
+        bucket.remove(getKey(nums[i - indexDiff], min, diff));
+    }
+
+    return false;
+  }
+
+  private long getKey(int num, long min, long diff) {
+    return (num - min) / diff;
+  }
+
+  public boolean firstSolution(int[] nums, int indexDiff, int valueDiff) {
     TreeSet<Long> seen = new TreeSet<>();
     for (int i = 0; i < nums.length; i++) {
       long num = nums[i];
@@ -36,19 +65,6 @@ public class ContainsDuplicateIII {
         seen.remove((long) nums[i - indexDiff]);
       }
     }
-    return false;
-  }
-
-  public boolean firstSolution(int[] nums, int indexDiff, int valueDiff) {
-    Set<Integer> seen = new HashSet<>();
-    for (int i = 0; i < nums.length; i++) {
-      for (int value : seen) {
-        if (Math.abs(value - nums[i]) <= valueDiff) return true;
-      }
-      seen.add(nums[i]);
-      if (i >= indexDiff) seen.remove(nums[i - indexDiff]);
-    }
-
     return false;
   }
 
