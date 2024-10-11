@@ -9,6 +9,18 @@
  * @return {boolean}
  */
 var isPalindrome = function (x) {
+  if (x < 0) return false;
+  let xCopy;
+  let xReversed = 0;
+  while (xCopy > 0) {
+    xReversed = xReversed * 10 + (xCopy % 10);
+    xCopy = Math.floor(xCopy / 10);
+  }
+
+  return x === xReversed;
+};
+
+var secondSolution = function (x) {
   let xString = x.toString();
   let right = xString.length - 1;
   let left = 0;
