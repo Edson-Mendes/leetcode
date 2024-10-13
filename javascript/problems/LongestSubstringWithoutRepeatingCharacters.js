@@ -11,16 +11,16 @@
  * @return {number}
  */
 var lengthOfLongestSubstring = function (s) {
+  let seen = new Map();
   let left = 0;
-  let seen = {};
   let maxLength = 0;
   for (let right = 0; right < s.length; right++) {
     let character = s[right];
-    if (character in seen && seen[character] >= left) {
-      left = seen[character] + 1;
+    if (seen.has(character) && seen.get(character) >= left) {
+      left = seen.get(character) + 1;
     }
     maxLength = Math.max(maxLength, right - left + 1);
-    seen[character] = right;
+    seen.set(character, right);
   }
 
   return maxLength;
