@@ -11,6 +11,22 @@
  * @return {number}
  */
 var lengthOfLongestSubstring = function (s) {
+  let left = 0;
+  let seen = {};
+  let maxLength = 0;
+  for (let right = 0; right < s.length; right++) {
+    let character = s[right];
+    if (character in seen && seen[character] >= left) {
+      left = seen[character] + 1;
+    }
+    maxLength = Math.max(maxLength, right - left + 1);
+    seen[character] = right;
+  }
+
+  return maxLength;
+};
+
+var firstSolution = function (s) {
   const charToIndex = {};
   const indexToChar = {};
   let longestSubstring = 0;
