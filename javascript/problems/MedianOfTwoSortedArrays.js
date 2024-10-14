@@ -22,33 +22,27 @@
  * @return {number}
  */
 var findMedianSortedArrays = function (nums1, nums2) {
-  let half = Math.floor((nums1.length + nums2.length) / 2);
-  const nums = [];
-
+  let half = (nums1.length + nums2.length) / 2;
   let i = 0;
   let j = 0;
-  let k = 0;
-  while (i < nums1.length && j < nums2.length && k <= half) {
-    if (nums1[i] <= nums2[j]) {
-      nums[k] = nums1[i];
-      i++;
+  let m1 = 0;
+  let m2 = 0;
+
+  for (let k = 0; k <= half; k++) {
+    m1 = m2;
+    if (i < nums1.length && j < nums2.length) {
+      if (nums1[i] <= nums2[j]) {
+        m2 = nums1[i++];
+      } else {
+        m2 = nums2[j++];
+      }
+    } else if (i < nums1.length) {
+      m2 = nums1[i++];
     } else {
-      nums[k] = nums2[j];
-      j++;
+      m2 = nums2[j++];
     }
-    k++;
   }
-  while (i < nums1.length && k <= half) {
-    nums[k] = nums1[i];
-    i++;
-    k++;
-  }
-  while (j < nums2.length && k <= half) {
-    nums[k] = nums2[j];
-    j++;
-    k++;
-  }
-  if ((nums1.length + nums2.length) % 2 === 0)
-    return (nums[half] + nums[half - 1]) / 2;
-  return nums[half];
+
+  if ((nums1.length + nums2.length) % 2 === 0) return (m1 + m2) / 2;
+  return m2;
 };
