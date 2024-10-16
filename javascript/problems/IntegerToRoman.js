@@ -28,59 +28,15 @@
  * @return {string}
  */
 var intToRoman = function (num) {
-  let romanNum = "";
-  while (num >= 1000) {
-    romanNum += "M";
-    num -= 1000;
-  }
-  if (num >= 900) {
-    romanNum += "CM";
-    num -= 900;
-  }
-  if (num >= 500) {
-    romanNum += "D";
-    num -= 500;
-  }
-  if (num >= 400) {
-    romanNum += "CD";
-    num -= 400;
-  }
-  while (num >= 100) {
-    romanNum += "C";
-    num -= 100;
-  }
-  if (num >= 90) {
-    romanNum += "XC";
-    num -= 90;
-  }
-  if (num >= 50) {
-    romanNum += "L";
-    num -= 50;
-  }
-  if (num >= 40) {
-    romanNum += "XL";
-    num -= 40;
-  }
-  while (num >= 10) {
-    romanNum += "X";
-    num -= 10;
-  }
-  if (num >= 9) {
-    romanNum += "IX";
-    num -= 9;
-  }
-  if (num >= 5) {
-    romanNum += "V";
-    num -= 5;
-  }
-  if (num >= 4) {
-    romanNum += "IV";
-    num -= 4;
-  }
-  while (num >= 1) {
-    romanNum += "I";
-    num -= 1;
-  }
+  const M = ["", "M", "MM", "MMM"];
+  const C = ["", "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM"];
+  const X = ["", "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC"];
+  const I = ["", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX"];
 
-  return romanNum;
+  let m = Math.floor(num / 1000);
+  let c = Math.floor((num % 1000) / 100);
+  let x = Math.floor((num % 100) / 10);
+  let i = Math.floor(num % 10);
+
+  return M[m] + C[c] + X[x] + I[i];
 };
