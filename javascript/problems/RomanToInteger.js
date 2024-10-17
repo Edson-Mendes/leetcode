@@ -34,29 +34,18 @@
 var romanToInt = function (s) {
   const values = {
     I: 1,
-    IV: 4,
     V: 5,
-    IX: 9,
     X: 10,
-    XL: 40,
     L: 50,
-    XC: 90,
     C: 100,
-    CD: 400,
     D: 500,
-    CM: 900,
     M: 1000,
   };
-
-  let i = 0;
   let integer = 0;
-  while (i < s.length) {
-    let key = s[i++];
-    if (key === "I" && (s[i] === "V" || s[i] === "X")) key += s[i++];
-    if (key === "X" && (s[i] === "L" || s[i] === "C")) key += s[i++];
-    if (key === "C" && (s[i] === "D" || s[i] === "M")) key += s[i++];
 
-    integer += values[key];
+  for (let i = 0; i < s.length; i++) {
+    if (values[s[i]] < values[s[i + 1]]) integer -= values[s[i]];
+    else integer += values[s[i]];
   }
 
   return integer;
