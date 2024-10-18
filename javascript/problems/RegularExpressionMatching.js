@@ -25,16 +25,23 @@
  * @return {boolean}
  */
 var isMatch = function (s, p) {
+  const cache = {};
+
   const check = (si, pi) => {
-    if (si >= s.length && pi >= p.length) return true;
-    if (pi >= p.length) return false;
-
-    let match = si < s.length && (p[pi] === "." || s[si] === p[pi]);
-    if (p[pi + 1] === "*") {
-      return check(si, pi + 2) || (match && check(si + 1, pi));
+    let key = si + "," + pi;
+    if (cache[key] != undefined) {
+      return cache[key];
     }
-
-    return match && check(si + 1, pi + 1);
+    let ans;
+    if (pi === p.length) ans = si === s.length;
+    else {
+      let match = si < s.length && (p[pi] === "." || s[si] === p[pi]);
+      if (p[pi + 1] === "*")
+        ans = check(si, pi + 2) || (match && check(si + 1, pi));
+      else ans = match && check(si + 1, pi + 1);
+    }
+    cache[key] = ans;
+    return cache[key];
   };
 
   return check(0, 0);
