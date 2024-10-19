@@ -16,30 +16,34 @@
 var threeSum = function (nums) {
   const result = [];
   nums.sort((a, b) => a - b);
-  for (let i = 0; i < nums.length - 2 && nums[i] <= 0; i++) {
-    if (i > 0 && nums[i] === nums[i - 1]) continue;
-    const sum = -nums[i];
+
+  const findTriplets = (i) => {
     let left = i + 1;
     let right = nums.length - 1;
     while (left < right) {
-      if (left > i + 1 && nums[left] === nums[left - 1]) {
-        left++;
-        continue;
-      }
-      if (right < nums.length - 1 && nums[right] === nums[right + 1]) {
+      let sum = nums[left] + nums[right] + nums[i];
+
+      if (sum > 0) {
         right--;
-        continue;
-      }
-      if (nums[left] + nums[right] === sum) {
+      } else if (sum < 0) {
+        left++;
+      } else {
         result.push([nums[i], nums[left], nums[right]]);
         left++;
         right--;
-      } else if (nums[left] + nums[right] > sum) {
-        right--;
-      } else {
+      }
+      while (left < right && left > i + 1 && nums[left] === nums[left - 1]) {
         left++;
       }
+      while (left < right && nums[right] === nums[right + 1]) {
+        right--;
+      }
     }
+  };
+
+  for (let i = 0; i < nums.length - 2 && nums[i] <= 0; i++) {
+    if (i > 0 && nums[i] === nums[i - 1]) continue;
+    findTriplets(i);
   }
 
   return result;
