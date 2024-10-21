@@ -29,6 +29,40 @@ var fourSum = function (nums, target) {
     if (i > 0 && nums[i] === nums[i - 1]) continue;
     for (let j = i + 1; j < nums.length - 2; j++) {
       if (j > i + 1 && nums[j] === nums[j - 1]) continue;
+      let left = j + 1;
+      let right = nums.length - 1;
+      while (left < right) {
+        let sum = nums[left] + nums[right] + nums[i] + nums[j];
+
+        if (sum > target) {
+          right--;
+        } else if (sum < target) {
+          left++;
+        } else {
+          combinations.push([nums[i], nums[j], nums[left], nums[right]]);
+          left++;
+          right--;
+        }
+        while (left < right && left > j + 1 && nums[left] === nums[left - 1]) {
+          left++;
+        }
+        while (left < right && nums[right] === nums[right + 1]) {
+          right--;
+        }
+      }
+    }
+  }
+
+  return combinations;
+};
+
+var firstSolution = function (nums, target) {
+  let combinations = [];
+  nums.sort((a, b) => a - b);
+  for (let i = 0; i < nums.length - 3; i++) {
+    if (i > 0 && nums[i] === nums[i - 1]) continue;
+    for (let j = i + 1; j < nums.length - 2; j++) {
+      if (j > i + 1 && nums[j] === nums[j - 1]) continue;
       for (let k = j + 1; k < nums.length - 1; k++) {
         if (k > j + 1 && nums[k] === nums[k - 1]) continue;
         const last = target - (nums[i] + nums[j] + nums[k]);
