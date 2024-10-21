@@ -19,6 +19,25 @@
  */
 var removeNthFromEnd = function (head, n) {
   let dummy = new ListNode(-1, head);
+  let count = 1;
+  while (count < n) {
+    head = head.next;
+    count++;
+  }
+  let prev = dummy;
+  let node = dummy;
+  while (head != null) {
+    head = head.next;
+    prev = node;
+    node = node.next;
+  }
+  prev.next = node.next;
+  node.next = null;
+  return dummy.next;
+};
+
+var firstSolution = function (head, n) {
+  let dummy = new ListNode(-1, head);
   let size = 0;
   let node = head;
   while (node != null) {
