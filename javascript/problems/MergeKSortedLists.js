@@ -21,6 +21,66 @@
  * @return {ListNode}
  */
 var mergeKLists = function (lists) {
+  if (lists.length === 0) return null;
+  let length = lists.length;
+
+  while (length > 1) {
+    let index = 0;
+    let newIndex = 0;
+    while (index + 1 < length) {
+      lists[newIndex] = merge(lists[index], lists[index + 1]);
+      index += 2;
+      newIndex++;
+    }
+    if (index < length) {
+      lists[newIndex] = lists[index];
+      newIndex++;
+    }
+    length = newIndex;
+  }
+
+  return lists[0];
+};
+
+const merge = (list1, list2) => {
+  let dummy = new ListNode(-1);
+  let node = dummy;
+  while (list1 && list2) {
+    if (list1.val <= list2.val) {
+      node.next = list1;
+      list1 = list1.next;
+    } else {
+      node.next = list2;
+      list2 = list2.next;
+    }
+    node = node.next;
+  }
+  while (list1) {
+    node.next = list1;
+    list1 = list1.next;
+    node = node.next;
+  }
+  while (list2) {
+    node.next = list2;
+    list2 = list2.next;
+    node = node.next;
+  }
+
+  return dummy.next;
+};
+
+const generateListNode = (values) => {
+  let dummy = { val: 0 };
+  let node = dummy;
+  for (const val of values) {
+    node.next = { val: val, next: null };
+    node = node.next;
+  }
+
+  return dummy.next;
+};
+
+var firstSolution = function (lists) {
   let dummy = new ListNode(-1);
   let node = dummy;
   let length = lists.length;
