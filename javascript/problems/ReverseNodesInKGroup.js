@@ -25,6 +25,42 @@ var reverseKGroup = function (head, k) {
   let prev = dummy;
   let node = dummy;
   let count = 0;
+  while (node.next) {
+    node = node.next;
+    count++;
+    if (count === k) {
+      prev = reverse(prev, k);
+      node = prev;
+      count = 0;
+    }
+  }
+
+  return dummy.next;
+};
+
+const reverse = (prev, k) => {
+  let start = prev;
+  let newPrev = prev.next;
+  let node = newPrev;
+  let count = 0;
+  while (count < k) {
+    let next = node.next;
+    node.next = prev;
+    prev = node;
+    node = next;
+    count++;
+  }
+  newPrev.next = node;
+  start.next = prev;
+
+  return newPrev;
+};
+
+var firstSolution = function (head, k) {
+  let dummy = new ListNode(-1, head);
+  let prev = dummy;
+  let node = dummy;
+  let count = 0;
   let stack = [];
   while (node.next) {
     node = node.next;
@@ -61,10 +97,3 @@ const generateListNode = (values) => {
 
   return dummy.next;
 };
-
-let list = reverseKGroup(generateListNode([1, 2, 3, 4, 5]), 1);
-
-while (list) {
-  console.log(list.val);
-  list = list.next;
-}
