@@ -21,34 +21,37 @@
  * @return {number}
  */
 var divide = function (dividend, divisor) {
-  if (dividend === -2147483648) {
-    if (divisor === -1) return 2147483647;
-    if (divisor === 1) return -2147483648;
-  }
-  if (dividend === -2147483648 && divisor === -2147483648) return 1;
-  if (isDivisorGreater(dividend, divisor)) return 0;
-  let isNegative =
-    (dividend > 0 && divisor < 0) || (dividend < 0 && divisor > 0);
-  dividend = dividend > 0 ? ~dividend + 1 : dividend;
-  divisor = divisor > 0 ? ~divisor + 1 : divisor;
-  let increment = ~divisor + 1;
+  const MIN = -2147483648;
+  const MAX = 2147483647;
+  let isMinValue = dividend === MIN;
 
+  if (isMinValue && divisor === 1) return MIN;
+  if (isMinValue && divisor === -1) return MAX;
+  if (divisor === MIN) return isMinValue ? 1 : 0;
+  let isNegative = (dividend > 0) ^ (divisor > 0);
   let quocient = 0;
-  console.log(
-    `dividend: ${dividend} | divisor: ${divisor} | isNegative: ${isNegative} | increment: ${increment}`
-  );
 
-  while (dividend <= divisor) {
+  let absoluteDividend;
+  let absoluteDivisor = divisor < 0 ? ~divisor + 1 : divisor;
+
+  if (isMinValue) {
+    absoluteDividend = MAX - absoluteDivisor + 1;
     quocient++;
-    dividend += increment;
+  } else {
+    absoluteDividend = dividend < 0 ? ~dividend + 1 : dividend;
+  }
+
+  while (absoluteDividend >= absoluteDivisor) {
+    let shift = 0;
+    while (
+      absoluteDivisor << shift > 0 &&
+      absoluteDividend >= absoluteDivisor << shift
+    )
+      shift++;
+
+    quocient += 1 << (shift - 1);
+    absoluteDividend -= absoluteDivisor << (shift - 1);
   }
 
   return isNegative ? ~quocient + 1 : quocient;
-};
-
-const isDivisorGreater = (dividend, divisor) => {
-  if (dividend > 0) dividend = ~dividend + 1;
-  if (divisor > 0) divisor = ~divisor + 1;
-
-  return divisor < dividend;
 };
