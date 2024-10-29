@@ -28,33 +28,31 @@ var findSubstring = function (s, words) {
   const inc = words[0].length;
   const totalWords = words.length;
   const substringLength = inc * totalWords;
-  const map = new Map();
+  const count = new Map();
   const substringIndexes = [];
 
   for (const element of words) {
-    let value = map.get(element);
+    let value = count.get(element);
     value = value ? value + 1 : 1;
-    map.set(element, value);
+    count.set(element, value);
   }
 
-  for (let index = 0; index <= s.length - substringLength; index++) {
-    if (findSubstringAt(index, map, s, inc, totalWords))
-      substringIndexes.push(index);
+  for (let i = 0; i <= s.length - substringLength; i++) {
+    const seen = new Map();
+    let j = i;
+    while (j < i + substringLength) {
+      const currSubstring = s.substring(j, j + inc);
+      if (!count.has(currSubstring)) break;
+      let value = seen.get(currSubstring);
+      value = value ? value + 1 : 1;
+      seen.set(currSubstring, value);
+      if (value > count.get(currSubstring)) break;
+      j += inc;
+    }
+    if (j === i + substringLength) {
+      substringIndexes.push(i);
+    }
   }
 
   return substringIndexes;
-};
-
-const findSubstringAt = (index, map, s, inc, remaining) => {
-  if (remaining === 0) return true;
-  let curr = s.substring(index, index + inc);
-  let corresponding = map.get(curr);
-  let isFound = false;
-  if (corresponding > 0) {
-    map.set(curr, corresponding - 1);
-    isFound = findSubstringAt(index + inc, map, s, inc, remaining - 1);
-    map.set(curr, corresponding);
-  }
-
-  return isFound;
 };
