@@ -12,6 +12,22 @@
  * @return {number}
  */
 var longestValidParentheses = function (s) {
+  s = ")" + s;
+  const dp = [];
+  let maxLength = 0;
+
+  for (let i = 1; i < s.length; i++) {
+    let previousLength = dp[i - 1] || 0;
+    if (s[i] === ")" && s[i - previousLength - 1] === "(") {
+      dp[i] = previousLength + (dp[i - previousLength - 2] || 0) + 2;
+      maxLength = Math.max(maxLength, dp[i]);
+    }
+  }
+
+  return maxLength;
+};
+
+var firstSolution = function (s) {
   const open = [];
   const previousLength = [];
   let maxLength = 0;
@@ -27,3 +43,10 @@ var longestValidParentheses = function (s) {
 
   return maxLength;
 };
+
+console.log(longestValidParentheses("") === 0);
+console.log(longestValidParentheses("(())((()") === 4);
+console.log(longestValidParentheses(")()())") === 4);
+console.log(longestValidParentheses("()((()))(())(()())()") === 20);
+console.log(longestValidParentheses("((()((()))") === 8);
+console.log(longestValidParentheses("((()(())") === 6);
