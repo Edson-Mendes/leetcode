@@ -23,11 +23,16 @@
  * @return {string}
  */
 var countAndSay = function (n) {
-  return say("1", 1, n);
+  let result = "1";
+  let count = 1;
+  while (count++ < n) {
+    result = say(result);
+  }
+
+  return result;
 };
 
-const say = (input, current, total) => {
-  if (current === total) return input;
+const say = (input) => {
   let count = 1;
   let next = "";
   for (let i = 0; i < input.length; i++) {
@@ -38,5 +43,5 @@ const say = (input, current, total) => {
       count = 1;
     }
   }
-  return say(next, current + 1, total);
+  return next;
 };
