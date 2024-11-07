@@ -12,36 +12,45 @@ package br.com.emendes.problems;
 public class MaximalSquare {
 
   public int maximalSquare(char[][] matrix) {
-    int maxArea = 0;
+    int[][] mat = countCells(matrix);
     int m = matrix.length;
     int n = matrix[0].length;
-    for (int i = 0; i < m; i++) {
-      for (int j = 0; j < n; j++) {
-        maxArea = Math.max(maxArea, getSquareArea(i, j, matrix, m, n, 1));
+    int maxSize = 0;
+    for (int i = m - 1; i > -1; i--) {
+      for (int j = n - 1; j > -1; j--) {
+        if (mat[i][j] > 0)
+          maxSize = Math.max(maxSize, getSquareSideSize(i, j, mat));
       }
     }
-    return maxArea;
+    return maxSize * maxSize;
   }
 
-  private int getSquareArea(int indexI, int indexJ, char[][] matrix, int m, int n, int cells) {
-    int count = cells / 2 + 1;
-    int i = indexI;
-    int j = indexJ;
-    while (count > 0 && i < m && j < n && matrix[i][j] == '1') {
-      count--;
-      i++;
-    }
-    if (count > 0)
-      return 0;
-    count = cells / 2;
-    i--;
-    j--;
-    while (count > 0 && i < m && j < n && matrix[i][j] == '1') {
+  private int getSquareSideSize(int i, int j, int[][] mat) {
+    int size = mat[i][j--];
+    int count = 1;
+    while (count < size && j > -1 && mat[i][j] > count) {
+      if (mat[i][j] < size) size = mat[i][j];
+      count++;
       j--;
-      count--;
     }
 
-    return count == 0 ? getSquareArea(indexI, indexJ + 1, matrix, m, n, cells + 2) + cells : 0;
+    return count;
+  }
+
+  private int[][] countCells(char[][] matrix) {
+    int m = matrix.length;
+    int n = matrix[0].length;
+    int[][] mat = new int[m][n];
+    for (int j = 0; j < n; j++) {
+      mat[0][j] = matrix[0][j] == '1' ? 1 : 0;
+    }
+    for (int i = 1; i < m; i++) {
+      for (int j = 0; j < n; j++) {
+        mat[i][j] = matrix[i][j] == '1' ? mat[i-1][j] + 1 : 0;
+      }
+    }
+
+    return mat;
   }
 
 }

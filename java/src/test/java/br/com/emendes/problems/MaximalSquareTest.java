@@ -87,4 +87,51 @@ class MaximalSquareTest {
     assertThat(actualAnswer).isEqualTo(16);
   }
 
+  @Test
+  void test08() {
+    MaximalSquare solution = new MaximalSquare();
+
+    char[][] matrix = {
+        {'0', '1', '0', '1'},
+        {'1', '1', '0', '1'},
+        {'1', '1', '0', '1'},
+        {'1', '1', '1', '1'},
+        {'0', '1', '1', '1'}
+    };
+    int actualAnswer = solution.maximalSquare(matrix);
+
+    assertThat(actualAnswer).isEqualTo(4);
+  }
+
+  @Test
+  void test09() {
+    MaximalSquare solution = new MaximalSquare();
+
+    char[][] matrix = {
+        {'0', '1', '1', '1'},
+        {'1', '1', '1', '1'},
+        {'1', '1', '0', '1'},
+        {'1', '1', '0', '1'},
+        {'0', '1', '0', '1'}
+    };
+    int actualAnswer = solution.maximalSquare(matrix);
+
+    assertThat(actualAnswer).isEqualTo(4);
+  }
+
+  @Test
+  void test10() {
+    MaximalSquare solution = new MaximalSquare();
+
+    char[][] matrix = {
+        {'1', '0', '1', '0'},
+        {'1', '0', '1', '1'},
+        {'1', '0', '1', '1'},
+        {'1', '1', '1', '1'}
+    };
+    int actualAnswer = solution.maximalSquare(matrix);
+
+    assertThat(actualAnswer).isEqualTo(4);
+  }
+
 }
