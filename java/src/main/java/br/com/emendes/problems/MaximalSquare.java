@@ -16,9 +16,9 @@ public class MaximalSquare {
     int m = matrix.length;
     int n = matrix[0].length;
     int maxSize = 0;
-    for (int i = m - 1; i > -1; i--) {
-      for (int j = n - 1; j > -1; j--) {
-        if (mat[i][j] > 0)
+    for (int i = m - 1; i > maxSize - 1; i--) {
+      for (int j = n - 1; j > maxSize - 1; j--) {
+        if (mat[i][j] > maxSize)
           maxSize = Math.max(maxSize, getSquareSideSize(i, j, mat));
       }
     }
