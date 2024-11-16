@@ -35,83 +35,51 @@ import java.util.*;
 public class TheSkylineProblem {
 
   public List<List<Integer>> getSkyline(int[][] buildings) {
-    Queue<Building> queue = new PriorityQueue<>(Comparator.comparingInt(b -> -b.height));
+    Queue<Integer> queue = new PriorityQueue<>(Comparator.comparingInt(h -> -h));
     List<List<Integer>> skylineDots = new ArrayList<>();
 
     List<Edge> edges = extractEdges(buildings);
     edges.sort(Comparator.comparingInt(e -> e.side));
-    int lastHeight = -1;
+    int lastHeight = 0;
 
     for (int i = 0; i < edges.size(); i++) {
       Edge edge = edges.get(i);
       boolean mustContinue = i + 1 < edges.size() && edge.side == edges.get(i + 1).side;
       if (edge.isLeftSide) {
-        queue.offer(edge.building);
+        queue.offer(edge.height);
       } else {
-        queue.remove(edge.building);
+        queue.remove(edge.height);
       }
       if (mustContinue) continue;
-      Building building = queue.peek();
-      int height = building == null ? 0 : building.height;
+      int height = queue.isEmpty() ? 0 : queue.peek();
       if (height != lastHeight) {
         skylineDots.add(List.of(edge.side, height));
       }
       lastHeight = height;
     }
 
-
     return skylineDots;
   }
 
   private List<Edge> extractEdges(int[][] buildings) {
     List<Edge> edges = new ArrayList<>();
-    for (int[] buildingArray : buildings) {
-      Building building = new Building(buildingArray[0], buildingArray[1], buildingArray[2]);
-      edges.add(new Edge(building.left, true, building));
-      edges.add(new Edge(building.right, false, building));
+    for (int[] building : buildings) {
+      edges.add(new Edge(building[0], building[2], true));
+      edges.add(new Edge(building[1], building[2], false));
     }
+
     return edges;
-  }
-
-  private static class Building {
-    int left;
-    int right;
-    int height;
-
-    public Building(int left, int right, int height) {
-      this.left = left;
-      this.right = right;
-      this.height = height;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-      if (this == o) return true;
-      if (o == null || getClass() != o.getClass()) return false;
-
-      Building building = (Building) o;
-      return left == building.left && right == building.right && height == building.height;
-    }
-
-    @Override
-    public int hashCode() {
-      int result = left;
-      result = 31 * result + right;
-      result = 31 * result + height;
-      return result;
-    }
-
   }
 
   private static class Edge {
     int side;
+    int height;
     boolean isLeftSide;
-    Building building;
 
-    public Edge(int value, boolean isLeftSide, Building building) {
-      this.side = value;
+    public Edge(int side, int height, boolean isLeftSide) {
+      this.side = side;
+      this.height = height;
       this.isLeftSide = isLeftSide;
-      this.building = building;
     }
   }
 
