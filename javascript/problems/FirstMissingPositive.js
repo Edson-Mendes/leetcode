@@ -14,12 +14,13 @@
  * @return {number}
  */
 const firstMissingPositive = function (nums) {
-  let smallest = 1;
-  const set = new Set();
-  for (const element of nums) {
-    set.add(element);
+  const seen = [];
+  let maxSmallest = nums.length + 1;
+  for (let index = 0; index < maxSmallest; index++) {
+    if (nums[index] < maxSmallest) seen[nums[index]] = true;
   }
-  while (set.has(smallest)) {
+  let smallest = 1;
+  while (smallest < maxSmallest && seen[smallest]) {
     smallest++;
   }
 
