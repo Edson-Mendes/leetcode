@@ -14,6 +14,26 @@
  * @return {number}
  */
 const trap = function (height) {
+  let left = 0;
+  let right = height.length - 1;
+  let leftElevation = height[left];
+  let rightElevation = height[right];
+  let trappedWater = 0;
+
+  while (left < right) {
+    if (leftElevation < rightElevation) {
+      trappedWater += leftElevation - height[left];
+      leftElevation = Math.max(leftElevation, height[++left]);
+    } else {
+      trappedWater += rightElevation - height[right];
+      rightElevation = Math.max(rightElevation, height[--right]);
+    }
+  }
+
+  return trappedWater;
+}
+
+const firstSolution = function (height) {
   let length = height.length;
   const leftElevation = [];
   const rightElevation = [];
