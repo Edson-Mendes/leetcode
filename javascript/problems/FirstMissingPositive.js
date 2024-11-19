@@ -14,6 +14,25 @@
  * @return {number}
  */
 const firstMissingPositive = function (nums) {
+  const length = nums.length;
+  for (let index = 0; index < length; index++) {
+    while (nums[index] > 0 && nums[index] <= length && nums[nums[index] - 1] !== nums[index]) {
+      swap(index, nums[index] - 1, nums);
+    }
+  }
+  for (let index = 0; index < length; index++) {
+    if (nums[index] !== index + 1) return index + 1;
+  }
+  return length + 1;
+}
+
+const swap = (i1, i2, arr) => {
+  let temp = arr[i1];
+  arr[i1] = arr[i2];
+  arr[i2] = temp;
+}
+
+const firstSolution = function (nums) {
   for (let index = 0; index < nums.length; index++) {
     if (nums[index] < 0) nums[index] = 0;
   }
