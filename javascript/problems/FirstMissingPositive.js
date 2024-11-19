@@ -14,15 +14,19 @@
  * @return {number}
  */
 const firstMissingPositive = function (nums) {
-  const seen = [];
-  let maxSmallest = nums.length + 1;
-  for (let index = 0; index < maxSmallest; index++) {
-    if (nums[index] < maxSmallest) seen[nums[index]] = true;
+  for (let index = 0; index < nums.length; index++) {
+    if (nums[index] < 0) nums[index] = 0;
   }
-  let smallest = 1;
-  while (smallest < maxSmallest && seen[smallest]) {
-    smallest++;
+  const maxValue = nums.length;
+  for (const key in nums) {
+    const element = Math.abs(nums[key]);
+    if (element >= 1 && element <= maxValue) {
+      nums[element - 1] = nums[element - 1] === 0 ? -element : Math.abs(nums[element - 1]) * -1;
+    }
   }
-
-  return smallest;
+  let index = 1;
+  while (index <= maxValue && nums[index - 1] < 0) {
+    index++;
+  }
+  return index;
 };
