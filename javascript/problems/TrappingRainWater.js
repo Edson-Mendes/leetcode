@@ -16,20 +16,19 @@
 const trap = function (height) {
   let length = height.length;
   const leftElevation = [];
-  const rightElevation =[];
-  leftElevation[0] = 0;
-  rightElevation[length - 1] = 0;
+  const rightElevation = [];
+  leftElevation[0] = height[0];
+  rightElevation[length - 1] = height[length - 1];
   let trappedWater = 0;
 
   for (let index = 1; index < length; index++) {
-    leftElevation[index] = Math.max(leftElevation[index - 1], height[index - 1]);
+    leftElevation[index] = Math.max(leftElevation[index - 1], height[index]);
   }
-  for (let index = length - 2; index > -1; index--) {
-    rightElevation[index] = Math.max(rightElevation[index + 1], height[index + 1]);
+  for (let index = length - 2; index >= 0; index--) {
+    rightElevation[index] = Math.max(rightElevation[index + 1], height[index]);
   }
   for (let index = 0; index < length; index++) {
-    let elevation = Math.min(leftElevation[index], rightElevation[index]);
-    trappedWater += elevation <= height[index] ? 0 : elevation - height[index];
+    trappedWater += Math.min(leftElevation[index], rightElevation[index])- height[index];
   }
 
   return trappedWater;
