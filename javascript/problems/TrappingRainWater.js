@@ -14,21 +14,22 @@
  * @return {number}
  */
 const trap = function (height) {
+  let length = height.length;
+  const leftElevation = [];
+  const rightElevation =[];
+  leftElevation[0] = 0;
+  rightElevation[length - 1] = 0;
   let trappedWater = 0;
-  let left = 0;
-  let right = height.length - 1;
-  let currHeight = 1;
-  while (left < right) {
-    while (left < right && height[left] < currHeight) {
-      left++;
-    }
-    while (right > left && height[right] < currHeight) {
-      right--;
-    }
-    for (let index = left + 1; index < right; index++) {
-      if (height[index] < currHeight) trappedWater++;
-    }
-    currHeight++;
+
+  for (let index = 1; index < length; index++) {
+    leftElevation[index] = Math.max(leftElevation[index - 1], height[index - 1]);
+  }
+  for (let index = length - 2; index > -1; index--) {
+    rightElevation[index] = Math.max(rightElevation[index + 1], height[index + 1]);
+  }
+  for (let index = 0; index < length; index++) {
+    let elevation = Math.min(leftElevation[index], rightElevation[index]);
+    trappedWater += elevation <= height[index] ? 0 : elevation - height[index];
   }
 
   return trappedWater;
