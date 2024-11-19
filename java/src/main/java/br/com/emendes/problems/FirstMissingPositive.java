@@ -14,6 +14,24 @@ import java.util.Set;
 public class FirstMissingPositive {
 
   public int firstMissingPositive(int[] nums) {
+    for (int i = 0; i < nums.length; i++) {
+      while (nums[i] > 0 && nums[i] <= nums.length && nums[nums[i] - 1] != nums[i]) {
+        swap(i, nums[i] - 1, nums);
+      }
+    }
+    for (int i = 0; i < nums.length; i++) {
+      if (nums[i] != i + 1) return i + 1;
+    }
+    return nums.length + 1;
+  }
+
+  private void swap(int i1, int i2, int[] arr) {
+    int temp = arr[i1];
+    arr[i1] = arr[i2];
+    arr[i2] = temp;
+  }
+
+  public int solution2(int[] nums) {
     int length = nums.length;
     int[] answer = new int[length + 1];
 
