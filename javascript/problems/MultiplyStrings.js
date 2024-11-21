@@ -18,6 +18,26 @@
  * @return {string}
  */
 const multiply = function (num1, num2) {
+  const length1 = num1.length;
+  const length2 = num2.length;
+  const result = new Array(length1 + length2).fill(0);
+  for (let i = length1 - 1; i >= 0; i--) {
+    let digit = +num1[i];
+    for (let j = length2 - 1; j >= 0; j--) {
+      let multiply = digit * +num2[j];
+      let sum = multiply + result[i + j + 1];
+      result[i + j] += Math.floor(sum / 10);
+      result[i + j + 1] = sum % 10;
+    }
+  }
+  let i = 0;
+  while (result[i] === 0) {
+    result[i++] = "";
+  }
+  return result[result.length - 1] === "" ? "0" : result.join("");
+};
+
+const firstSolution = function (num1, num2) {
   if (num1 === "0" || num2 === "0") return "0";
   let zeros = 0;
   let cache = new Map();
