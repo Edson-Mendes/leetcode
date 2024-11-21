@@ -21,23 +21,31 @@
  * @return {boolean}
  */
 const isMatch = function (s, p) {
-  return matches(s, p, 0, 0);
+  return matches(s, p, 0, 0, new Map());
 };
 
-const matches = (str, pat, si, pi) => {
+const matches = (str, pat, si, pi, cache) => {
+  const key = si + "-" + pi;
+  if (cache.has(key)) return cache.get(key);
   if (pi === pat.length) {
-    return si === str.length;
+    cache.set(key, si === str.length);
+  } else {
+    let value;
+    switch (pat[pi]) {
+      case "?":
+        value = si < str.length ? matches(str, pat, si + 1, pi + 1, cache) : false;
+        break;
+      case "*":
+        value = si < str.length
+            ? matches(str, pat, si, pi + 1, cache) || matches(str, pat, si + 1, pi, cache)
+            : matches(str, pat, si, pi + 1, cache);
+        break;
+      default:
+        value = si < str.length && str[si] === pat[pi]
+            ? matches(str, pat, si + 1, pi + 1, cache)
+            : false;
+    }
+    cache.set(key, value);
   }
-  const pattern = pat[pi];
-  if (pattern === "?") {
-    return si < str.length ? matches(str, pat, si + 1, pi + 1) : false;
-  }
-  if (pattern === "*") {
-    return si < str.length
-      ? matches(str, pat, si, pi + 1) || matches(str, pat, si + 1, pi)
-      : matches(str, pat, si, pi + 1);
-  }
-  return si < str.length && str[si] === pat[pi]
-    ? matches(str, pat, si + 1, pi + 1)
-    : false;
+  return cache.get(key);
 };
