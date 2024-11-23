@@ -24,6 +24,26 @@
  * @return {number}
  */
 const jump = function (nums) {
+  const lastIndex = nums.length - 1;
+  let endJump = 0;
+  let farthest = 0;
+  let jumps = 0;
+  for (let index = 0; index < lastIndex; index++) {
+    farthest = Math.max(farthest, nums[index] + index);
+    if (farthest >= lastIndex) {
+      jumps++;
+      break;
+    }
+    if (index == endJump) {
+      jumps++;
+      endJump = farthest;
+    }
+  }
+
+  return jumps;
+};
+
+const firstSolution = function (nums) {
   const end = nums.length - 1;
   let jumps = 0;
   let index = 0;
