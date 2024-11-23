@@ -27,19 +27,19 @@ const jump = function (nums) {
   const end = nums.length - 1;
   let jumps = 0;
   let index = 0;
-  let verifyIndex = 1;
+  let nextIndex = 1;
   while (index < end) {
     const lastIndex = index + nums[index];
     if (lastIndex < end) {
-      let choosedIndex = verifyIndex;
+      let choosedIndex = nextIndex++;
       let distance = choosedIndex + nums[choosedIndex];
-      for (let i = choosedIndex + 1; i <= lastIndex; i++) {
-        if (i + nums[i] > distance) {
-          distance = i + nums[i];
-          choosedIndex = i;
+      while (nextIndex <= lastIndex) {
+        if (nextIndex + nums[nextIndex] > distance) {
+          distance = nextIndex + nums[nextIndex];
+          choosedIndex = nextIndex;
         }
+        nextIndex++;
       }
-      verifyIndex = lastIndex + 1;
       index = choosedIndex;
     } else index = end;
     jumps++;
