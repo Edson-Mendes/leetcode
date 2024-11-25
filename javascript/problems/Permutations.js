@@ -15,12 +15,40 @@
  */
 const permute = function (nums) {
   const permutations = [];
-  generatePermutations(nums, [], permutations);
+  generatePermutations(0, nums, permutations);
 
   return permutations;
 };
 
-const generatePermutations = (nums, permutation, permutations) => {
+const generatePermutations = (index, permutation, permutations) => {
+  if (index === permutation.length) {
+    permutations.push([...permutation]);
+    return;
+  }
+  for (let i = index; i < permutation.length; i++) {
+    swap(permutation, index, i);
+    generatePermutations(index + 1, permutation, permutations);
+    swap(permutation, i, index);
+  }
+};
+
+const swap = (arr, i1, i2) => {
+  let temp = arr[i1];
+  arr[i1] = arr[i2];
+  arr[i2] = temp;
+};
+
+/**
+ * First solution.
+ */
+const firstSolution = function (nums) {
+  const permutations = [];
+  generatePermutations2(nums, [], permutations);
+
+  return permutations;
+};
+
+const generatePermutations2 = (nums, permutation, permutations) => {
   console.log(permutation);
 
   if (permutation.length === nums.length) {
@@ -32,7 +60,7 @@ const generatePermutations = (nums, permutation, permutations) => {
     if (element !== ".") {
       permutation.push(element);
       nums[index] = ".";
-      generatePermutations(nums, permutation, permutations);
+      generatePermutations2(nums, permutation, permutations);
       nums[index] = element;
       permutation.pop();
     }
