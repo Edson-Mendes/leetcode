@@ -1,10 +1,11 @@
 package br.com.emendes.problems;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 class PermutationsIITest {
 
@@ -17,7 +18,7 @@ class PermutationsIITest {
 
     List<List<Integer>> actualAnswer = solution.permuteUnique(nums);
 
-    Assertions.assertThat(actualAnswer).hasSize(3);
+    assertThat(actualAnswer).hasSize(3);
   }
 
   @Test
@@ -29,7 +30,7 @@ class PermutationsIITest {
 
     List<List<Integer>> actualAnswer = solution.permuteUnique(nums);
 
-    Assertions.assertThat(actualAnswer).hasSize(1);
+    assertThat(actualAnswer).hasSize(1);
   }
 
   @Test
@@ -37,11 +38,11 @@ class PermutationsIITest {
   void test3() {
     PermutationsII solution = new PermutationsII();
 
-    int[] nums = {1,1,1,1};
+    int[] nums = {1, 1, 1, 1};
 
     List<List<Integer>> actualAnswer = solution.permuteUnique(nums);
 
-    Assertions.assertThat(actualAnswer).hasSize(1);
+    assertThat(actualAnswer).hasSize(1);
   }
 
   @Test
@@ -49,11 +50,23 @@ class PermutationsIITest {
   void test4() {
     PermutationsII solution = new PermutationsII();
 
-    int[] nums = {1,1,2,2};
+    int[] nums = {1, 1, 2, 2};
 
     List<List<Integer>> actualAnswer = solution.permuteUnique(nums);
 
-    Assertions.assertThat(actualAnswer).hasSize(6);
+    assertThat(actualAnswer).hasSize(6);
+  }
+
+  @Test
+  @DisplayName("must return list with 20 items when input is [0,1,0,0,9]")
+  void test5() {
+    PermutationsII solution = new PermutationsII();
+
+    int[] nums = {0, 1, 0, 0, 9};
+
+    List<List<Integer>> actualAnswer = solution.permuteUnique(nums);
+
+    assertThat(actualAnswer).hasSize(20);
   }
 
 }
