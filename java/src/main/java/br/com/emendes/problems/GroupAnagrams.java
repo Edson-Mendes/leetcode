@@ -16,6 +16,21 @@ import java.util.*;
 public class GroupAnagrams {
 
   public List<List<String>> groupAnagrams(String[] strs) {
+    Map<String, List<String>> anagrams = new HashMap<>();
+    for (String word : strs) {
+      int[] counter = new int[26];
+      for (int i = 0; i < word.length(); i++) {
+        counter[word.charAt(i) - 97]++;
+      }
+      String key = Arrays.toString(counter);
+      List<String> anagram = anagrams.computeIfAbsent(key, k -> new ArrayList<>());
+      anagram.add(word);
+    }
+
+    return new ArrayList<>(anagrams.values());
+  }
+
+  public List<List<String>> firstSolution(String[] strs) {
     Map<String, List<String>> answer = new HashMap<>();
 
     for (String str : strs) {
