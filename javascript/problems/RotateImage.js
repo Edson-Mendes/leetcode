@@ -16,6 +16,39 @@
  * @return {void} Do not return anything, modify matrix in-place instead.
  */
 const rotate = function (matrix) {
+  transpose(matrix);
+  invert(matrix);
+
+  return matrix;
+};
+
+const transpose = (matrix) => {
+  for (let i = 0; i < matrix.length; i++) {
+    for (let j = i + 1; j < matrix.length; j++) {
+      swap(matrix, i, j, j, i);
+    }
+  }
+};
+
+const invert = (matrix) => {
+  const length = matrix.length;
+  for (let row = 0; row < length; row++) {
+    for (let i = 0, j = length - 1; i < j; i++, j--) {
+      swap(matrix, row, i, row, j);
+    }
+  }
+};
+
+const swap = (matrix, i1, j1, i2, j2) => {
+  const temp = matrix[i1][j1];
+  matrix[i1][j1] = matrix[i2][j2];
+  matrix[i2][j2] = temp;
+};
+
+/**
+ * First Solution.
+ */
+const firstSolution = function (matrix) {
   let steps = matrix.length - 1;
   let end = steps;
   let i = 0;
@@ -38,10 +71,4 @@ const rotate = function (matrix) {
     steps -= 2;
   }
   return matrix;
-};
-
-const swap = (matrix, i1, j1, i2, j2) => {
-  const temp = matrix[i1][j1];
-  matrix[i1][j1] = matrix[i2][j2];
-  matrix[i2][j2] = temp;
 };
