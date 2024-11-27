@@ -14,21 +14,15 @@
  * @return {string[][]}
  */
 const groupAnagrams = function (strs) {
-  const wordToAnagrams = new Map();
+  const anagrams = {};
   for (const word of strs) {
     const key = word.split("").sort().join("");
-    const value = wordToAnagrams.get(key);
-    if (value) {
-      value.push(word);
+    if (anagrams[key]) {
+      anagrams[key].push(word);
     } else {
-      wordToAnagrams.set(key, [word]);
+      anagrams[key] = [word];
     }
   }
 
-  const anagrams = [];
-  for (const group of wordToAnagrams.values()) {
-    anagrams.push(group);
-  }
-
-  return anagrams;
+  return Object.values(anagrams);
 };
