@@ -14,6 +14,16 @@
  * @return {boolean}
  */
 const canJump = function (nums) {
+  let reach = 0;
+  const end = nums.length - 1;
+  for (let index = 0; index < nums.length && i <= reach && reach < end; i++) {
+    reach = Math.max(reach, index + nums[index]);
+  }
+
+  return reach >= end;
+};
+
+const firstSolution = function (nums) {
   if (nums.length === 1) return true;
   let index = nums.length - 2;
   let jump = 1;
