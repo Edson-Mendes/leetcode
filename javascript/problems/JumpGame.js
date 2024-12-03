@@ -16,7 +16,7 @@
 const canJump = function (nums) {
   let reach = 0;
   const end = nums.length - 1;
-  for (let index = 0; index < nums.length && i <= reach && reach < end; i++) {
+  for (let index = 0; index < nums.length && index <= reach && reach < end; index++) {
     reach = Math.max(reach, index + nums[index]);
   }
 
