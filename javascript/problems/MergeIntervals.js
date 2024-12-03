@@ -19,16 +19,15 @@ const merge = function (intervals) {
     if (aMinusB === 0) return a[1] - b[1];
     return aMinusB;
   });
-  
-  const mergedIntervals = [intervals[0]];
-  let index = 0;
-  for (let i = 1; i < intervals.length; i++) {
-    const interval = intervals[i];
-    if (interval[0] >= mergedIntervals[index][0] && interval[0] <= mergedIntervals[index][1]) {
-      mergedIntervals[index][1] = Math.max(mergedIntervals[index][1], interval[1]);
-    } else {
+
+  const mergedIntervals = [];
+  let index = -1;
+  for (const interval of intervals) {
+    if (mergedIntervals.length === 0 || interval[0] > mergedIntervals[index][1]) {
       mergedIntervals.push(interval);
       index++;
+    } else {
+      mergedIntervals[index][1] = Math.max(mergedIntervals[index][1], interval[1]);
     }
   }
 
