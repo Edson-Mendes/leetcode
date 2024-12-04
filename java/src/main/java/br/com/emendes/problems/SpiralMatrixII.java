@@ -1,8 +1,8 @@
 package br.com.emendes.problems;
 
 /**
- * Dado um inteiro positivo n, gere uma matriz n x n preenchida com elementos de 1 até n² em ordem espiral.<br><br>
- *
+ * Dado um inteiro positivo n, gere uma matriz n x n preenchido com elementos de 1 até n² em ordem espiral.
+ * <br><br>
  * Restrições:<br>
  * 1 <= n <= 20
  */
@@ -10,7 +10,7 @@ public class SpiralMatrixII {
 
   public int[][] generateMatrix(int n) {
     int[][] answer = new int[n][n];
-    int maxElements = n*n;
+    int maxElements = n * n;
     int counter = 0;
 
     int iStart = 0;
