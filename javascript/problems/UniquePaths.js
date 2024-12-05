@@ -17,6 +17,17 @@
  * @return {number}
  */
 const uniquePaths = function (m, n) {
+  const cache = new Array(n).fill(1);
+  for (let i = 1; i < m; i++) {
+    for (let j = 1; j < n; j++) {
+      cache[j] = cache[j] + cache[j - 1];
+    }
+  }
+
+  return cache[n - 1];
+};
+
+const firstSolution = function (m, n) {
   const cache = createMatrix(m, n);
   for (let i = 0; i < m; i++) cache[i][0] = 1;
   for (let j = 0; j < n; j++) {
