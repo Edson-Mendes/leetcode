@@ -24,6 +24,23 @@ public class UniquePathsII {
     int m = obstacleGrid.length;
     int n = obstacleGrid[0].length;
     if (obstacleGrid[0][0] == 1 || obstacleGrid[m - 1][n - 1] == 1) return 0;
+    int[] cache = new int[n];
+    cache[0] = 1;
+    for (int j = 1; j < n; j++)
+      cache[j] = obstacleGrid[0][j] == 1 ? 0 : cache[j - 1];
+
+    for (int i = 1; i < m; i++) {
+      cache[0] = obstacleGrid[i][0] == 1 ? 0 : cache[0];
+      for (int j = 1; j < n; j++)
+        cache[j] = obstacleGrid[i][j] == 1 ? 0 : cache[j - 1] + cache[j];
+    }
+    return cache[n - 1];
+  }
+
+  public int firstSolution(int[][] obstacleGrid) {
+    int m = obstacleGrid.length;
+    int n = obstacleGrid[0].length;
+    if (obstacleGrid[0][0] == 1 || obstacleGrid[m - 1][n - 1] == 1) return 0;
 
     obstacleGrid[0][0] = 1;
     for (int j = 1; j < n; j++)
