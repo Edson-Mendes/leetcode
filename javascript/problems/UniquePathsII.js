@@ -27,6 +27,26 @@ const uniquePathsWithObstacles = function (obstacleGrid) {
   const m = obstacleGrid.length;
   const n = obstacleGrid[0].length;
   if (obstacleGrid[0][0] === 1 || obstacleGrid[m - 1][n - 1] === 1) return 0;
+  const cache = [1];
+  for (let j = 1; j < n; j++)
+    cache[j] = obstacleGrid[0][j] === 1 ? 0 : cache[j - 1];
+  
+  for (let i = 1; i < m; i++) {
+    cache[0] = obstacleGrid[i][0] === 1 ? 0 : cache[0];
+    for (let j = 1; j < n; j++)
+      cache[j] = obstacleGrid[i][j] === 1 ? 0 : cache[j] + cache[j - 1];
+  }
+
+  return cache[n - 1];
+}
+
+/**
+ * First Solution.
+ */
+const firstSolution = function (obstacleGrid) {
+  const m = obstacleGrid.length;
+  const n = obstacleGrid[0].length;
+  if (obstacleGrid[0][0] === 1 || obstacleGrid[m - 1][n - 1] === 1) return 0;
   obstacleGrid[0][0] = 1;
   for (let j = 1; j < n; j++)
     obstacleGrid[0][j] = obstacleGrid[0][j] === 1 ? 0 : obstacleGrid[0][j - 1];
