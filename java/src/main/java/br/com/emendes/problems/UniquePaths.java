@@ -1,5 +1,7 @@
 package br.com.emendes.problems;
 
+import java.util.Arrays;
+
 /**
  * Existe um robo em um grid m x n. O robo está inicialmente localizado na canto superior esquerdo (grid[0][0]).
  * O robo tenta se mover para o canto inferior direito (grid[m-1][n-1].
@@ -16,24 +18,29 @@ package br.com.emendes.problems;
 public class UniquePaths {
 
   public int uniquePaths(int m, int n) {
+    int[] cache = new int[n];
+    Arrays.fill(cache, 1);
+    for (int i = 1; i < m; i++)
+      for (int j = 1; j < n; j++)
+        cache[j] = cache[j - 1] + cache[j];
+
+    return cache[n - 1];
+  }
+
+  public int firstSolution(int m, int n) {
     if (m == 1 || n == 1) return 1;
+    int[][] cache = new int[m][n];
 
-    int[][] buffer = new int[m][n];
+    for (int i = 0; i < m; i++)
+      cache[i][0] = 1;
+    for (int j = 0; j < n; j++)
+      cache[0][j] = 1;
 
-    for (int i = 0; i < m; i++) {
-      buffer[i][0] = 1;
-    }
-    for (int i = 0; i < n; i++) {
-      buffer[0][i] = 1;
-    }
+    for (int i = 1; i < m; i++)
+      for (int j = 1; j < n; j++)
+        cache[i][j] = cache[i - 1][j] + cache[i][j - 1];
 
-    for (int i = 1; i < m; i++) {
-      for (int j = 1; j < n; j++) {
-        buffer[i][j] = buffer[i - 1][j] + buffer[i][j - 1];
-      }
-    }
-
-    return buffer[m - 1][n - 1];
+    return cache[m - 1][n - 1];
   }
 
 }
