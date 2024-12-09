@@ -36,40 +36,42 @@
  * @return {boolean}
  */
 const isNumber = function (s) {
-  let eIndex = 0;
-  while (eIndex < s.length && s[eIndex] !== "E" && s[eIndex] !== "e") {
-    eIndex++;
+  let seenDot = false;
+  let seenE = false;
+  let seenNumber = false;
+  for (let index = 0; index < s.length; index++) {
+    switch (s[index]) {
+      case ".":
+        if (seenDot || seenE) return false;
+        seenDot = true;
+        break;
+      case "E":
+      case "e":
+        if (seenE || !seenNumber) return false;
+        seenE = true;
+        seenNumber = false;
+        break;
+      case "+":
+      case "-":
+        if (index > 0 && s[index - 1] !== "E" && s[index - 1] !== "e") return false;
+        seenNumber = false;
+        break;
+      case "0":
+      case "1":
+      case "2":
+      case "3":
+      case "4":
+      case "5":
+      case "6":
+      case "7":
+      case "8":
+      case "9":
+        seenNumber = true;
+        break;
+      default:
+        return false;
+    }
   }
 
-  return isDecimalNumber(s, 0, eIndex) && isIntegerNumber(s, eIndex);
-};
-
-const isDecimalNumber = (s, start, end) => {
-  if (s[start] == "-" || s[start] === "+") start++;
-  if (start === end || (s[start] === "." && start + 1 === end)) return false;
-  let hasDot = false;
-  while (start < end) {
-    const element = s.charCodeAt(start);
-    if (element === 46) {
-      if (hasDot) return false;
-      hasDot = true;
-    } else if (element < 48 || element > 57) return false;
-    start++;
-  }
-
-  return true;
-};
-
-const isIntegerNumber = (s, start) => {
-  if (start === s.length) return true;
-  if (s[start] === "E" || s[start] === "e") start++;
-  if (s[start] == "-" || s[start] === "+") start++;
-  if (start === s.length) return false;
-  while (start < s.length) {
-    const element = s.charCodeAt(start);
-    if (element < 48 || element > 57) return false;
-    start++;
-  }
-
-  return true;
+  return seenNumber;
 };
