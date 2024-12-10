@@ -18,6 +18,18 @@
  * @return {number[]}
  */
 const plusOne = function (digits) {
+  for (let index = digits.length - 1; index >= 0; index--) {
+    if (digits[index] < 9) {
+      digits[index]++;
+      return digits;
+    }
+    digits[index] = 0;
+  }
+
+  return [1, ...digits];
+};
+
+const firstSolution = function (digits) {
   const newDigits = [];
   let carry = 1;
   for (let index = digits.length - 1; index >= 0; index--) {
