@@ -18,27 +18,11 @@ const addBinary = function (a, b) {
   let carry = 0;
   let i = a.length - 1;
   let j = b.length - 1;
-  while (i >= 0 && j >= 0) {
-    const sum = +a[i] + +b[j] + carry;
-    result.push(sum % 2);
-    carry = sum > 1 ? 1 : 0;
-    i--;
-    j--;
+  while (i >= 0 || j >= 0 || carry === 1) {
+    if (i >= 0) carry += +a[i--];
+    if (j >= 0) carry += +b[j--];
+    result.unshift(carry % 2);
+    carry = carry > 1 ? 1 : 0;
   }
-  while (i >= 0) {
-    const sum = +a[i] + carry;
-    result.push(sum % 2);
-    carry = sum > 1 ? 1 : 0;
-    i--;
-  }
-  while (j >= 0) {
-    const sum = +b[j] + carry;
-    result.push(sum % 2);
-    carry = sum > 1 ? 1 : 0;
-    j--;
-  }
-  if (carry === 1) {
-    result.push(1);
-  }
-  return result.reverse().join("");
+  return result.join("");
 };
