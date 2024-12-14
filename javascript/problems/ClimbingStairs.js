@@ -12,6 +12,22 @@
  */
 const climbStairs = function (n) {
   if (n < 4) return n;
+  let prev1 = 2;
+  let prev2 = 1;
+  for (let index = n - 3; index >= 0; index--) {
+    const cache = prev1 + prev2;
+    prev2 = prev1;
+    prev1 = cache;
+  }
+
+  return prev1;
+};
+
+/**
+ * Second Solution.
+ */
+const secondSolution = function (n) {
+  if (n < 4) return n;
   const cache = [];
   cache[n - 1] = 1;
   cache[n - 2] = 2;
@@ -21,6 +37,9 @@ const climbStairs = function (n) {
   return cache[0];
 };
 
+/**
+ * First Solution.
+ */
 const firstSolution = function (n) {
   return climbStairsHelper(0, n, []);
 };
