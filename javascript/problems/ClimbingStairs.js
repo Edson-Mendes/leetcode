@@ -11,6 +11,17 @@
  * @return {number}
  */
 const climbStairs = function (n) {
+  if (n < 4) return n;
+  const cache = [];
+  cache[n - 1] = 1;
+  cache[n - 2] = 2;
+  for (let index = n - 3; index >= 0; index--) {
+    cache[index] = cache[index + 1] + cache[index + 2];
+  }
+  return cache[0];
+};
+
+const firstSolution = function (n) {
   return climbStairsHelper(0, n, []);
 };
 
