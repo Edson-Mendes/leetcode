@@ -12,18 +12,13 @@ import br.com.emendes.problems.util.TreeNode;
 public class InvertBinaryTree {
 
   public TreeNode invertTree(TreeNode root) {
-    invertTreeHelper(root);
+    if (root == null) return null;
+
+    TreeNode left = root.left;
+    TreeNode right = root.right;
+    root.left = invertTree(right);
+    root.right = invertTree(left);
     return root;
-  }
-
-  private void invertTreeHelper(TreeNode node) {
-    if (node == null) return;
-    TreeNode aux = node.left;
-    node.left = node.right;
-    node.right = aux;
-
-    invertTreeHelper(node.left);
-    invertTreeHelper(node.right);
   }
 
 }
