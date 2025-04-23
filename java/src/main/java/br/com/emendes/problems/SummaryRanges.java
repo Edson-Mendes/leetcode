@@ -22,19 +22,17 @@ import java.util.List;
 public class SummaryRanges {
 
   public List<String> summaryRanges(int[] nums) {
-    if (nums.length == 0) return List.of();
     List<String> ranges = new ArrayList<>();
-    int start = nums[0];
-    int end = nums[0];
-    for (int i = 1; i < nums.length; i++) {
-      int value = nums[i];
-      if (value != end + 1) {
-        ranges.add(createRange(start, end));
-        start = value;
+    int i = 0;
+    while (i < nums.length) {
+      int start = nums[i];
+      while (i + 1 < nums.length && nums[i] + 1 == nums[i + 1]) {
+        i++;
       }
-      end = value;
+      int end = nums[i];
+      ranges.add(createRange(start, end));
+      i++;
     }
-    ranges.add(createRange(start, end));
 
     return ranges;
   }
