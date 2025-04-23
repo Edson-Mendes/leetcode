@@ -42,6 +42,3 @@ const minDistance = function (word1, word2) {
 
   return cache[l1][l2];
 };
-
-console.log(minDistance("horse", "ros"));
-
