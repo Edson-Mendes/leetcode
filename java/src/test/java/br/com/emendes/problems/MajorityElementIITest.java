@@ -44,4 +44,13 @@ class MajorityElementIITest {
     assertThat(actualAnswer).isNotNull().hasSize(1).contains(3);
   }
 
+  @Test
+  void test05() {
+    MajorityElementII solution = new MajorityElementII();
+    int[] nums = {1, 2, 3, 4, 5};
+    List<Integer> actualAnswer = solution.majorityElement(nums);
+
+    assertThat(actualAnswer).isNotNull().isEmpty();
+  }
+
 }

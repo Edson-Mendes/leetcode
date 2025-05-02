@@ -1,8 +1,6 @@
 package br.com.emendes.problems;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Dado um array de inteiros de tamanho n, encontre todos os elementos que aparecem mais de | n/3 | vezes.
@@ -16,6 +14,33 @@ import java.util.Map;
 public class MajorityElementII {
 
   public List<Integer> majorityElement(int[] nums) {
+    List<Integer> answer = new ArrayList<>();
+    Arrays.sort(nums);
+    int index = 0;
+    final int limit = nums.length / 3;
+    while (index < nums.length) {
+      if (index + limit < nums.length && nums[index] == nums[index + limit]) {
+        answer.add(nums[index]);
+        index = index + limit;
+        index = nextNumber(nums, index);
+      } else index++;
+    }
+    return answer;
+  }
+
+  private int nextNumber(int[] arr, int index) {
+    int value = arr[index];
+    while (index < arr.length && arr[index] == value) {
+      index++;
+    }
+    return index;
+  }
+
+  /**
+   * Time complexity: O(n)
+   * Space complexity: O(n)
+   */
+  public List<Integer> firstSolution(int[] nums) {
     Map<Integer, Integer> counterElements = new HashMap<>();
     final int limit = nums.length / 3;
     for (int key : nums) {
