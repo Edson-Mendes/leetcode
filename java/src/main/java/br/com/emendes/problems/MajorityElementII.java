@@ -15,6 +15,39 @@ public class MajorityElementII {
 
   public List<Integer> majorityElement(int[] nums) {
     List<Integer> answer = new ArrayList<>();
+    int candidate1 = 0;
+    int candidate2 = 1;
+    int counter1 = 0;
+    int counter2 = 0;
+    for (final int value : nums) {
+      if (value == candidate1)
+        counter1++;
+      else if (value == candidate2)
+        counter2++;
+      else if (counter1 == 0) {
+        candidate1 = value;
+        counter1 = 1;
+      } else if (counter2 == 0) {
+        candidate2 = value;
+        counter2 = 1;
+      } else {
+        counter1--;
+        counter2--;
+      }
+    }
+    counter1 = 0;
+    counter2 = 0;
+    for (final int value : nums) {
+      if (value == candidate1) counter1++;
+      else if (value == candidate2) counter2++;
+    }
+    if (counter1 > nums.length / 3) answer.add(candidate1);
+    if (counter2 > nums.length / 3) answer.add(candidate2);
+    return answer;
+  }
+
+  public List<Integer> secondSolution(int[] nums) {
+    List<Integer> answer = new ArrayList<>();
     Arrays.sort(nums);
     int index = 0;
     final int limit = nums.length / 3;
