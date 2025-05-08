@@ -14,21 +14,13 @@ const deleteDuplicates = function (head) {
   if (!head) return head;
   let dummy = new ListNode(-1, head);
   let prev = dummy;
-  let curr = head;
-  while (curr) {
-    let node = curr.next;
-    let isRepeated = false;
-    while (curr.val === node?.val) {
-      node = node.next;
-      isRepeated = true;
+  while (head) {
+    while (head.val === head.next?.val) {
+      head = head.next;
     }
-    if (isRepeated) {
-      prev.next = node;
-    } else {
-      prev.next = curr;
-      prev = prev.next;
-    }
-    curr = node;
+    if (prev.next === head) prev = prev.next;
+    else prev.next = head.next;
+    head = head.next;
   }
 
   return dummy.next;
