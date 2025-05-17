@@ -18,6 +18,12 @@
  * - 1 <= n <= 16
  */
 const grayCode = function (n) {
+  const sequence = [];
+  for (let i = 0; i < 1 << n; i++) sequence.push(i ^ (i >> 1));
+  return sequence;
+};
+
+const secondSolution = function (n) {
   if (n == 0) return [0];
   const prevSeq = grayCode(n - 1);
   const d = 1 << (n - 1);
@@ -45,3 +51,5 @@ const grayCodeHelper = (sequence, memo, count) => {
   memo.add(last ^ i);
   grayCodeHelper(sequence, memo, count - 1);
 };
+
+console.log(grayCode(3));
