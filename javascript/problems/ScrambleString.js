@@ -21,46 +21,38 @@
  * s1 e s2 consistem de letras minúsculas.
  */
 const isScramble = function (s1, s2) {
-  if (hasDifferentLetters(s1, s2)) return false;
-  return isScrambleHelper(s1, 0, s1.length, s2, 0, s2.length, {});
-};
-
-const isScrambleHelper = (s1, s1Start, s1End, s2, s2Start, s2End, cache) => {
-  if (s1End - s1Start === 1) return s1[s1Start] === s2[s2Start];
-  const key = [s1Start, s1End, s2Start, s2End];
+  if (s1 === s2) return true;
+  const key = s1 + "+" + s2;
   if (cache[key] !== undefined) return cache[key];
+  if (hasDifferentLetters(s1, s2)) return false;
 
-  for (
-    let i = s1Start + 1, j = s2Start + 1, a = s2End - 1;
-    i < s1End;
-    i++, j++, a--
-  ) {
+  for (let i = 1; i < s1.length; i++) {
+    const s1Left = s1.substring(0, i);
+    const s1Right = s1.substring(i);
     const result =
-      (isScrambleHelper(s1, s1Start, i, s2, s2Start, j, cache) &&
-        isScrambleHelper(s1, i, s1End, s2, j, s2End, cache)) ||
-      (isScrambleHelper(s1, i, s1End, s2, s2Start, a, cache) &&
-        isScrambleHelper(s1, s1Start, i, s2, a, s2End, cache));
+      (isScramble(s1Left, s2.substring(0, i)) &&
+        isScramble(s1Right, s2.substring(i))) ||
+      (isScramble(s1Left, s2.substring(s2.length - i)) &&
+        isScramble(s1Right, s2.substring(0, s2.length - i)));
     if (result) {
       cache[key] = true;
       return true;
     }
   }
-
   cache[key] = false;
   return false;
 };
 
+const cache = {};
+
 const hasDifferentLetters = (s1, s2) => {
   const lettersCount = new Array(26).fill(0);
-  for (const ch of s1) {
-    lettersCount[ch.charCodeAt(0) - 97]++;
+  for (let i = 0; i < s1.length; i++) {
+    lettersCount[s1.charCodeAt(i) - 97]++;
+    lettersCount[s2.charCodeAt(i) - 97]--;
   }
-  for (const ch of s2) {
-    if (--lettersCount[ch.charCodeAt(0) - 97] < 0) return true;
+  for (const v of lettersCount) {
+    if (v < 0) return true;
   }
   return false;
 };
-
-console.log(isScramble("great", "rgeat"));
-console.log(isScramble("abcde", "caebd"));
-console.log(isScramble("ccabcbabcbabbbbcbb", "bbbbabccccbbbabcba"));
