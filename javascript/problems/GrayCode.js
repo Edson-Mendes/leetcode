@@ -18,6 +18,13 @@
  * - 1 <= n <= 16
  */
 const grayCode = function (n) {
+  if (n == 0) return [0];
+  const prevSeq = grayCode(n - 1);
+  const d = 1 << (n - 1);
+  return [...prevSeq, ...prevSeq.reverse().map((v) => v ^ d)];
+};
+
+const firstSolution = function (n) {
   let total = Math.pow(2, n) - 1;
   const sequence = [0];
   const memo = new Set();
