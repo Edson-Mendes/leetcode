@@ -14,30 +14,17 @@
  */
 const reverseBetween = function (head, left, right) {
   if (left === right) return head;
-
   const dummy = new ListNode(-1, head);
   let prev = dummy;
-  let l = head;
-  let count = 1;
-  while (count < left) {
-    prev = l;
-    l = l.next;
-    count++;
-  }
-  let r = l.next;
-  count++;
-  let n;
-  let before = l;
-  while (count <= right) {
-    n = r.next;
-    r.next = before;
-    before = r;
-    r = n;
-    count++;
-  }
-  prev.next = before;
-  l.next = r;
+  for (let i = 0; i < left - 1; i++) prev = prev.next;
 
+  const tail = prev.next;
+  for (let i = 0; i < right - left; i++) {
+    const cache = tail.next;
+    tail.next = cache.next;
+    cache.next = prev.next;
+    prev.next = cache;
+  }
   return dummy.next;
 };
 
