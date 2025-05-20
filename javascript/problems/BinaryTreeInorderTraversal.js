@@ -10,6 +10,23 @@
  * Follow-up: A solução recursiva é trivial. Você poderia fazê-la iterativamente?
  */
 const inorderTraversal = function (root) {
+  const stack = [];
+  const output = [];
+
+  while (root || stack.length !== 0) {
+    while (root) {
+      stack.push(root);
+      root = root.left;
+    }
+    root = stack.pop();
+    output.push(root.val);
+    root = root.right;
+  }
+
+  return output;
+};
+
+const firstSolution = function (root) {
   const output = [];
   traverse(root, output);
 
