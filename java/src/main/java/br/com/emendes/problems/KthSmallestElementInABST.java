@@ -17,28 +17,21 @@ import br.com.emendes.problems.util.TreeNode;
 public class KthSmallestElementInABST {
 
   public int kthSmallest(TreeNode root, int k) {
-    return kthSmallestHelper(root, new Counter(k));
+    traverse(root, k);
+    return answer;
   }
 
-  private int kthSmallestHelper(TreeNode node, Counter counter) {
-    if (node == null) return -1;
-    int result = kthSmallestHelper(node.left, counter);
-    if (result >= 0) return result;
-    if (counter.value == 1) return node.val;
-    counter.value--;
-    result = kthSmallestHelper(node.right, counter);
-    if (result >= 0) return result;
-    return -1;
-  }
+  private int answer = -1;
+  private int rank = 0;
 
-  private static class Counter {
-
-    public int value;
-
-    public Counter(int value) {
-      this.value = value;
+  private void traverse(TreeNode node, int k) {
+    if (node == null) return;
+    traverse(node.left, k);
+    if (++rank == k) {
+      answer = node.val;
+      return;
     }
-
+    traverse(node.right, k);
   }
 
 }
