@@ -2,6 +2,9 @@ package br.com.emendes.problems;
 
 import br.com.emendes.problems.util.TreeNode;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
+
 /**
  * Dado o root de uma binary search tree, e um inteiro k, retorne o kth menor valor (1-indexed)
  * de todos os valores dos nodes da tree.
@@ -17,6 +20,23 @@ import br.com.emendes.problems.util.TreeNode;
 public class KthSmallestElementInABST {
 
   public int kthSmallest(TreeNode root, int k) {
+    int counter = 0;
+    Deque<TreeNode> stack = new ArrayDeque<>();
+    while (root != null || !stack.isEmpty()) {
+      if (root == null) {
+        root = stack.pop();
+        if (++counter == k) break;
+        root = root.right;
+      } else {
+        stack.push(root);
+        root = root.left;
+      }
+    }
+
+    return root.val;
+  }
+
+  public int firstSolution(TreeNode root, int k) {
     traverse(root, k);
     return answer;
   }
