@@ -32,36 +32,32 @@ public class ImplementQueueUsingStacks {
 
   static class MyQueue {
 
-    private final Deque<Integer> values;
-    private final Deque<Integer> helper;
+    private final Deque<Integer> input;
+    private final Deque<Integer> output;
 
     public MyQueue() {
-      values = new ArrayDeque<>();
-      helper = new ArrayDeque<>();
+      input = new ArrayDeque<>();
+      output = new ArrayDeque<>();
     }
 
     public void push(int x) {
-      while (!values.isEmpty()) {
-        helper.push(values.pop());
-      }
-      helper.push(x);
-      while (!helper.isEmpty()) {
-        values.push(helper.pop());
-      }
+      input.push(x);
     }
 
     public int pop() {
-      return values.pop();
+      peek();
+      return output.pop();
     }
 
     public int peek() {
-      Integer value = values.pop();
-      values.push(value);
-      return value;
+      if (output.isEmpty())
+        while (!input.isEmpty())
+          output.push(input.pop());
+      return output.peek();
     }
 
     public boolean empty() {
-      return values.isEmpty();
+      return input.isEmpty() && output.isEmpty();
     }
 
   }
