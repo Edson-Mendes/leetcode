@@ -42,4 +42,13 @@ class SlidingWindowMaximumTest {
     assertThat(actualAnswer).isNotNull().containsExactly(4);
   }
 
+  @Test
+  void test05() {
+    SlidingWindowMaximum solution = new SlidingWindowMaximum();
+    int[] nums = {5, 5, 5, 3, 3, 3};
+    int[] actualAnswer = solution.maxSlidingWindow(nums, 3);
+
+    assertThat(actualAnswer).isNotNull().containsExactly(5, 5, 5, 3);
+  }
+
 }

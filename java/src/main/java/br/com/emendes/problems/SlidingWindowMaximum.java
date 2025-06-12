@@ -1,9 +1,6 @@
 package br.com.emendes.problems;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.PriorityQueue;
-import java.util.Queue;
+import java.util.*;
 
 /**
  * Você recebe um array de inteiros nums, há uma sliding window de tamanho k que se move
@@ -20,6 +17,29 @@ import java.util.Queue;
 public class SlidingWindowMaximum {
 
   public int[] maxSlidingWindow(int[] nums, int k) {
+    Deque<Integer> monotonicQueue = new LinkedList<>();
+    int[] maxSlidingWindow = new int[nums.length - k + 1];
+    int index = 0;
+    for (int i = 0; i < k; i++) {
+      while (!monotonicQueue.isEmpty() && monotonicQueue.peekFirst() < nums[i]) {
+        monotonicQueue.pollFirst();
+      }
+      monotonicQueue.offerFirst(nums[i]);
+    }
+    maxSlidingWindow[index++] = monotonicQueue.peekLast();
+    for (int i = k; i < nums.length; i++) {
+      if (monotonicQueue.peekLast() == nums[i - k])
+        monotonicQueue.pollLast();
+      while (!monotonicQueue.isEmpty() && monotonicQueue.peekFirst() < nums[i]) {
+        monotonicQueue.pollFirst();
+      }
+      monotonicQueue.offerFirst(nums[i]);
+      maxSlidingWindow[index++] = monotonicQueue.peekLast();
+    }
+    return maxSlidingWindow;
+  }
+
+  public int[] firstSolution(int[] nums, int k) {
     Queue<Integer> queue = new PriorityQueue<>();
     Map<Integer, Integer> toRemove = new HashMap<>();
     int[] maxSlidingWindow = new int[nums.length - k + 1];
