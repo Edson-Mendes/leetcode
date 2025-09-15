@@ -25,6 +25,14 @@ import java.util.Set;
 public class LowestCommonAncestorOfABinarySearchTree {
 
   public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+    while ((root.val > p.val && root.val > q.val) || (root.val < p.val && root.val < q.val)) {
+      root = p.val < root.val ? root.left : root.right;
+    }
+
+    return root;
+  }
+
+  public TreeNode firstSolution(TreeNode root, TreeNode p, TreeNode q) {
     Deque<TreeNode> pDeque = savePathAsStack(root, p);
     Set<TreeNode> qSet = savePathAsSet(root, q);
 
