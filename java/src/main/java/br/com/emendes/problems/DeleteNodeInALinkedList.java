@@ -30,12 +30,21 @@ import br.com.emendes.problems.util.ListNode;
 public class DeleteNodeInALinkedList {
 
   public void deleteNode(ListNode node) {
+    while (node.next.next != null) {
+      node.val = node.next.val;
+      node = node.next;
+    }
+    node.val = node.next.val;
+    node.next = null;
+  }
+
+  public void firstSolution(ListNode node) {
     node.val = node.next.val;
     if (node.next.next == null) {
       node.next = null;
       return;
     }
-    deleteNode(node.next);
+    firstSolution(node.next);
   }
 
 }
